@@ -1,0 +1,167 @@
+{
+  "project": "expense-tracker",
+  "last_updated": "2026-10-24T10:33:00Z",
+  "harness_version": "1.0.0",
+  "features": [
+    {
+      "id": "F001",
+      "name": "Local-First IndexedDB Schema & Database Client",
+      "behavior": "Dexie.js database client initialized with schemas for accounts, categories, transactions, offline_mutation_queue, conflict_audit_log, and settings.",
+      "verification": "npm test src/db/db.test.js",
+      "state": "not-started",
+      "evidence": null
+    },
+    {
+      "id": "F002",
+      "name": "Monetary Precision & ISO 4217 Minor Units Engine",
+      "behavior": "Converts currency strings to integer minor units (cents) and back via Intl.NumberFormat without floating-point errors.",
+      "verification": "npm test src/utils/currency.test.js",
+      "state": "not-started",
+      "evidence": null
+    },
+    {
+      "id": "F003",
+      "name": "Deterministic Category Pre-seeding",
+      "behavior": "Pre-populates default expense and income categories with fixed system slugs (e.g. cat_food, cat_salary) to prevent duplication during cloud sync.",
+      "verification": "npm test src/services/category.test.js",
+      "state": "not-started",
+      "evidence": null
+    },
+    {
+      "id": "F004",
+      "name": "Account Management & Ledger-Backed Balance Service",
+      "behavior": "Calculates account balances strictly from transaction ledger (initial_balance + incomes - expenses + net transfers) with cached performance reconciliation.",
+      "verification": "npm test src/services/account.test.js",
+      "state": "not-started",
+      "evidence": null
+    },
+    {
+      "id": "F005",
+      "name": "Expense & Income Transaction CRUD",
+      "behavior": "Records, edits, and soft-deletes (deleted_at) expense and income transactions, updating affected account balances atomically.",
+      "verification": "npm test src/services/transaction.test.js",
+      "state": "not-started",
+      "evidence": null
+    },
+    {
+      "id": "F006",
+      "name": "Internal Account Transfer (Single-Record Model)",
+      "behavior": "Executes transfers between accounts using a single transaction of type 'transfer' with source and destination account IDs, atomically updating both balances.",
+      "verification": "npm test src/services/transfer.test.js",
+      "state": "not-started",
+      "evidence": null
+    },
+    {
+      "id": "F007",
+      "name": "Credit Card Liability & Financial Position Metrics",
+      "behavior": "Distinguishes between Available Funds, Credit Card Debt (Liabilities), Net Financial Position, and Period Cash Flow. Card payments reduce liability as transfers.",
+      "verification": "npm test src/services/financialMetrics.test.js",
+      "state": "not-started",
+      "evidence": null
+    },
+    {
+      "id": "F008",
+      "name": "Arabic-First & RTL Design System Layout Shell",
+      "behavior": "App shell rendering in RTL direction with IBM Plex Sans Arabic, CSS design tokens, bottom navigation for mobile, and right-aligned sidebar for desktop.",
+      "verification": "npm run lint && npm run build",
+      "state": "not-started",
+      "evidence": null
+    },
+    {
+      "id": "F009",
+      "name": "Quick Add Transaction Flow (<5s Target)",
+      "behavior": "Fast transaction entry form requiring only amount and category, with auto-focused decimal keypad on mobile, today default date, last-used account, and non-destructive validation.",
+      "verification": "npm test src/components/QuickAdd.test.jsx",
+      "state": "not-started",
+      "evidence": null
+    },
+    {
+      "id": "F010",
+      "name": "Dashboard Financial Overview & Analytics Widgets",
+      "behavior": "Renders KPI metrics, account balance cards, recent transactions, spending category breakdown chart, and cash flow trend chart using Recharts with accessible fallbacks.",
+      "verification": "npm run lint && npm run build",
+      "state": "not-started",
+      "evidence": null
+    },
+    {
+      "id": "F011",
+      "name": "Transaction Ledger, Keyword Search & Multi-Filtering",
+      "behavior": "Displays chronologically grouped transactions with real-time text search and multi-filtering by type, category, date range, account, and tags.",
+      "verification": "npm test src/features/transactions/filter.test.js",
+      "state": "not-started",
+      "evidence": null
+    },
+    {
+      "id": "F012",
+      "name": "Periodic Reports & Analytics View",
+      "behavior": "Allows filtering by week, month, year, or custom date range, displaying category expenditure breakdown and ranked top expenses.",
+      "verification": "npm run lint && npm run build",
+      "state": "not-started",
+      "evidence": null
+    },
+    {
+      "id": "F013",
+      "name": "Categories Management View",
+      "behavior": "Allows viewing, adding, editing, and deleting custom categories with transaction reassignment guard preventing deletion of referenced categories.",
+      "verification": "npm test src/services/categoryGuard.test.js",
+      "state": "not-started",
+      "evidence": null
+    },
+    {
+      "id": "F014",
+      "name": "Currency Configuration & Immutability Lock",
+      "behavior": "Allows selecting base currency on first run, locking currency selector once transactions or non-zero balances exist to prevent misleading numbers.",
+      "verification": "npm test src/services/currencyLock.test.js",
+      "state": "not-started",
+      "evidence": null
+    },
+    {
+      "id": "F015",
+      "name": "CSV Export Engine",
+      "behavior": "Exports all transactions or filtered transactions to UTF-8 BOM CSV for Arabic spreadsheet compatibility.",
+      "verification": "npm test src/utils/csvExport.test.js",
+      "state": "not-started",
+      "evidence": null
+    },
+    {
+      "id": "F016",
+      "name": "Atomic JSON Backup & Restore Pipeline",
+      "behavior": "Exports complete JSON backup; restores data atomically with schema validation, metadata preview, and pre-restore rollback snapshot.",
+      "verification": "npm test src/services/backupRestore.test.js",
+      "state": "not-started",
+      "evidence": null
+    },
+    {
+      "id": "F017",
+      "name": "Offline Mutation Queue & Concurrency Engine (OCC)",
+      "behavior": "Queues offline CRUD operations sequentially with client_base_version; handles version-based conflict archiving into conflict_audit_log upon conflict.",
+      "verification": "npm test src/services/syncQueue.test.js",
+      "state": "not-started",
+      "evidence": null
+    },
+    {
+      "id": "F018",
+      "name": "Supabase Cloud Sync & Initial Account Merge",
+      "behavior": "Integrates Supabase Auth; merges guest records idempotently without duplicating default categories by matching system slugs; pulls remote updates.",
+      "verification": "npm test src/services/cloudSync.test.js",
+      "state": "not-started",
+      "evidence": null
+    },
+    {
+      "id": "F019",
+      "name": "Fail-Safe Sign-Out with Un-Synced Mutation Blocking",
+      "behavior": "Blocks sign-out and prompts user when pending offline mutations exist; purges local cloud cache only upon confirmed zero pending mutations.",
+      "verification": "npm test src/services/signOutSafety.test.js",
+      "state": "not-started",
+      "evidence": null
+    },
+    {
+      "id": "F020",
+      "name": "PWA Offline Caching & Storage Persistence",
+      "behavior": "Registers Service Worker for offline app shell caching and requests persistent storage quota via navigator.storage.persist().",
+      "verification": "npm run build",
+      "state": "not-started",
+      "evidence": null
+    }
+  ]
+}
