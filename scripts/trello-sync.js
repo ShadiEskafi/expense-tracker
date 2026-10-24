@@ -12,6 +12,7 @@
  */
 
 import fs from 'node:fs';
+import https from 'node:https';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
@@ -171,32 +172,73 @@ export function buildChecklists(feature) {
   ];
 }
 
-async function trelloFetch(endpoint, apiKey, token, options = {}) {
-  const url = new URL(`https://api.trello.com/1${endpoint}`);
-  url.searchParams.set('key', apiKey);
-  url.searchParams.set('token', token);
+function trelloFetch(endpoint, apiKey, token, options = {}, retries = 3) {
+  return new Promise((resolve, reject) => {
+    const url = new URL(`https://api.trello.com/1${endpoint}`);
+    url.searchParams.set('key', apiKey);
+    url.searchParams.set('token', token);
 
-  if (options.params) {
-    for (const [k, v] of Object.entries(options.params)) {
-      url.searchParams.set(k, v);
+    if (options.params) {
+      for (const [k, v] of Object.entries(options.params)) {
+        if (v !== undefined && v !== null) {
+          url.searchParams.set(k, String(v));
+        }
+      }
     }
-  }
 
-  const res = await fetch(url.toString(), {
-    method: options.method || 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(options.headers || {})
-    },
-    body: options.body ? JSON.stringify(options.body) : undefined
+    const bodyData = options.body ? JSON.stringify(options.body) : null;
+
+    const reqOptions = {
+      method: options.method || 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(options.headers || {})
+      },
+      timeout: 45000 // 45 seconds timeout
+    };
+
+    const req = https.request(url, reqOptions, (res) => {
+      let data = '';
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
+      res.on('end', () => {
+        if (res.statusCode >= 200 && res.statusCode < 300) {
+          try {
+            resolve(JSON.parse(data));
+          } catch {
+            resolve(data);
+          }
+        } else {
+          reject(new Error(`Trello API error (${res.statusCode} ${res.statusMessage}): ${data}`));
+        }
+      });
+    });
+
+    req.on('timeout', () => {
+      req.destroy(new Error('Request timed out'));
+    });
+
+    req.on('error', async (err) => {
+      if (retries > 0) {
+        console.log(`  [Retry] Network warning (${err.message}). Retrying...`);
+        await new Promise((r) => setTimeout(r, 2000));
+        try {
+          const result = await trelloFetch(endpoint, apiKey, token, options, retries - 1);
+          resolve(result);
+        } catch (retryErr) {
+          reject(retryErr);
+        }
+      } else {
+        reject(err);
+      }
+    });
+
+    if (bodyData) {
+      req.write(bodyData);
+    }
+    req.end();
   });
-
-  if (!res.ok) {
-    const errText = await res.text();
-    throw new Error(`Trello API error (${res.status} ${res.statusText}): ${errText}`);
-  }
-
-  return await res.json();
 }
 
 async function syncToLiveTrello(features, featuresMap, apiKey, token) {
@@ -225,19 +267,33 @@ async function syncToLiveTrello(features, featuresMap, apiKey, token) {
     }
   }
 
-  // 2. Ensure the 5 lists exist in order
+  // 2. Ensure the 5 lists exist in order and archive any default/extraneous lists
   const existingLists = await trelloFetch(`/boards/${boardId}/lists`, apiKey, token);
-  const listMap = {};
   for (const list of existingLists) {
-    listMap[list.name] = list.id;
+    if (!LIST_NAMES.includes(list.name)) {
+      await trelloFetch(`/lists/${list.id}/closed`, apiKey, token, {
+        method: 'PUT',
+        params: { value: 'true' }
+      });
+      console.log(`Archived non-standard list: "${list.name}"`);
+    }
   }
 
+  const listMap = {};
   for (let i = 0; i < LIST_NAMES.length; i++) {
     const listName = LIST_NAMES[i];
-    if (!listMap[listName]) {
+    const pos = (i + 1) * 1000;
+    const existingList = existingLists.find((l) => l.name === listName);
+    if (existingList) {
+      listMap[listName] = existingList.id;
+      await trelloFetch(`/lists/${existingList.id}`, apiKey, token, {
+        method: 'PUT',
+        params: { pos }
+      });
+    } else {
       const newList = await trelloFetch(`/boards/${boardId}/lists`, apiKey, token, {
         method: 'POST',
-        params: { name: listName, pos: (i + 1) * 1000 }
+        params: { name: listName, pos }
       });
       listMap[listName] = newList.id;
       console.log(`Created list: "${listName}"`);
@@ -267,7 +323,7 @@ async function syncToLiveTrello(features, featuresMap, apiKey, token) {
     if (!labelMap[name]) {
       const newLabel = await trelloFetch(`/boards/${boardId}/labels`, apiKey, token, {
         method: 'POST',
-        params: { name, color: color === 'black' ? null : color }
+        params: { name, color }
       });
       labelMap[name] = newLabel.id;
     }
@@ -440,7 +496,7 @@ async function main() {
     try {
       await syncToLiveTrello(features, featuresMap, apiKey, token);
     } catch (err) {
-      console.error('\nSync failed:', err.message);
+      console.error('\nSync failed:', err.message, err.cause || '');
       process.exit(1);
     }
   }
