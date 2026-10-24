@@ -8,8 +8,8 @@
       "name": "Local-First IndexedDB Schema & Database Client",
       "behavior": "Dexie.js database client initialized with schemas for accounts, categories, transactions, offline_mutation_queue, conflict_audit_log, and settings.",
       "verification": "npm test src/db/db.test.js",
-      "state": "not-started",
-      "evidence": null
+      "state": "passing",
+      "evidence": "All 9 unit tests passed in src/db/db.test.js (96ms), covering all 6 tables, primary keys, schema indexes, CRUD operations, and resetDatabase()."
     },
     {
       "id": "F002",

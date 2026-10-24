@@ -26,17 +26,18 @@ The project harness engineering foundation has been established with all 5 core 
 - [x] Health Gates implemented (`init.ps1` & `init.sh` passing with 0 errors).
 - [x] Machine-readable Feature Triplets cataloged (`feature_list.json` with F001 - F020).
 - [x] Architectural Decision Records documented (`DECISIONS.md` with ADR-001 through ADR-012).
+- [x] **F001**: Local-First IndexedDB Schema & Database Client (`src/db/db.js`, `src/db/db.test.js` with 9 passing tests).
 
 ---
 
 ## 3. Current Focus & WIP Limit (WIP=1)
 - **Active Feature**: None currently in progress (`state: not-started`).
-- **Next Feature in Queue**: **F001** (`Local-First IndexedDB Schema & Database Client` via Dexie.js).
+- **Next Feature in Queue**: **F002** (`Monetary Precision & ISO 4217 Minor Units Engine`).
 
 ---
 
 ## 4. Blockers & Risks
-- **Blockers**: None. The environment is verified healthy.
+- **Blockers**: None. Full health pipeline (lint, vitest, vite build) passing with 0 errors.
 - **Risks & Mitigations**:
   - *Browser Storage Eviction*: Mitigated by calling `navigator.storage.persist()` and providing complete atomic JSON backup/restore.
   - *Multi-Device Concurrency*: Mitigated by Optimistic Concurrency Control (OCC) and conflict archiving in `conflict_audit_log`.
@@ -46,6 +47,6 @@ The project harness engineering foundation has been established with all 5 core 
 ## 5. Handoff Protocol for Next Session / Agent
 1. Execute `./init.ps1` (or `./init.sh`) to confirm zero regressions.
 2. Read `progress.md` and `DECISIONS.md`.
-3. Pick **F001** from `feature_list.json`, transition `state: active`.
-4. Implement Dexie.js schemas and corresponding unit test in `src/db/db.test.js`.
+3. Pick **F002** from `feature_list.json`, transition `state: active`.
+4. Implement ISO 4217 currency minor units engine in `src/utils/currency.js` and tests in `src/utils/currency.test.js`.
 5. Verify test pass, update `feature_list.json` to `passing` with evidence, and commit.
