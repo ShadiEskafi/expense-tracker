@@ -3,7 +3,8 @@ import {
   buildCardDescription,
   determineTargetList,
   buildChecklists,
-  generateSyncPlan
+  generateSyncPlan,
+  syncCardChecklists
 } from './trello-sync.js';
 
 describe('Trello Synchronization & Project Tracking Layer', () => {
@@ -140,6 +141,69 @@ describe('Trello Synchronization & Project Tracking Layer', () => {
       expect(plan.distribution.Backlog).toEqual(['F005']);
       expect(plan.distribution['In Progress']).toHaveLength(0);
       expect(plan.is_wip_valid).toBe(true);
+    });
+  });
+
+  describe('5. Card Checklist Live Synchronization', () => {
+    it('updates existing incomplete checkItems to complete when feature is passing', async () => {
+      const calls = [];
+      const mockFetch = async (endpoint, apiKey, token, options) => {
+        calls.push({ endpoint, options });
+        return { id: 'mock-id' };
+      };
+
+      const existingChecklists = [
+        {
+          id: 'cl-1',
+          name: 'Implementation',
+          checkItems: [
+            { id: 'item-1', name: 'Feature implemented', state: 'incomplete' }
+          ]
+        }
+      ];
+
+      const targetChecklists = [
+        {
+          name: 'Implementation',
+          items: [{ name: 'Feature implemented', checked: true }]
+        }
+      ];
+
+      await syncCardChecklists('card-123', existingChecklists, targetChecklists, 'key', 'token', mockFetch);
+
+      expect(calls).toHaveLength(1);
+      expect(calls[0].endpoint).toBe('/cards/card-123/checkItem/item-1');
+      expect(calls[0].options.method).toBe('PUT');
+      expect(calls[0].options.params.state).toBe('complete');
+    });
+
+    it('does nothing when checkItems already match target state (idempotent)', async () => {
+      const calls = [];
+      const mockFetch = async (endpoint, apiKey, token, options) => {
+        calls.push({ endpoint, options });
+        return { id: 'mock-id' };
+      };
+
+      const existingChecklists = [
+        {
+          id: 'cl-1',
+          name: 'Implementation',
+          checkItems: [
+            { id: 'item-1', name: 'Feature implemented', state: 'complete' }
+          ]
+        }
+      ];
+
+      const targetChecklists = [
+        {
+          name: 'Implementation',
+          items: [{ name: 'Feature implemented', checked: true }]
+        }
+      ];
+
+      await syncCardChecklists('card-123', existingChecklists, targetChecklists, 'key', 'token', mockFetch);
+
+      expect(calls).toHaveLength(0);
     });
   });
 });

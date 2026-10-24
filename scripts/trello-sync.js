@@ -263,6 +263,57 @@ function trelloFetch(endpoint, apiKey, token, options = {}, retries = 3) {
   });
 }
 
+export async function syncCardChecklists(
+  cardId,
+  cardChecklists,
+  targetChecklists,
+  apiKey,
+  token,
+  fetchFn = trelloFetch
+) {
+  const existingMap = {};
+  if (Array.isArray(cardChecklists)) {
+    for (const cl of cardChecklists) {
+      existingMap[cl.name] = cl;
+    }
+  }
+
+  for (const targetCl of targetChecklists) {
+    let cl = existingMap[targetCl.name];
+    if (!cl) {
+      cl = await fetchFn(`/cards/${cardId}/checklists`, apiKey, token, {
+        method: 'POST',
+        params: { name: targetCl.name }
+      });
+      cl.checkItems = [];
+    }
+
+    const itemMap = {};
+    if (Array.isArray(cl.checkItems)) {
+      for (const item of cl.checkItems) {
+        itemMap[item.name] = item;
+      }
+    }
+
+    for (const targetItem of targetCl.items) {
+      const existingItem = itemMap[targetItem.name];
+      const targetState = targetItem.checked ? 'complete' : 'incomplete';
+
+      if (!existingItem) {
+        await fetchFn(`/checklists/${cl.id}/checkItems`, apiKey, token, {
+          method: 'POST',
+          params: { name: targetItem.name, checked: targetItem.checked ? 'true' : 'false' }
+        });
+      } else if (existingItem.state !== targetState) {
+        await fetchFn(`/cards/${cardId}/checkItem/${existingItem.id}`, apiKey, token, {
+          method: 'PUT',
+          params: { state: targetState }
+        });
+      }
+    }
+  }
+}
+
 async function syncToLiveTrello(features, featuresMap, apiKey, token) {
   console.log('Connecting to Trello REST API...');
 
@@ -351,8 +402,10 @@ async function syncToLiveTrello(features, featuresMap, apiKey, token) {
     }
   }
 
-  // 4. Fetch existing cards
-  const existingCards = await trelloFetch(`/boards/${boardId}/cards`, apiKey, token);
+  // 4. Fetch existing cards with checklists
+  const existingCards = await trelloFetch(`/boards/${boardId}/cards`, apiKey, token, {
+    params: { checklists: 'all' }
+  });
   const cardByFeatureId = {};
   for (const card of existingCards) {
     const match = card.name.match(/^\[(F\d{3})\]/);
@@ -396,23 +449,13 @@ async function syncToLiveTrello(features, featuresMap, apiKey, token) {
           idLabels: labels.join(',')
         }
       });
+      card.checklists = [];
       console.log(`  Created: ${cardTitle} in ${targetListName}`);
-
-      // Add checklists to new card
-      const checklists = buildChecklists(feature);
-      for (const cl of checklists) {
-        const createdCl = await trelloFetch(`/cards/${card.id}/checklists`, apiKey, token, {
-          method: 'POST',
-          params: { name: cl.name }
-        });
-        for (const item of cl.items) {
-          await trelloFetch(`/checklists/${createdCl.id}/checkItems`, apiKey, token, {
-            method: 'POST',
-            params: { name: item.name, checked: item.checked ? 'true' : 'false' }
-          });
-        }
-      }
     }
+
+    // Synchronize checklists and their checkItem complete states
+    const targetChecklists = buildChecklists(feature);
+    await syncCardChecklists(card.id, card.checklists || [], targetChecklists, apiKey, token);
   }
 
   console.log('\nLive Trello synchronization complete!');

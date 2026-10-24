@@ -340,7 +340,7 @@
         "F003",
         "F004"
       ],
-      "description": "### Feature ID\nF005\n\n### Behavior\nRecords, edits, and soft-deletes (deleted_at) expense and income transactions, updating affected account balances atomically.\n\n### Verification\nnpm test src/services/transaction.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F001\n- F002\n- F003\n- F004\n\n### Evidence\nAll 35 unit tests passed in src/services/transaction.test.js (633ms), verifying expense & income CRUD, integer minor units, atomic account balance adjustments, soft deletion & balance restoration, transaction restoration, multi-criteria filtering, search, pagination, and financial summary metrics.",
+      "description": "### Feature ID\nF005\n\n### Behavior\nRecords, edits, and soft-deletes (deleted_at) expense and income transactions, updating affected account balances atomically.\n\n### Verification\nnpm test src/services/transaction.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F001\n- F002\n- F003\n- F004\n\n### Evidence\nAll 35 unit tests passed in src/services/transaction.test.js (633ms), verifying expense & income CRUD, integer minor units, atomic account balance adjustments, soft deletion & balance restoration, transaction restoration, multi-criteria filtering, search, pagination, and financial summary metrics.\n\n### Commit\nf8eff72\n\n### Completion Date\n2026-10-24",
       "checklists": [
         {
           "name": "Implementation",
