@@ -15,6 +15,7 @@ import fs from 'node:fs';
 import https from 'node:https';
 import path from 'node:path';
 import process from 'node:process';
+import { execSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -92,16 +93,37 @@ const FEATURE_LABELS = {
   F020: ['MVP', 'PWA']
 };
 
-const KNOWN_COMMITS = {
+export const KNOWN_COMMITS = {
   F001: { hash: '0067ace', date: '2026-10-24' },
   F002: { hash: '71e8c0f', date: '2026-10-24' },
   F003: { hash: '0a7cc8a', date: '2026-10-24' }
 };
 
+export function getFeatureCommitInfo(featureId) {
+  if (KNOWN_COMMITS[featureId]) {
+    return KNOWN_COMMITS[featureId];
+  }
+  try {
+    const out = execSync(`git log --grep="(${featureId})" -1 --format="%h %as"`, {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore']
+    }).trim();
+    if (out) {
+      const [hash, date] = out.split(' ');
+      if (hash && date) {
+        return { hash, date };
+      }
+    }
+  } catch {
+    // Ignore git command failure if not in git repo or detached
+  }
+  return null;
+}
+
 export function buildCardDescription(feature) {
   const deps = DEPENDENCIES[feature.id] || [];
   const depsFormatted = deps.length > 0 ? deps.map((d) => `- ${d}`).join('\n') : 'None';
-  const commitInfo = KNOWN_COMMITS[feature.id];
+  const commitInfo = getFeatureCommitInfo(feature.id);
 
   const sections = [
     `### Feature ID\n${feature.id}`,

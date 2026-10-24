@@ -12,6 +12,7 @@ Every agent session must execute this sequence before writing any code:
 3. Read `feature_list.json` to inspect completed work and select the next single feature.
 4. Run `git status` and `git log -5` to inspect recent working tree changes.
 5. Read `DECISIONS.md` to ensure no architectural decisions are reversed.
+6. When selecting a feature and transitioning it to `state: active` in `feature_list.json`, immediately run `npm run trello:sync` to move the corresponding Trello card from `Ready` to `In Progress`.
 
 ---
 
@@ -19,6 +20,7 @@ Every agent session must execute this sequence before writing any code:
 - **WIP=1 (Work-In-Progress = 1)**: Work on exactly ONE feature from `feature_list.json` at a time. Never multitask across multiple features. (Agents may modify multiple files required to complete that single feature).
 - **Proof-Only Done**: Never declare a feature complete without passing automated test evidence (`verification` command).
 - **Atomic Commits**: Commit only after all checks pass and state files (`feature_list.json`, `progress.md`) are updated.
+- **Trello Mirror Synchronization**: Run `npm run trello:sync` whenever a feature is set to `active` (start of work) and when committed to `passing` (end of work), ensuring Trello faithfully mirrors `feature_list.json`.
 - **Arabic-First / RTL Compliance**: All UI components, layouts, typography, and copy must strictly follow `design-system/`.
 - **Product Routing**: For product requirements and scope questions, consult `project-summary.md` (Frozen v1.0).
 - **UI/UX Routing**: Consult `design-system/README.md` first, then only the specific sub-documents needed.
@@ -32,6 +34,7 @@ Every agent session must execute this sequence before writing any code:
 - **Code Linter**: `npm run lint` (ESLint 10)
 - **Production Build**: `npm run build` (Vite 8 production bundle)
 - **Dev Server**: `npm run dev` (starts Vite at `http://localhost:5173`)
+- **Trello Sync**: `npm run trello:sync` (syncs visual cards with `feature_list.json`)
 
 ---
 
@@ -59,3 +62,4 @@ Before concluding any coding session or handing off:
 - [ ] `feature_list.json` updated (`state: passing` + evidence recorded).
 - [ ] `progress.md` updated with completed work and explicit next session handoff.
 - [ ] Atomic git commit recorded for completed feature.
+- [ ] Visual tracking mirror on Trello synchronized via `npm run trello:sync`.

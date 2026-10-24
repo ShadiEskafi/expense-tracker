@@ -10,10 +10,8 @@
   ],
   "distribution": {
     "Backlog": [
-      "F005",
       "F006",
       "F007",
-      "F008",
       "F009",
       "F010",
       "F011",
@@ -28,14 +26,16 @@
       "F020"
     ],
     "Ready": [
-      "F004"
+      "F005",
+      "F008"
     ],
     "In Progress": [],
     "Blocked": [],
     "Done": [
       "F001",
       "F002",
-      "F003"
+      "F003",
+      "F004"
     ]
   },
   "wip_count": 0,
@@ -254,8 +254,8 @@
     {
       "id": "F004",
       "title": "[F004] Account Management & Ledger-Backed Balance Service",
-      "list": "Ready",
-      "harness_state": "not-started",
+      "list": "Done",
+      "harness_state": "passing",
       "labels": [
         "MVP",
         "Financial Logic",
@@ -265,14 +265,14 @@
         "F001",
         "F002"
       ],
-      "description": "### Feature ID\nF004\n\n### Behavior\nCalculates account balances strictly from transaction ledger (initial_balance + incomes - expenses + net transfers) with cached performance reconciliation.\n\n### Verification\nnpm test src/services/account.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F001\n- F002",
+      "description": "### Feature ID\nF004\n\n### Behavior\nCalculates account balances strictly from transaction ledger (initial_balance + incomes - expenses + net transfers) with cached performance reconciliation.\n\n### Verification\nnpm test src/services/account.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F001\n- F002\n\n### Evidence\nAll 34 unit tests passed in src/services/account.test.js (378ms), verifying all 5 account types, initial_balance + inflows - outflows + transfersIn - transfersOut ledger formula, soft-deleted transaction exclusion, credit card liability semantics, balance drift detection & reconciliation, currency locking policy, transaction protection & atomic reassignment upon deletion, default account seeding, and financial position metrics.\n\n### Commit\nefb8ee8\n\n### Completion Date\n2026-10-24",
       "checklists": [
         {
           "name": "Implementation",
           "items": [
             {
               "name": "Feature implemented",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -281,23 +281,23 @@
           "items": [
             {
               "name": "Feature verification passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant tests passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Typecheck passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Lint passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Build passed",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -306,19 +306,19 @@
           "items": [
             {
               "name": "feature_list.json updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "progress.md updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant docs updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Atomic commit created",
-              "checked": false
+              "checked": true
             }
           ]
         }
@@ -327,7 +327,7 @@
     {
       "id": "F005",
       "title": "[F005] Expense & Income Transaction CRUD",
-      "list": "Backlog",
+      "list": "Ready",
       "harness_state": "not-started",
       "labels": [
         "MVP",
@@ -547,7 +547,7 @@
     {
       "id": "F008",
       "title": "[F008] Arabic-First & RTL Design System Layout Shell",
-      "list": "Backlog",
+      "list": "Ready",
       "harness_state": "not-started",
       "labels": [
         "MVP",
