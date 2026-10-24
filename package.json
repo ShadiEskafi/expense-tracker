@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "test": "vitest run",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "trello:sync": "node scripts/trello-sync.js"
   },
   "dependencies": {
     "dexie": "^4.4.7",

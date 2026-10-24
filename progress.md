@@ -29,6 +29,7 @@ The project harness engineering foundation has been established with all 5 core 
 - [x] **F001**: Local-First IndexedDB Schema & Database Client (`src/db/db.js`, `src/db/db.test.js` with 9 passing tests).
 - [x] **F002**: Monetary Precision & ISO 4217 Minor Units Engine (`src/utils/currency.js`, `src/utils/currency.test.js` with 34 passing tests).
 - [x] **F003**: Deterministic Category Pre-seeding (`src/services/category.js`, `src/services/category.test.js` with 19 passing tests).
+- [x] **Trello Visual Tracking Integration**: Operational specification in `docs/project-tracking.md`, synchronization engine in `scripts/trello-sync.js`, routing in `AGENTS.md`, and 10 unit tests in `scripts/trello-sync.test.js`.
 
 ---
 
@@ -39,7 +40,7 @@ The project harness engineering foundation has been established with all 5 core 
 ---
 
 ## 4. Blockers & Risks
-- **Blockers**: None. Full health pipeline (lint, 63 vitest tests, vite build) passing with 0 errors.
+- **Blockers**: None. Full health pipeline (lint, 73 vitest tests, vite build) passing with 0 errors.
 - **Risks & Mitigations**:
   - *Browser Storage Eviction*: Mitigated by calling `navigator.storage.persist()` and providing complete atomic JSON backup/restore.
   - *Multi-Device Concurrency*: Mitigated by Optimistic Concurrency Control (OCC) and conflict archiving in `conflict_audit_log`.

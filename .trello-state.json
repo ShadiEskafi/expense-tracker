@@ -1,0 +1,1494 @@
+{
+  "board_name": "Expense Management App — Harness Board",
+  "total_features": 20,
+  "lists": [
+    "Backlog",
+    "Ready",
+    "In Progress",
+    "Blocked",
+    "Done"
+  ],
+  "distribution": {
+    "Backlog": [
+      "F005",
+      "F006",
+      "F007",
+      "F008",
+      "F009",
+      "F010",
+      "F011",
+      "F012",
+      "F013",
+      "F014",
+      "F015",
+      "F016",
+      "F017",
+      "F018",
+      "F019",
+      "F020"
+    ],
+    "Ready": [
+      "F004"
+    ],
+    "In Progress": [],
+    "Blocked": [],
+    "Done": [
+      "F001",
+      "F002",
+      "F003"
+    ]
+  },
+  "wip_count": 0,
+  "is_wip_valid": true,
+  "cards": [
+    {
+      "id": "F001",
+      "title": "[F001] Local-First IndexedDB Schema & Database Client",
+      "list": "Done",
+      "harness_state": "passing",
+      "labels": [
+        "MVP",
+        "Foundation",
+        "Data"
+      ],
+      "dependencies": [],
+      "description": "### Feature ID\nF001\n\n### Behavior\nDexie.js database client initialized with schemas for accounts, categories, transactions, offline_mutation_queue, conflict_audit_log, and settings.\n\n### Verification\nnpm test src/db/db.test.js\n\n### Harness State\npassing\n\n### Dependencies\nNone\n\n### Evidence\nAll 9 unit tests passed in src/db/db.test.js (96ms), covering all 6 tables, primary keys, schema indexes, CRUD operations, and resetDatabase().\n\n### Commit\n0067ace\n\n### Completion Date\n2026-10-24",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": true
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": true
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": true
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": true
+            },
+            {
+              "name": "Lint passed",
+              "checked": true
+            },
+            {
+              "name": "Build passed",
+              "checked": true
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": true
+            },
+            {
+              "name": "progress.md updated",
+              "checked": true
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": true
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F002",
+      "title": "[F002] Monetary Precision & ISO 4217 Minor Units Engine",
+      "list": "Done",
+      "harness_state": "passing",
+      "labels": [
+        "MVP",
+        "Financial Logic"
+      ],
+      "dependencies": [],
+      "description": "### Feature ID\nF002\n\n### Behavior\nConverts currency strings to integer minor units (cents) and back via Intl.NumberFormat without floating-point errors.\n\n### Verification\nnpm test src/utils/currency.test.js\n\n### Harness State\npassing\n\n### Dependencies\nNone\n\n### Evidence\nAll 34 unit tests passed in src/utils/currency.test.js (50ms), verifying zero floating-point accumulation (1.14 & 29.99), Arabic-Indic digits/delimiters, 0/2/3 decimal exponents (JPY, SAR, KWD), formatCurrency, formatCurrencyParts, parseAmountInput, and safe integer arithmetic.\n\n### Commit\n71e8c0f\n\n### Completion Date\n2026-10-24",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": true
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": true
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": true
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": true
+            },
+            {
+              "name": "Lint passed",
+              "checked": true
+            },
+            {
+              "name": "Build passed",
+              "checked": true
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": true
+            },
+            {
+              "name": "progress.md updated",
+              "checked": true
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": true
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F003",
+      "title": "[F003] Deterministic Category Pre-seeding",
+      "list": "Done",
+      "harness_state": "passing",
+      "labels": [
+        "MVP",
+        "Data"
+      ],
+      "dependencies": [
+        "F001"
+      ],
+      "description": "### Feature ID\nF003\n\n### Behavior\nPre-populates default expense and income categories with fixed system slugs (e.g. cat_food, cat_salary) to prevent duplication during cloud sync.\n\n### Verification\nnpm test src/services/category.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F001\n\n### Evidence\nAll 19 unit tests passed in src/services/category.test.js (145ms), verifying 16 deterministic default categories (10 expense, 6 income), cat_* system slugs, Arabic names and color tokens, idempotent pre-seeding, user_id isolation, type filtering, soft deletion, CategoryInUseError protection, and atomic transaction reassignment.\n\n### Commit\n0a7cc8a\n\n### Completion Date\n2026-10-24",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": true
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": true
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": true
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": true
+            },
+            {
+              "name": "Lint passed",
+              "checked": true
+            },
+            {
+              "name": "Build passed",
+              "checked": true
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": true
+            },
+            {
+              "name": "progress.md updated",
+              "checked": true
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": true
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F004",
+      "title": "[F004] Account Management & Ledger-Backed Balance Service",
+      "list": "Ready",
+      "harness_state": "not-started",
+      "labels": [
+        "MVP",
+        "Financial Logic",
+        "Data"
+      ],
+      "dependencies": [
+        "F001",
+        "F002"
+      ],
+      "description": "### Feature ID\nF004\n\n### Behavior\nCalculates account balances strictly from transaction ledger (initial_balance + incomes - expenses + net transfers) with cached performance reconciliation.\n\n### Verification\nnpm test src/services/account.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F001\n- F002",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": false
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": false
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": false
+            },
+            {
+              "name": "Lint passed",
+              "checked": false
+            },
+            {
+              "name": "Build passed",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": false
+            },
+            {
+              "name": "progress.md updated",
+              "checked": false
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": false
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F005",
+      "title": "[F005] Expense & Income Transaction CRUD",
+      "list": "Backlog",
+      "harness_state": "not-started",
+      "labels": [
+        "MVP",
+        "Financial Logic",
+        "Data"
+      ],
+      "dependencies": [
+        "F001",
+        "F002",
+        "F003",
+        "F004"
+      ],
+      "description": "### Feature ID\nF005\n\n### Behavior\nRecords, edits, and soft-deletes (deleted_at) expense and income transactions, updating affected account balances atomically.\n\n### Verification\nnpm test src/services/transaction.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F001\n- F002\n- F003\n- F004",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": false
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": false
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": false
+            },
+            {
+              "name": "Lint passed",
+              "checked": false
+            },
+            {
+              "name": "Build passed",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": false
+            },
+            {
+              "name": "progress.md updated",
+              "checked": false
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": false
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F006",
+      "title": "[F006] Internal Account Transfer (Single-Record Model)",
+      "list": "Backlog",
+      "harness_state": "not-started",
+      "labels": [
+        "MVP",
+        "Financial Logic"
+      ],
+      "dependencies": [
+        "F004",
+        "F005"
+      ],
+      "description": "### Feature ID\nF006\n\n### Behavior\nExecutes transfers between accounts using a single transaction of type 'transfer' with source and destination account IDs, atomically updating both balances.\n\n### Verification\nnpm test src/services/transfer.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F004\n- F005",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": false
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": false
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": false
+            },
+            {
+              "name": "Lint passed",
+              "checked": false
+            },
+            {
+              "name": "Build passed",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": false
+            },
+            {
+              "name": "progress.md updated",
+              "checked": false
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": false
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F007",
+      "title": "[F007] Credit Card Liability & Financial Position Metrics",
+      "list": "Backlog",
+      "harness_state": "not-started",
+      "labels": [
+        "MVP",
+        "Financial Logic"
+      ],
+      "dependencies": [
+        "F004",
+        "F005",
+        "F006"
+      ],
+      "description": "### Feature ID\nF007\n\n### Behavior\nDistinguishes between Available Funds, Credit Card Debt (Liabilities), Net Financial Position, and Period Cash Flow. Card payments reduce liability as transfers.\n\n### Verification\nnpm test src/services/financialMetrics.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F004\n- F005\n- F006",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": false
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": false
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": false
+            },
+            {
+              "name": "Lint passed",
+              "checked": false
+            },
+            {
+              "name": "Build passed",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": false
+            },
+            {
+              "name": "progress.md updated",
+              "checked": false
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": false
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F008",
+      "title": "[F008] Arabic-First & RTL Design System Layout Shell",
+      "list": "Backlog",
+      "harness_state": "not-started",
+      "labels": [
+        "MVP",
+        "UI/UX",
+        "Foundation"
+      ],
+      "dependencies": [
+        "F001",
+        "F004"
+      ],
+      "description": "### Feature ID\nF008\n\n### Behavior\nApp shell rendering in RTL direction with IBM Plex Sans Arabic, CSS design tokens, bottom navigation for mobile, and right-aligned sidebar for desktop.\n\n### Verification\nnpm run lint && npm run build\n\n### Harness State\nnot-started\n\n### Dependencies\n- F001\n- F004",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": false
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": false
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": false
+            },
+            {
+              "name": "Lint passed",
+              "checked": false
+            },
+            {
+              "name": "Build passed",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": false
+            },
+            {
+              "name": "progress.md updated",
+              "checked": false
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": false
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F009",
+      "title": "[F009] Quick Add Transaction Flow (<5s Target)",
+      "list": "Backlog",
+      "harness_state": "not-started",
+      "labels": [
+        "MVP",
+        "UI/UX"
+      ],
+      "dependencies": [
+        "F005",
+        "F008"
+      ],
+      "description": "### Feature ID\nF009\n\n### Behavior\nFast transaction entry form requiring only amount and category, with auto-focused decimal keypad on mobile, today default date, last-used account, and non-destructive validation.\n\n### Verification\nnpm test src/components/QuickAdd.test.jsx\n\n### Harness State\nnot-started\n\n### Dependencies\n- F005\n- F008",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": false
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": false
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": false
+            },
+            {
+              "name": "Lint passed",
+              "checked": false
+            },
+            {
+              "name": "Build passed",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": false
+            },
+            {
+              "name": "progress.md updated",
+              "checked": false
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": false
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F010",
+      "title": "[F010] Dashboard Financial Overview & Analytics Widgets",
+      "list": "Backlog",
+      "harness_state": "not-started",
+      "labels": [
+        "MVP",
+        "UI/UX",
+        "Financial Logic"
+      ],
+      "dependencies": [
+        "F007",
+        "F008"
+      ],
+      "description": "### Feature ID\nF010\n\n### Behavior\nRenders KPI metrics, account balance cards, recent transactions, spending category breakdown chart, and cash flow trend chart using Recharts with accessible fallbacks.\n\n### Verification\nnpm run lint && npm run build\n\n### Harness State\nnot-started\n\n### Dependencies\n- F007\n- F008",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": false
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": false
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": false
+            },
+            {
+              "name": "Lint passed",
+              "checked": false
+            },
+            {
+              "name": "Build passed",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": false
+            },
+            {
+              "name": "progress.md updated",
+              "checked": false
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": false
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F011",
+      "title": "[F011] Transaction Ledger, Keyword Search & Multi-Filtering",
+      "list": "Backlog",
+      "harness_state": "not-started",
+      "labels": [
+        "MVP",
+        "UI/UX"
+      ],
+      "dependencies": [
+        "F005",
+        "F008"
+      ],
+      "description": "### Feature ID\nF011\n\n### Behavior\nDisplays chronologically grouped transactions with real-time text search and multi-filtering by type, category, date range, account, and tags.\n\n### Verification\nnpm test src/features/transactions/filter.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F005\n- F008",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": false
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": false
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": false
+            },
+            {
+              "name": "Lint passed",
+              "checked": false
+            },
+            {
+              "name": "Build passed",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": false
+            },
+            {
+              "name": "progress.md updated",
+              "checked": false
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": false
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F012",
+      "title": "[F012] Periodic Reports & Analytics View",
+      "list": "Backlog",
+      "harness_state": "not-started",
+      "labels": [
+        "MVP",
+        "UI/UX"
+      ],
+      "dependencies": [
+        "F010",
+        "F011"
+      ],
+      "description": "### Feature ID\nF012\n\n### Behavior\nAllows filtering by week, month, year, or custom date range, displaying category expenditure breakdown and ranked top expenses.\n\n### Verification\nnpm run lint && npm run build\n\n### Harness State\nnot-started\n\n### Dependencies\n- F010\n- F011",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": false
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": false
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": false
+            },
+            {
+              "name": "Lint passed",
+              "checked": false
+            },
+            {
+              "name": "Build passed",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": false
+            },
+            {
+              "name": "progress.md updated",
+              "checked": false
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": false
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F013",
+      "title": "[F013] Categories Management View",
+      "list": "Backlog",
+      "harness_state": "not-started",
+      "labels": [
+        "MVP",
+        "UI/UX",
+        "Data"
+      ],
+      "dependencies": [
+        "F003",
+        "F005",
+        "F008"
+      ],
+      "description": "### Feature ID\nF013\n\n### Behavior\nAllows viewing, adding, editing, and deleting custom categories with transaction reassignment guard preventing deletion of referenced categories.\n\n### Verification\nnpm test src/services/categoryGuard.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F003\n- F005\n- F008",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": false
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": false
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": false
+            },
+            {
+              "name": "Lint passed",
+              "checked": false
+            },
+            {
+              "name": "Build passed",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": false
+            },
+            {
+              "name": "progress.md updated",
+              "checked": false
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": false
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F014",
+      "title": "[F014] Currency Configuration & Immutability Lock",
+      "list": "Backlog",
+      "harness_state": "not-started",
+      "labels": [
+        "MVP",
+        "Financial Logic"
+      ],
+      "dependencies": [
+        "F002",
+        "F004",
+        "F005"
+      ],
+      "description": "### Feature ID\nF014\n\n### Behavior\nAllows selecting base currency on first run, locking currency selector once transactions or non-zero balances exist to prevent misleading numbers.\n\n### Verification\nnpm test src/services/currencyLock.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F002\n- F004\n- F005",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": false
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": false
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": false
+            },
+            {
+              "name": "Lint passed",
+              "checked": false
+            },
+            {
+              "name": "Build passed",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": false
+            },
+            {
+              "name": "progress.md updated",
+              "checked": false
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": false
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F015",
+      "title": "[F015] CSV Export Engine",
+      "list": "Backlog",
+      "harness_state": "not-started",
+      "labels": [
+        "MVP",
+        "Data"
+      ],
+      "dependencies": [
+        "F005",
+        "F011"
+      ],
+      "description": "### Feature ID\nF015\n\n### Behavior\nExports all transactions or filtered transactions to UTF-8 BOM CSV for Arabic spreadsheet compatibility.\n\n### Verification\nnpm test src/utils/csvExport.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F005\n- F011",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": false
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": false
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": false
+            },
+            {
+              "name": "Lint passed",
+              "checked": false
+            },
+            {
+              "name": "Build passed",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": false
+            },
+            {
+              "name": "progress.md updated",
+              "checked": false
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": false
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F016",
+      "title": "[F016] Atomic JSON Backup & Restore Pipeline",
+      "list": "Backlog",
+      "harness_state": "not-started",
+      "labels": [
+        "MVP",
+        "Data",
+        "Security"
+      ],
+      "dependencies": [
+        "F001",
+        "F003",
+        "F004",
+        "F005"
+      ],
+      "description": "### Feature ID\nF016\n\n### Behavior\nExports complete JSON backup; restores data atomically with schema validation, metadata preview, and pre-restore rollback snapshot.\n\n### Verification\nnpm test src/services/backupRestore.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F001\n- F003\n- F004\n- F005",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": false
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": false
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": false
+            },
+            {
+              "name": "Lint passed",
+              "checked": false
+            },
+            {
+              "name": "Build passed",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": false
+            },
+            {
+              "name": "progress.md updated",
+              "checked": false
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": false
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F017",
+      "title": "[F017] Offline Mutation Queue & Concurrency Engine (OCC)",
+      "list": "Backlog",
+      "harness_state": "not-started",
+      "labels": [
+        "MVP",
+        "Sync"
+      ],
+      "dependencies": [
+        "F001",
+        "F005"
+      ],
+      "description": "### Feature ID\nF017\n\n### Behavior\nQueues offline CRUD operations sequentially with client_base_version; handles version-based conflict archiving into conflict_audit_log upon conflict.\n\n### Verification\nnpm test src/services/syncQueue.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F001\n- F005",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": false
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": false
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": false
+            },
+            {
+              "name": "Lint passed",
+              "checked": false
+            },
+            {
+              "name": "Build passed",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": false
+            },
+            {
+              "name": "progress.md updated",
+              "checked": false
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": false
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F018",
+      "title": "[F018] Supabase Cloud Sync & Initial Account Merge",
+      "list": "Backlog",
+      "harness_state": "not-started",
+      "labels": [
+        "MVP",
+        "Sync"
+      ],
+      "dependencies": [
+        "F003",
+        "F017"
+      ],
+      "description": "### Feature ID\nF018\n\n### Behavior\nIntegrates Supabase Auth; merges guest records idempotently without duplicating default categories by matching system slugs; pulls remote updates.\n\n### Verification\nnpm test src/services/cloudSync.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F003\n- F017",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": false
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": false
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": false
+            },
+            {
+              "name": "Lint passed",
+              "checked": false
+            },
+            {
+              "name": "Build passed",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": false
+            },
+            {
+              "name": "progress.md updated",
+              "checked": false
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": false
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F019",
+      "title": "[F019] Fail-Safe Sign-Out with Un-Synced Mutation Blocking",
+      "list": "Backlog",
+      "harness_state": "not-started",
+      "labels": [
+        "MVP",
+        "Security",
+        "Sync"
+      ],
+      "dependencies": [
+        "F016",
+        "F017",
+        "F018"
+      ],
+      "description": "### Feature ID\nF019\n\n### Behavior\nBlocks sign-out and prompts user when pending offline mutations exist; purges local cloud cache only upon confirmed zero pending mutations.\n\n### Verification\nnpm test src/services/signOutSafety.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F016\n- F017\n- F018",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": false
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": false
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": false
+            },
+            {
+              "name": "Lint passed",
+              "checked": false
+            },
+            {
+              "name": "Build passed",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": false
+            },
+            {
+              "name": "progress.md updated",
+              "checked": false
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": false
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F020",
+      "title": "[F020] PWA Offline Caching & Storage Persistence",
+      "list": "Backlog",
+      "harness_state": "not-started",
+      "labels": [
+        "MVP",
+        "PWA"
+      ],
+      "dependencies": [
+        "F001",
+        "F008"
+      ],
+      "description": "### Feature ID\nF020\n\n### Behavior\nRegisters Service Worker for offline app shell caching and requests persistent storage quota via navigator.storage.persist().\n\n### Verification\nnpm run build\n\n### Harness State\nnot-started\n\n### Dependencies\n- F001\n- F008",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": false
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": false
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": false
+            },
+            {
+              "name": "Lint passed",
+              "checked": false
+            },
+            {
+              "name": "Build passed",
+              "checked": false
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": false
+            },
+            {
+              "name": "progress.md updated",
+              "checked": false
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": false
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

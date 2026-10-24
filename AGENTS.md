@@ -47,6 +47,7 @@ Do not bloat this file. Domain-specific rules reside in their dedicated sub-docu
 - **Inter-Session Progress**: [progress.md](file:///f:/SHADI/2-Programming/Expense%20Tracker%20App/expense-tracker/progress.md)
 - **Arabic RTL UI Design System**: [design-system/README.md](file:///f:/SHADI/2-Programming/Expense%20Tracker%20App/expense-tracker/design-system/README.md)
 - **Product Specification (Frozen v1.0)**: [project-summary.md](file:///f:/SHADI/2-Programming/Expense%20Tracker%20App/expense-tracker/project-summary.md)
+- **Visual Project Tracking (Trello)**: [docs/project-tracking.md](file:///f:/SHADI/2-Programming/Expense%20Tracker%20App/expense-tracker/docs/project-tracking.md) (For task status visibility, see Trello. For authoritative execution state, see `feature_list.json`).
 
 ---
 
