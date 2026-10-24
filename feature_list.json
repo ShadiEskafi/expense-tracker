@@ -24,8 +24,8 @@
       "name": "Deterministic Category Pre-seeding",
       "behavior": "Pre-populates default expense and income categories with fixed system slugs (e.g. cat_food, cat_salary) to prevent duplication during cloud sync.",
       "verification": "npm test src/services/category.test.js",
-      "state": "not-started",
-      "evidence": null
+      "state": "passing",
+      "evidence": "All 19 unit tests passed in src/services/category.test.js (145ms), verifying 16 deterministic default categories (10 expense, 6 income), cat_* system slugs, Arabic names and color tokens, idempotent pre-seeding, user_id isolation, type filtering, soft deletion, CategoryInUseError protection, and atomic transaction reassignment."
     },
     {
       "id": "F004",
