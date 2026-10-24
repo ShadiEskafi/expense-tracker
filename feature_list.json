@@ -32,8 +32,8 @@
       "name": "Account Management & Ledger-Backed Balance Service",
       "behavior": "Calculates account balances strictly from transaction ledger (initial_balance + incomes - expenses + net transfers) with cached performance reconciliation.",
       "verification": "npm test src/services/account.test.js",
-      "state": "not-started",
-      "evidence": null
+      "state": "passing",
+      "evidence": "All 34 unit tests passed in src/services/account.test.js (378ms), verifying all 5 account types, initial_balance + inflows - outflows + transfersIn - transfersOut ledger formula, soft-deleted transaction exclusion, credit card liability semantics, balance drift detection & reconciliation, currency locking policy, transaction protection & atomic reassignment upon deletion, default account seeding, and financial position metrics."
     },
     {
       "id": "F005",
