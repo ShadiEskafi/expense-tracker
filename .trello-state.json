@@ -10,24 +10,23 @@
   ],
   "distribution": {
     "Backlog": [
-      "F006",
       "F007",
       "F009",
       "F010",
       "F011",
       "F012",
       "F013",
-      "F014",
       "F015",
-      "F016",
-      "F017",
       "F018",
       "F019",
       "F020"
     ],
     "Ready": [
-      "F005",
-      "F008"
+      "F006",
+      "F008",
+      "F014",
+      "F016",
+      "F017"
     ],
     "In Progress": [],
     "Blocked": [],
@@ -35,7 +34,8 @@
       "F001",
       "F002",
       "F003",
-      "F004"
+      "F004",
+      "F005"
     ]
   },
   "wip_count": 0,
@@ -327,8 +327,8 @@
     {
       "id": "F005",
       "title": "[F005] Expense & Income Transaction CRUD",
-      "list": "Ready",
-      "harness_state": "not-started",
+      "list": "Done",
+      "harness_state": "passing",
       "labels": [
         "MVP",
         "Financial Logic",
@@ -340,14 +340,14 @@
         "F003",
         "F004"
       ],
-      "description": "### Feature ID\nF005\n\n### Behavior\nRecords, edits, and soft-deletes (deleted_at) expense and income transactions, updating affected account balances atomically.\n\n### Verification\nnpm test src/services/transaction.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F001\n- F002\n- F003\n- F004",
+      "description": "### Feature ID\nF005\n\n### Behavior\nRecords, edits, and soft-deletes (deleted_at) expense and income transactions, updating affected account balances atomically.\n\n### Verification\nnpm test src/services/transaction.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F001\n- F002\n- F003\n- F004\n\n### Evidence\nAll 35 unit tests passed in src/services/transaction.test.js (633ms), verifying expense & income CRUD, integer minor units, atomic account balance adjustments, soft deletion & balance restoration, transaction restoration, multi-criteria filtering, search, pagination, and financial summary metrics.",
       "checklists": [
         {
           "name": "Implementation",
           "items": [
             {
               "name": "Feature implemented",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -356,23 +356,23 @@
           "items": [
             {
               "name": "Feature verification passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant tests passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Typecheck passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Lint passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Build passed",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -381,19 +381,19 @@
           "items": [
             {
               "name": "feature_list.json updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "progress.md updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant docs updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Atomic commit created",
-              "checked": false
+              "checked": true
             }
           ]
         }
@@ -402,7 +402,7 @@
     {
       "id": "F006",
       "title": "[F006] Internal Account Transfer (Single-Record Model)",
-      "list": "Backlog",
+      "list": "Ready",
       "harness_state": "not-started",
       "labels": [
         "MVP",
@@ -983,7 +983,7 @@
     {
       "id": "F014",
       "title": "[F014] Currency Configuration & Immutability Lock",
-      "list": "Backlog",
+      "list": "Ready",
       "harness_state": "not-started",
       "labels": [
         "MVP",
@@ -1128,7 +1128,7 @@
     {
       "id": "F016",
       "title": "[F016] Atomic JSON Backup & Restore Pipeline",
-      "list": "Backlog",
+      "list": "Ready",
       "harness_state": "not-started",
       "labels": [
         "MVP",
@@ -1203,7 +1203,7 @@
     {
       "id": "F017",
       "title": "[F017] Offline Mutation Queue & Concurrency Engine (OCC)",
-      "list": "Backlog",
+      "list": "Ready",
       "harness_state": "not-started",
       "labels": [
         "MVP",

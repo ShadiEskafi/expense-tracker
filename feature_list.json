@@ -40,8 +40,8 @@
       "name": "Expense & Income Transaction CRUD",
       "behavior": "Records, edits, and soft-deletes (deleted_at) expense and income transactions, updating affected account balances atomically.",
       "verification": "npm test src/services/transaction.test.js",
-      "state": "not-started",
-      "evidence": null
+      "state": "passing",
+      "evidence": "All 35 unit tests passed in src/services/transaction.test.js (633ms), verifying expense & income CRUD, integer minor units, atomic account balance adjustments, soft deletion & balance restoration, transaction restoration, multi-criteria filtering, search, pagination, and financial summary metrics."
     },
     {
       "id": "F006",
