@@ -10,7 +10,6 @@
   ],
   "distribution": {
     "Backlog": [
-      "F007",
       "F009",
       "F010",
       "F011",
@@ -22,7 +21,7 @@
       "F020"
     ],
     "Ready": [
-      "F006",
+      "F007",
       "F008",
       "F014",
       "F016",
@@ -35,7 +34,8 @@
       "F002",
       "F003",
       "F004",
-      "F005"
+      "F005",
+      "F006"
     ]
   },
   "wip_count": 0,
@@ -402,8 +402,8 @@
     {
       "id": "F006",
       "title": "[F006] Internal Account Transfer (Single-Record Model)",
-      "list": "Ready",
-      "harness_state": "not-started",
+      "list": "Done",
+      "harness_state": "passing",
       "labels": [
         "MVP",
         "Financial Logic"
@@ -412,14 +412,14 @@
         "F004",
         "F005"
       ],
-      "description": "### Feature ID\nF006\n\n### Behavior\nExecutes transfers between accounts using a single transaction of type 'transfer' with source and destination account IDs, atomically updating both balances.\n\n### Verification\nnpm test src/services/transfer.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F004\n- F005",
+      "description": "### Feature ID\nF006\n\n### Behavior\nExecutes transfers between accounts using a single transaction of type 'transfer' with source and destination account IDs, atomically updating both balances.\n\n### Verification\nnpm test src/services/transfer.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F004\n- F005\n\n### Evidence\nAll 31 unit tests passed in src/services/transfer.test.js (425ms), verifying single-record transfer model, integer minor units, category_id null invariant, atomic source deduction & destination crediting, credit card debt settlement without cash flow distortion, transfer updates with 4-account reconciliation, soft deletion with atomic balance restoration, restoration guards against deleted accounts, search & multi-filtering, and offline mutation queue synchronization.",
       "checklists": [
         {
           "name": "Implementation",
           "items": [
             {
               "name": "Feature implemented",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -428,23 +428,23 @@
           "items": [
             {
               "name": "Feature verification passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant tests passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Typecheck passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Lint passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Build passed",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -453,19 +453,19 @@
           "items": [
             {
               "name": "feature_list.json updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "progress.md updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant docs updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Atomic commit created",
-              "checked": false
+              "checked": true
             }
           ]
         }
@@ -474,7 +474,7 @@
     {
       "id": "F007",
       "title": "[F007] Credit Card Liability & Financial Position Metrics",
-      "list": "Backlog",
+      "list": "Ready",
       "harness_state": "not-started",
       "labels": [
         "MVP",

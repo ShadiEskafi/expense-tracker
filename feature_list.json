@@ -48,8 +48,8 @@
       "name": "Internal Account Transfer (Single-Record Model)",
       "behavior": "Executes transfers between accounts using a single transaction of type 'transfer' with source and destination account IDs, atomically updating both balances.",
       "verification": "npm test src/services/transfer.test.js",
-      "state": "not-started",
-      "evidence": null
+      "state": "passing",
+      "evidence": "All 31 unit tests passed in src/services/transfer.test.js (425ms), verifying single-record transfer model, integer minor units, category_id null invariant, atomic source deduction & destination crediting, credit card debt settlement without cash flow distortion, transfer updates with 4-account reconciliation, soft deletion with atomic balance restoration, restoration guards against deleted accounts, search & multi-filtering, and offline mutation queue synchronization."
     },
     {
       "id": "F007",

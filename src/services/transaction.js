@@ -107,7 +107,7 @@ export function normalizeTags(tags) {
  * @param {import('../db/db.js').ExpenseDatabase} database
  * @param {string} timestamp ISO timestamp
  */
-async function syncAccountBalances(accountIds, database, timestamp) {
+export async function syncAccountBalances(accountIds, database, timestamp) {
   const uniqueIds = Array.from(new Set(accountIds.filter(Boolean)));
 
   for (const accId of uniqueIds) {
@@ -225,6 +225,40 @@ async function validateTransactionData(data, isUpdate = false, database = db) {
         );
       }
     }
+  } else if (effectiveType === 'transfer') {
+    // Category must be null for transfer
+    if (data.category_id !== undefined && data.category_id !== null) {
+      throw new TransactionValidationError(
+        'معاملات التحويل الداخلي لا تحتوي على تصنيف',
+        'category_id'
+      );
+    }
+
+    // Destination account is mandatory for transfer
+    if (!isUpdate || data.destination_account_id !== undefined) {
+      if (typeof data.destination_account_id !== 'string' || !data.destination_account_id.trim()) {
+        throw new TransactionValidationError('معرف حساب الوجهة مطلوب لمعاملات التحويل', 'destination_account_id');
+      }
+
+      if (data.account_id && data.destination_account_id === data.account_id) {
+        throw new TransactionValidationError('لا يمكن التحويل إلى نفس الحساب', 'destination_account_id');
+      }
+
+      const destAccount = await database.accounts.get(data.destination_account_id);
+      if (!destAccount || destAccount.deleted_at !== null) {
+        throw new TransactionValidationError('حساب الوجهة المحدد غير موجود أو محذوف', 'destination_account_id');
+      }
+
+      if (data.account_id) {
+        const srcAccount = await database.accounts.get(data.account_id);
+        if (srcAccount && srcAccount.currency && destAccount.currency && srcAccount.currency !== destAccount.currency) {
+          throw new TransactionValidationError(
+            `لا يمكن التحويل بين حسابات بعملات مختلفة (${srcAccount.currency} إلى ${destAccount.currency})`,
+            'destination_account_id'
+          );
+        }
+      }
+    }
   }
 }
 
@@ -310,6 +344,17 @@ export async function createExpense(data, database = db) {
  */
 export async function createIncome(data, database = db) {
   return await createTransaction({ ...data, type: 'income' }, database);
+}
+
+/**
+ * Convenience helper to create an internal transfer transaction.
+ *
+ * @param {object} data
+ * @param {import('../db/db.js').ExpenseDatabase} database
+ * @returns {Promise<object>}
+ */
+export async function createTransfer(data, database = db) {
+  return await createTransaction({ ...data, type: 'transfer' }, database);
 }
 
 /**
