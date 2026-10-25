@@ -1,10 +1,10 @@
 import {
   AccountsIcon,
-  TransactionsIcon,
   ReportsIcon,
   CategoriesIcon,
 } from '../common/Icons';
 import { Dashboard } from '../dashboard/Dashboard.jsx';
+import { TransactionLedger } from '../../features/transactions/TransactionLedger.jsx';
 
 /**
  * Hub Views for AppShell
@@ -21,29 +21,13 @@ export function DashboardView({ onOpenQuickAdd, onSelectTab, refreshTrigger }) {
   );
 }
 
-export function TransactionsView() {
+export function TransactionsView({ onOpenQuickAdd, refreshTrigger, onTransactionMutated }) {
   return (
-    <div className="hub-view">
-      <div className="surface-card">
-        <div className="surface-card-header">
-          <div>
-            <h3 className="text-h2">سجل المعاملات المالي</h3>
-            <span className="text-caption">استعراض، تصفية، وبحث كامل في السجل التاريخي لكافة العمليات</span>
-          </div>
-          <div className="tx-filter-chips">
-            <button type="button" className="chip active">الكل</button>
-            <button type="button" className="chip">مصاريف</button>
-            <button type="button" className="chip">دخل</button>
-            <button type="button" className="chip">تحويلات</button>
-          </div>
-        </div>
-        <div className="empty-placeholder-card">
-          <TransactionsIcon size={36} className="placeholder-icon" />
-          <h4 className="text-h3">سجل المعاملات جاهز</h4>
-          <p className="text-caption">سيتم تفعيل التصفية الشاملة وتصدير CSV في ميزات F011 و F015.</p>
-        </div>
-      </div>
-    </div>
+    <TransactionLedger
+      onOpenQuickAdd={onOpenQuickAdd}
+      refreshTrigger={refreshTrigger}
+      onTransactionMutated={onTransactionMutated}
+    />
   );
 }
 

@@ -10,15 +10,14 @@
   ],
   "distribution": {
     "Backlog": [
-      "F012",
-      "F015",
       "F018",
       "F019"
     ],
     "Ready": [
-      "F011",
+      "F012",
       "F013",
       "F014",
+      "F015",
       "F016",
       "F017",
       "F020"
@@ -35,7 +34,8 @@
       "F007",
       "F008",
       "F009",
-      "F010"
+      "F010",
+      "F011"
     ]
   },
   "wip_count": 0,
@@ -703,7 +703,7 @@
         "F007",
         "F008"
       ],
-      "description": "### Feature ID\nF010\n\n### Behavior\nRenders KPI metrics, account balance cards, recent transactions, spending category breakdown chart, and cash flow trend chart using Recharts with accessible fallbacks.\n\n### Verification\nnpm run lint && npm run build\n\n### Harness State\npassing\n\n### Dependencies\n- F007\n- F008\n\n### Evidence\nAll checks passed: npm run lint with 0 errors, npm run build producing production bundle in 2.98s, 7 backend analytics unit tests in src/services/dashboardAnalytics.test.js, and 13 integration tests in src/components/dashboard/Dashboard.test.jsx (total 252 automated tests passing across 13 test files). Fully implements 5 financial health KPI cards (Net Financial Position hero, Available Liquid Funds, Total Liabilities with credit card alerts, Month Expenses with MoM delta percentage pill, and Month Income with cash flow surplus), horizontally scrollable/grid account balance cards with ledger-calculated balances, Recharts Donut category spending breakdown chart with interactive central amount and accessible table fallback, Recharts Grouped Bar cash flow trend chart (weekly income vs expense) with accessible table fallback, recent transactions list widget with categorized vector icons and tabular numbers, welcoming FTUX quick add banner, and seamless real-time refresh upon transaction creation.",
+      "description": "### Feature ID\nF010\n\n### Behavior\nRenders KPI metrics, account balance cards, recent transactions, spending category breakdown chart, and cash flow trend chart using Recharts with accessible fallbacks.\n\n### Verification\nnpm run lint && npm run build\n\n### Harness State\npassing\n\n### Dependencies\n- F007\n- F008\n\n### Evidence\nAll checks passed: npm run lint with 0 errors, npm run build producing production bundle in 2.98s, 7 backend analytics unit tests in src/services/dashboardAnalytics.test.js, and 13 integration tests in src/components/dashboard/Dashboard.test.jsx (total 252 automated tests passing across 13 test files). Fully implements 5 financial health KPI cards (Net Financial Position hero, Available Liquid Funds, Total Liabilities with credit card alerts, Month Expenses with MoM delta percentage pill, and Month Income with cash flow surplus), horizontally scrollable/grid account balance cards with ledger-calculated balances, Recharts Donut category spending breakdown chart with interactive central amount and accessible table fallback, Recharts Grouped Bar cash flow trend chart (weekly income vs expense) with accessible table fallback, recent transactions list widget with categorized vector icons and tabular numbers, welcoming FTUX quick add banner, and seamless real-time refresh upon transaction creation.\n\n### Commit\nc7a5b65\n\n### Completion Date\n2026-10-25",
       "checklists": [
         {
           "name": "Implementation",
@@ -765,8 +765,8 @@
     {
       "id": "F011",
       "title": "[F011] Transaction Ledger, Keyword Search & Multi-Filtering",
-      "list": "Ready",
-      "harness_state": "not-started",
+      "list": "Done",
+      "harness_state": "passing",
       "labels": [
         "MVP",
         "UI/UX"
@@ -775,14 +775,14 @@
         "F005",
         "F008"
       ],
-      "description": "### Feature ID\nF011\n\n### Behavior\nDisplays chronologically grouped transactions with real-time text search and multi-filtering by type, category, date range, account, and tags.\n\n### Verification\nnpm test src/features/transactions/filter.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F005\n- F008",
+      "description": "### Feature ID\nF011\n\n### Behavior\nDisplays chronologically grouped transactions with real-time text search and multi-filtering by type, category, date range, account, and tags.\n\n### Verification\nnpm test src/features/transactions/filter.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F005\n- F008\n\n### Evidence\nAll 28 unit and integration tests passed in src/features/transactions/filter.test.js (305ms), and 9 integration tests passed in src/features/transactions/TransactionLedger.test.jsx (total 289 tests passing across 15 test suites). Fully implements chronological date grouping with daily subtotal headers ('اليوم', 'أمس', specific Arabic dates), real-time debounced text search with Arabic diacritic normalization (tashkeel, alef forms, taa marbuta), segmented type tabs (الكل, مصاريف, دخل, تحويلات), date range preset pills with custom date boundaries, filter drawer for multi-filtering by categories and accounts and amount ranges, active filters indicator badge and removable chips, filtered financial KPI summary banner (Total Expenses, Total Income, Net Cash Flow), accessible TransactionDetailModal, non-destructive TransactionEditModal, and soft-delete TransactionDeleteConfirmModal with automatic ledger-backed balance restoration.",
       "checklists": [
         {
           "name": "Implementation",
           "items": [
             {
               "name": "Feature implemented",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -791,23 +791,23 @@
           "items": [
             {
               "name": "Feature verification passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant tests passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Typecheck passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Lint passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Build passed",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -816,19 +816,19 @@
           "items": [
             {
               "name": "feature_list.json updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "progress.md updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant docs updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Atomic commit created",
-              "checked": false
+              "checked": true
             }
           ]
         }
@@ -837,7 +837,7 @@
     {
       "id": "F012",
       "title": "[F012] Periodic Reports & Analytics View",
-      "list": "Backlog",
+      "list": "Ready",
       "harness_state": "not-started",
       "labels": [
         "MVP",
@@ -1056,7 +1056,7 @@
     {
       "id": "F015",
       "title": "[F015] CSV Export Engine",
-      "list": "Backlog",
+      "list": "Ready",
       "harness_state": "not-started",
       "labels": [
         "MVP",

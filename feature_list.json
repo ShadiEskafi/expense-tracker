@@ -88,8 +88,8 @@
       "name": "Transaction Ledger, Keyword Search & Multi-Filtering",
       "behavior": "Displays chronologically grouped transactions with real-time text search and multi-filtering by type, category, date range, account, and tags.",
       "verification": "npm test src/features/transactions/filter.test.js",
-      "state": "not-started",
-      "evidence": null
+      "state": "passing",
+      "evidence": "All 28 unit and integration tests passed in src/features/transactions/filter.test.js (305ms), and 9 integration tests passed in src/features/transactions/TransactionLedger.test.jsx (total 289 tests passing across 15 test suites). Fully implements chronological date grouping with daily subtotal headers ('اليوم', 'أمس', specific Arabic dates), real-time debounced text search with Arabic diacritic normalization (tashkeel, alef forms, taa marbuta), segmented type tabs (الكل, مصاريف, دخل, تحويلات), date range preset pills with custom date boundaries, filter drawer for multi-filtering by categories and accounts and amount ranges, active filters indicator badge and removable chips, filtered financial KPI summary banner (Total Expenses, Total Income, Net Cash Flow), accessible TransactionDetailModal, non-destructive TransactionEditModal, and soft-delete TransactionDeleteConfirmModal with automatic ledger-backed balance restoration."
     },
     {
       "id": "F012",

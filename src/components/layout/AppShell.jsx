@@ -134,7 +134,13 @@ export function AppShell() {
           />
         );
       case 'transactions':
-        return <TransactionsView />;
+        return (
+          <TransactionsView
+            onOpenQuickAdd={handleOpenQuickAdd}
+            refreshTrigger={dashboardRefreshTrigger}
+            onTransactionMutated={() => setDashboardRefreshTrigger((p) => p + 1)}
+          />
+        );
       case 'accounts':
         return <AccountsView />;
       case 'reports':
