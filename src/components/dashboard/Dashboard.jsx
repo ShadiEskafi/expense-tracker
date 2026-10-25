@@ -112,13 +112,26 @@ export function Dashboard({
 
   return (
     <div className="hub-view dashboard-view" data-testid="dashboard-view">
-      {/* 1. Primary Financial Health KPI Cards */}
+      {/* 1. Primary Financial Health KPI Cards (Net position & monthly flow) */}
       <DashboardKpiCards
         metrics={metrics}
         currency={currency}
       />
 
-      {/* 2. Account & Wallet Balances */}
+      {/* 2. Quick Action Prompt Banner */}
+      <DashboardBanner
+        onOpenQuickAdd={onOpenQuickAdd}
+      />
+
+      {/* 3. Recent Transactions List (Immediate visibility of latest activity) */}
+      <RecentTransactionsWidget
+        transactions={recentTransactions}
+        currency={currency}
+        onNavigateTransactions={() => onSelectTab?.('transactions')}
+        onOpenQuickAdd={onOpenQuickAdd}
+      />
+
+      {/* 4. Account & Wallet Balances (Full-width mobile list, responsive desktop grid) */}
       <AccountBalanceCards
         accounts={accounts}
         currency={currency}
@@ -126,12 +139,7 @@ export function Dashboard({
         onOpenQuickAdd={onOpenQuickAdd}
       />
 
-      {/* 3. Welcome FTUX & Quick Action Banner */}
-      <DashboardBanner
-        onOpenQuickAdd={onOpenQuickAdd}
-      />
-
-      {/* 4. Two-Column Analytics Widgets (Category Donut & Cash Flow Trend) */}
+      {/* 5. Analytics Widgets (Category Donut & Cash Flow Trend) */}
       <div className="dashboard-grid-two-col">
         <CategoryBreakdownChart
           breakdown={categoryBreakdown}
@@ -145,14 +153,6 @@ export function Dashboard({
           onOpenQuickAdd={onOpenQuickAdd}
         />
       </div>
-
-      {/* 5. Recent Transactions List */}
-      <RecentTransactionsWidget
-        transactions={recentTransactions}
-        currency={currency}
-        onNavigateTransactions={() => onSelectTab?.('transactions')}
-        onOpenQuickAdd={onOpenQuickAdd}
-      />
     </div>
   );
 }

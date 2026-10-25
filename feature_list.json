@@ -113,7 +113,7 @@
       "behavior": "Comprehensive mobile-first overhaul eliminating horizontal overflow, keyboard overlap, fixed viewport height clipping, desktop-first density, chart squishing, and touch target violations across all screens (Dashboard, Quick Add, Ledger, Reports, Categories, Navigation) from 320px to 430px+.",
       "verification": "npm test && npm run lint && npm run build",
       "state": "passing",
-      "evidence": "All 20 test suites and 373 tests passed (including 25 mobile UX responsive invariant tests in src/test/mobileUxAudit.test.jsx), ESLint 10 passed with 0 errors, Vite build succeeded with 0 errors."
+      "evidence": "All 20 test suites and 374 Vitest tests passed, ESLint 10 passed with 0 errors, Vite 8 build succeeded, and automated Headless Chrome verified zero horizontal overflow (scrollWidth <= clientWidth) across all 8 mobile viewports (320px to 430px+ and landscape) on all core routes."
     },
     {
       "id": "F014",

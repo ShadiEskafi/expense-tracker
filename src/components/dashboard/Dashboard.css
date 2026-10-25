@@ -1,6 +1,7 @@
 /**
  * Dashboard Financial Overview & Analytics Widgets Styles (F010)
  * Arabic-First, RTL Native, FinTech High-Craft Design
+ * Canonical Mobile-First Recomposition (360-390px Canonical Base)
  * Follows /impeccable, /ui-ux-pro-max, /make-interfaces-feel-better
  */
 
@@ -8,81 +9,46 @@
 .dashboard-view {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
-  width: 100%;
-}
-
-/* 2. KPI Cards Grid (5-Card Layout) */
-.dashboard-kpi-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: var(--space-4);
   width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
-@media (max-width: 1100px) {
-  .dashboard-kpi-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 680px) {
-  .dashboard-kpi-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-3);
-  }
-
-  .kpi-card-hero {
-    grid-column: span 2;
-  }
-
-  .kpi-card {
-    padding: var(--space-3);
-    gap: var(--space-1);
-  }
-
-  .kpi-card-hero .kpi-amount {
-    font-size: 26px;
-  }
-
-  .kpi-card:not(.kpi-card-hero) .kpi-amount {
-    font-size: 18px;
-  }
-
-  .kpi-subtitle {
-    display: none;
-  }
-
-  .kpi-card-hero .kpi-subtitle {
-    display: block;
-    font-size: 11px;
+@media (min-width: 768px) {
+  .dashboard-view {
+    gap: var(--space-6);
   }
 }
 
-@media (max-width: 360px) {
-  .dashboard-kpi-grid {
-    gap: var(--space-2);
-  }
-
-  .kpi-card {
-    padding: var(--space-2);
-  }
-
-  .kpi-card:not(.kpi-card-hero) .kpi-amount {
-    font-size: 15px;
-  }
+/* ==========================================================================
+   2. KPI Cards (Current Financial Position & Core Monthly Flow)
+   Canonical Mobile: 1-Column Stacked Compact Cards with Hero Display
+   Desktop (>= 768px): Progressive Enhancement to 3-Column Grid
+   ========================================================================== */
+.dashboard-kpi-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .kpi-card {
-  padding: var(--space-5);
-  border-radius: var(--radius-xl);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
   background-color: var(--color-bg-surface);
   border: 1px solid var(--color-border-subtle);
   box-shadow: var(--shadow-sm);
   display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
   position: relative;
+  min-width: 0;
+  box-sizing: border-box;
   transition-property: transform, box-shadow, border-color;
   transition-duration: var(--duration-fast);
   transition-timing-function: var(--ease-standard);
@@ -93,10 +59,16 @@
   border-color: var(--color-border-strong);
 }
 
-/* Net Financial Position (Hero Highlight) */
+/* Net Financial Position (Hero Card) */
 .kpi-card-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
   border-color: var(--color-border-strong);
   background: linear-gradient(180deg, var(--color-bg-surface) 0%, var(--color-bg-surface-subtle) 100%);
+  gap: var(--space-2);
 }
 
 [data-theme="dark"] .kpi-card-hero {
@@ -107,53 +79,83 @@
 .kpi-header {
   display: flex;
   align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+  flex: 1;
+}
+
+.kpi-card-hero .kpi-header {
   justify-content: space-between;
+  flex: none;
 }
 
 .kpi-label {
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kpi-card-hero .kpi-label {
+  font-size: 14px;
 }
 
 .kpi-tag {
-  padding: 2px 8px;
+  padding: 2px 7px;
   border-radius: var(--radius-full);
   background-color: var(--color-bg-surface-active);
   color: var(--color-text-primary);
   font-weight: 600;
+  font-size: 11px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .kpi-badge-green {
-  padding: 2px 8px;
+  padding: 2px 7px;
   border-radius: var(--radius-full);
   background-color: var(--color-income-subtle);
   color: var(--color-income);
   font-weight: 600;
+  font-size: 11px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .kpi-badge-amber {
-  padding: 2px 8px;
+  padding: 2px 7px;
   border-radius: var(--radius-full);
   background-color: var(--color-liability-subtle);
   color: var(--color-liability);
   font-weight: 600;
+  font-size: 11px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .kpi-badge-neutral {
-  padding: 2px 8px;
+  padding: 2px 7px;
   border-radius: var(--radius-full);
   background-color: var(--color-bg-surface-subtle);
   color: var(--color-text-muted);
   font-weight: 500;
+  font-size: 11px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .mom-delta-badge {
   display: inline-flex;
   align-items: center;
   gap: 3px;
-  padding: 2px 8px;
+  padding: 2px 7px;
   border-radius: var(--radius-full);
   font-weight: 600;
+  font-size: 11px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .mom-delta-badge.positive {
@@ -174,74 +176,151 @@
 .kpi-amount-row {
   display: flex;
   align-items: baseline;
-  gap: var(--space-2);
+  gap: 4px;
   line-height: 1.15;
+  flex-shrink: 0;
+}
+
+.kpi-card-hero .kpi-amount-row {
+  gap: var(--space-2);
 }
 
 .kpi-amount {
   font-weight: 700;
+  font-size: 16px;
+}
+
+.kpi-card-hero .kpi-amount {
+  font-size: 28px;
+  font-weight: 800;
 }
 
 .kpi-currency {
   color: var(--color-text-secondary);
   font-weight: 500;
+  font-size: 11px;
+}
+
+.kpi-card-hero .kpi-currency {
+  font-size: 14px;
 }
 
 .kpi-subtitle {
-  color: var(--color-text-muted);
-  line-height: 1.4;
-  margin: 0;
+  display: none;
 }
 
 .kpi-surplus-row {
   color: var(--color-text-secondary);
   margin-top: 2px;
+  font-size: 11px;
 }
 
-/* 3. Account Balance Cards Section */
+/* Progressive Enhancement for Desktop Screen Sizes (>= 768px) */
+@media (min-width: 768px) {
+  .dashboard-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+
+  .kpi-card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: var(--space-5);
+    border-radius: var(--radius-xl);
+    gap: var(--space-2);
+  }
+
+  .kpi-card-hero {
+    grid-column: span 1;
+    padding: var(--space-5);
+    border-radius: var(--radius-xl);
+  }
+
+  .kpi-header {
+    justify-content: space-between;
+    flex: none;
+  }
+
+  .kpi-label {
+    font-size: 14px;
+  }
+
+  .kpi-card:not(.kpi-card-hero) .kpi-amount {
+    font-size: 22px;
+  }
+
+  .kpi-card-hero .kpi-amount {
+    font-size: 32px;
+  }
+
+  .kpi-subtitle {
+    display: block;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+    margin: 0;
+    font-size: 12px;
+  }
+}
+
+/* ==========================================================================
+   3. Account Balance Cards Section
+   Canonical Mobile: 1-Column Full-Width List (Zero Horizontal Cutoff)
+   Desktop (>= 768px): Progressive Enhancement to Multi-Column Grid
+   ========================================================================== */
 .account-balances-section {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-3);
   width: 100%;
+  min-width: 0;
 }
 
 .section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  min-width: 0;
 }
 
 .section-title-wrap {
   display: flex;
   align-items: baseline;
-  gap: var(--space-3);
+  gap: var(--space-2);
+  min-width: 0;
 }
 
 .section-title {
   color: var(--color-text-primary);
   margin: 0;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .section-counter {
   color: var(--color-text-secondary);
+  font-size: 12px;
 }
 
 .section-action-link {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
+  gap: 2px;
   background: none;
   border: none;
   color: var(--color-brand-primary);
   font-family: var(--font-family-base);
   font-weight: 600;
+  font-size: 13px;
   cursor: pointer;
   padding: var(--space-1) var(--space-2);
   border-radius: var(--radius-sm);
   transition-property: color, background-color, transform;
   transition-duration: var(--duration-fast);
   transition-timing-function: var(--ease-standard);
+  flex-shrink: 0;
 }
 
 .section-action-link:hover {
@@ -253,50 +332,39 @@
   transform: scale(0.96);
 }
 
-/* Accounts Horizontal Scroll Track */
+/* Accounts Track (Canonical 1-Column on Mobile) */
 .accounts-scroll-track {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
   width: 100%;
-}
-
-@media (max-width: 640px) {
-  .accounts-scroll-track {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: var(--space-2);
-    gap: var(--space-3);
-  }
-
-  .accounts-scroll-track .account-card {
-    min-width: 240px;
-    scroll-snap-align: start;
-    flex-shrink: 0;
-  }
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .account-card {
-  padding: var(--space-4);
-  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
   background-color: var(--color-bg-surface);
   border: 1px solid var(--color-border-subtle);
   box-shadow: var(--shadow-sm);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
   cursor: pointer;
   outline: none;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   transition-property: transform, box-shadow, border-color;
   transition-duration: var(--duration-fast);
   transition-timing-function: var(--ease-standard);
 }
 
 .account-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   box-shadow: var(--shadow-md);
   border-color: var(--color-border-strong);
 }
@@ -317,7 +385,9 @@
 .account-card-top {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: var(--space-3);
+  min-width: 0;
+  flex: 1;
 }
 
 .account-icon-badge {
@@ -329,6 +399,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .account-icon-badge.liability {
@@ -339,16 +410,19 @@
 .account-type-tag {
   color: var(--color-text-muted);
   font-weight: 500;
+  font-size: 11px;
 }
 
 .account-card-body {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: 2px;
+  min-width: 0;
 }
 
 .account-name-text {
   font-weight: 600;
+  font-size: 14px;
   color: var(--color-text-primary);
   white-space: nowrap;
   overflow: hidden;
@@ -358,28 +432,33 @@
 .account-balance-row {
   display: flex;
   align-items: baseline;
-  gap: var(--space-2);
+  gap: 4px;
+  flex-shrink: 0;
 }
 
 .account-balance-amount {
   font-weight: 700;
+  font-size: 15px;
 }
 
 .account-balance-currency {
   color: var(--color-text-secondary);
+  font-size: 11px;
 }
 
 .account-card-footer {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  min-height: 22px;
+  justify-content: flex-end;
+  flex-shrink: 0;
 }
 
 .liability-pill {
-  padding: 2px 8px;
+  padding: 2px 7px;
   border-radius: var(--radius-xs);
   font-weight: 600;
+  font-size: 11px;
+  white-space: nowrap;
 }
 
 .liability-pill.alert {
@@ -394,39 +473,107 @@
 
 .account-status-subtle {
   color: var(--color-text-muted);
+  font-size: 11px;
 }
 
-/* 4. Two-Column Analytics Widgets Grid (Donut & Cash Flow Bar) */
+/* Empty State for Accounts */
+.account-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+  gap: var(--space-2);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-surface);
+  border: 1px dashed var(--color-border-strong);
+}
+
+.account-empty-state .empty-icon {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-1);
+}
+
+/* Desktop Progressive Enhancement for Account Cards (>= 768px) */
+@media (min-width: 768px) {
+  .account-balances-section {
+    gap: var(--space-4);
+  }
+
+  .section-title {
+    font-size: 18px;
+  }
+
+  .accounts-scroll-track {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .account-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    gap: var(--space-3);
+    align-items: stretch;
+  }
+
+  .account-card-top {
+    justify-content: space-between;
+    flex: none;
+  }
+
+  .account-card-footer {
+    justify-content: flex-start;
+    min-height: 22px;
+  }
+}
+
+/* ==========================================================================
+   4. Analytics Widgets (Category Donut & Cash Flow Trend)
+   Canonical Mobile: 1-Column Stack
+   Desktop (>= 1024px): 2-Column Responsive Grid
+   ========================================================================== */
 .dashboard-grid-two-col {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
   width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
-@media (max-width: 960px) {
+@media (min-width: 1024px) {
   .dashboard-grid-two-col {
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
   }
 }
 
 .dashboard-widget {
-  padding: var(--space-5);
-  border-radius: var(--radius-xl);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
   background-color: var(--color-bg-surface);
   border: 1px solid var(--color-border-subtle);
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-3);
   position: relative;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
-@media (max-width: 680px) {
+@media (min-width: 768px) {
   .dashboard-widget {
-    padding: var(--space-3);
-    gap: var(--space-3);
-    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    border-radius: var(--radius-xl);
+    gap: var(--space-4);
   }
 }
 
@@ -434,39 +581,53 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  min-width: 0;
 }
 
 .widget-title {
   color: var(--color-text-primary);
   margin: 0;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .widget-subtitle {
   color: var(--color-text-secondary);
+  font-size: 12px;
 }
 
 .badge-count {
-  padding: 3px 8px;
+  padding: 2px 7px;
   border-radius: var(--radius-full);
   background-color: var(--color-bg-surface-subtle);
   color: var(--color-text-secondary);
   font-weight: 600;
+  font-size: 11px;
 }
 
 /* 5. Donut Chart Styles */
 .breakdown-content-container {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-3);
+  width: 100%;
+  min-width: 0;
 }
 
 .donut-chart-container {
   position: relative;
   width: 100%;
-  height: 240px;
+  height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .donut-chart-container {
+    height: 240px;
+  }
 }
 
 .donut-slice {
@@ -492,7 +653,8 @@
 .center-label {
   color: var(--color-text-muted);
   font-weight: 500;
-  max-width: 110px;
+  font-size: 12px;
+  max-width: 100px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -502,28 +664,31 @@
   font-weight: 700;
   color: var(--color-text-primary);
   line-height: 1.2;
+  font-size: 16px;
 }
 
 .center-currency {
   color: var(--color-text-secondary);
   font-weight: 600;
+  font-size: 11px;
 }
 
 /* 6. Accessible Table Fallback (A11y) */
 .table-fallback-wrapper {
   width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .a11y-breakdown-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: 12px;
   text-align: right;
 }
 
 .a11y-breakdown-table th {
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-2);
   color: var(--color-text-muted);
   font-weight: 600;
   border-bottom: 1px solid var(--color-border-subtle);
@@ -531,25 +696,10 @@
 }
 
 .a11y-breakdown-table td {
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-2);
   border-bottom: 1px solid var(--color-divider);
   color: var(--color-text-primary);
   vertical-align: middle;
-}
-
-@media (max-width: 500px) {
-  .a11y-breakdown-table th:last-child,
-  .a11y-breakdown-table td:last-child {
-    display: none;
-  }
-  .pct-bar-wrapper {
-    min-width: 48px;
-  }
-  .a11y-breakdown-table th,
-  .a11y-breakdown-table td {
-    padding: var(--space-2) var(--space-1);
-    font-size: 12px;
-  }
 }
 
 .breakdown-table-row {
@@ -566,6 +716,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  min-width: 0;
 }
 
 .cat-color-dot {
@@ -582,13 +733,16 @@
 
 .cat-name-label {
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90px;
 }
 
 .pct-bar-wrapper {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  min-width: 90px;
+  gap: var(--space-1);
+  min-width: 40px;
 }
 
 .pct-bar-fill {
@@ -599,12 +753,14 @@
 
 .pct-value-text {
   color: var(--color-text-secondary);
+  font-size: 11px;
 }
 
 .table-total-row td {
   border-top: 2px solid var(--color-border-subtle);
   border-bottom: none;
-  padding-top: var(--space-3);
+  padding-top: var(--space-2);
+  font-weight: 700;
 }
 
 /* 7. Cash Flow Trend Chart Styles */
@@ -612,18 +768,20 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  font-size: 12px;
 }
 
 .legend-item {
   display: flex;
   align-items: center;
-  gap: var(--space-1);
+  gap: 4px;
 }
 
 .legend-dot {
   width: 8px;
   height: 8px;
   border-radius: var(--radius-full);
+  flex-shrink: 0;
 }
 
 .legend-dot.income {
@@ -636,39 +794,47 @@
 
 .bar-chart-container {
   width: 100%;
-  height: 260px;
+  height: 200px;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .bar-chart-container {
+    height: 260px;
+  }
 }
 
 /* Recharts Custom Tooltip Styles */
 .chart-tooltip {
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--color-border-subtle);
   background-color: var(--color-bg-surface);
-  min-width: 180px;
+  min-width: 140px;
   direction: rtl;
   text-align: right;
+  font-size: 12px;
 }
 
 .tooltip-header {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  margin-bottom: var(--space-2);
+  margin-bottom: 4px;
 }
 
 .tooltip-body {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .tooltip-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: var(--space-2);
 }
 
 .color-indicator {
@@ -676,6 +842,7 @@
   height: 6px;
   border-radius: var(--radius-full);
   display: inline-block;
+  flex-shrink: 0;
 }
 
 .color-indicator.income {
@@ -689,18 +856,24 @@
 .tooltip-divider {
   height: 1px;
   background-color: var(--color-divider);
-  margin: 4px 0;
+  margin: 3px 0;
 }
 
-/* 8. Recent Transactions List Widget */
+/* ==========================================================================
+   8. Recent Transactions List Widget
+   Positioned above accounts on mobile for immediate daily activity access
+   ========================================================================== */
 .recent-transactions-widget {
   width: 100%;
+  min-width: 0;
 }
 
 .transactions-list {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+  width: 100%;
+  min-width: 0;
 }
 
 .tx-item-card {
@@ -713,6 +886,9 @@
   border: 1px solid var(--color-border-subtle);
   cursor: pointer;
   outline: none;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   transition-property: transform, background-color, border-color, box-shadow;
   transition-duration: var(--duration-fast);
   transition-timing-function: var(--ease-standard);
@@ -734,8 +910,8 @@
 }
 
 .tx-icon-badge {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
@@ -751,103 +927,96 @@
   min-width: 0;
 }
 
-.tx-title-row {
-  display: flex;
-  align-items: center;
-}
-
-.tx-title-text {
-  color: var(--color-text-primary);
+.tx-title {
+  font-size: 14px;
+  font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: var(--color-text-primary);
 }
 
-.tx-meta-row {
+.tx-meta {
   display: flex;
   align-items: center;
   gap: var(--space-2);
   color: var(--color-text-muted);
-}
-
-.tx-account-name {
+  font-size: 11px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.tx-date-separator {
-  color: var(--color-text-muted);
-}
-
-.tx-date-badge {
-  flex-shrink: 0;
+.tx-meta-dot {
+  font-size: 8px;
+  opacity: 0.6;
 }
 
 .tx-amount-col {
   display: flex;
-  align-items: baseline;
-  gap: var(--space-1);
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
   flex-shrink: 0;
 }
 
-/* 9. Empty States */
-.chart-empty-state,
-.tx-empty-state,
-.account-empty-state {
+.tx-amount {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.tx-currency {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+
+/* Empty State for Recent Transactions */
+.tx-empty-state {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: var(--space-6) var(--space-4);
   text-align: center;
-  padding: var(--space-8) var(--space-4);
   gap: var(--space-2);
-  border: 1.5px dashed var(--color-border-subtle);
   border-radius: var(--radius-lg);
   background-color: var(--color-bg-surface-subtle);
+  border: 1px dashed var(--color-border-strong);
 }
 
-.empty-icon-wrap {
-  width: 56px;
-  height: 56px;
-  border-radius: var(--radius-full);
-  background-color: var(--color-bg-surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: var(--space-2);
-  border: 1px solid var(--color-border-subtle);
+.tx-empty-state .empty-icon-wrap {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-1);
 }
 
-.empty-title {
+.tx-empty-state .empty-title {
+  font-size: 15px;
+  font-weight: 700;
   color: var(--color-text-primary);
   margin: 0;
 }
 
-.empty-desc {
-  color: var(--color-text-secondary);
-  max-width: 400px;
-  line-height: 1.5;
-  margin: 0 0 var(--space-2);
+.tx-empty-state .empty-desc {
+  color: var(--color-text-muted);
+  font-size: 12px;
+  margin: 0;
 }
 
-/* 10. Dashboard Skeleton Loading State */
-.dashboard-loading-skeleton {
+/* ==========================================================================
+   9. Loading Skeleton Styles
+   ========================================================================== */
+.skeleton-kpi-grid {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: var(--space-2);
   width: 100%;
 }
 
-.skeleton-kpi-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-4);
-}
-
-@media (max-width: 900px) {
+@media (min-width: 768px) {
   .skeleton-kpi-grid {
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
   }
 }
 
@@ -873,16 +1042,37 @@
 }
 
 .skeleton-card {
-  height: 120px;
-  border-radius: var(--radius-xl);
+  height: 54px;
+  border-radius: var(--radius-md);
+}
+
+@media (min-width: 768px) {
+  .skeleton-card {
+    height: 120px;
+    border-radius: var(--radius-xl);
+  }
 }
 
 .skeleton-banner {
-  height: 100px;
-  border-radius: var(--radius-xl);
+  height: 56px;
+  border-radius: var(--radius-lg);
+}
+
+@media (min-width: 768px) {
+  .skeleton-banner {
+    height: 100px;
+    border-radius: var(--radius-xl);
+  }
 }
 
 .skeleton-chart {
-  height: 320px;
-  border-radius: var(--radius-xl);
+  height: 220px;
+  border-radius: var(--radius-lg);
+}
+
+@media (min-width: 768px) {
+  .skeleton-chart {
+    height: 320px;
+    border-radius: var(--radius-xl);
+  }
 }

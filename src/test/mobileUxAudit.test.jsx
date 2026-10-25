@@ -43,7 +43,7 @@ describe('Mobile UX Audit & Responsive Invariant Suite (F-MOB)', () => {
       expect(appShellCss).toContain('env(safe-area-inset-bottom, 0px)');
       expect(appShellCss).toContain('--bottom-nav-height');
       // Padding bottom on main content ensures center FAB does not conceal last content row
-      expect(appShellCss).toContain('calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px) + var(--space-8))');
+      expect(appShellCss).toContain('calc(var(--bottom-nav-height) + env(safe-area-inset-bottom, 0px) + var(--space-6))');
     });
 
     it('ensures text overflow protection on mobile top bar title', () => {
@@ -73,17 +73,25 @@ describe('Mobile UX Audit & Responsive Invariant Suite (F-MOB)', () => {
   });
 
   describe('3. Content Density & Horizontal Overflow Prevention', () => {
-    it('restructures dashboard KPI grid to Hero + 2x2 grid on mobile', () => {
-      expect(dashboardCss).toContain('grid-template-columns: repeat(2, 1fr)');
-      expect(dashboardCss).toContain('grid-column: span 2');
+    it('restructures dashboard KPI grid to canonical 1-column mobile flow without 2-column forcing', () => {
+      expect(dashboardCss).toContain('.dashboard-kpi-grid');
+      expect(dashboardCss).toContain('display: flex');
+      expect(dashboardCss).toContain('flex-direction: column');
+      expect(dashboardCss).toContain('grid-template-columns: repeat(3, 1fr)');
     });
 
-    it('restructures reports KPI grid to Hero + 2x2 on mobile and handles long badges with ellipsis', () => {
-      expect(reportsCss).toContain('grid-template-columns: repeat(2, 1fr)');
+    it('enforces accounts track to full-width mobile list eliminating horizontal cutoff', () => {
+      expect(dashboardCss).toContain('.accounts-scroll-track');
+      expect(dashboardCss).toContain('flex-direction: column');
+    });
+
+    it('restructures reports KPI grid to mobile-first flow and handles long badges with ellipsis', () => {
+      expect(reportsCss).toContain('.reports-kpi-grid');
+      expect(reportsCss).toContain('flex-direction: column');
       expect(reportsCss).toContain('text-overflow: ellipsis');
     });
 
-    it('handles compact screen padding (<=375px)', () => {
+    it('handles compact screen padding with mobile-first default', () => {
       expect(appShellCss).toContain('padding: var(--space-3)');
     });
   });
@@ -248,8 +256,8 @@ describe('Mobile UX Audit & Responsive Invariant Suite (F-MOB)', () => {
       expect(isMobileWidth || height <= 500).toBe(true);
 
       if (width <= 375) {
-        // Must have padding reduction for <= 375px
-        expect(appShellCss).toContain('@media (max-width: 375px)');
+        // Must have padding reduction (12px = var(--space-3)) for mobile canonical layout
+        expect(appShellCss).toContain('padding: var(--space-3)');
       }
       if (width <= 480) {
         expect(ledgerCss).toContain('@media (max-width: 480px)');

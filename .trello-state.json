@@ -990,7 +990,7 @@
         "MVP"
       ],
       "dependencies": [],
-      "description": "### Feature ID\nF-MOB\n\n### Behavior\nComprehensive mobile-first overhaul eliminating horizontal overflow, keyboard overlap, fixed viewport height clipping, desktop-first density, chart squishing, and touch target violations across all screens (Dashboard, Quick Add, Ledger, Reports, Categories, Navigation) from 320px to 430px+.\n\n### Verification\nnpm test && npm run lint && npm run build\n\n### Harness State\npassing\n\n### Dependencies\nNone\n\n### Evidence\nAll 20 test suites and 373 tests passed (including 25 mobile UX responsive invariant tests in src/test/mobileUxAudit.test.jsx), ESLint 10 passed with 0 errors, Vite build succeeded with 0 errors.",
+      "description": "### Feature ID\nF-MOB\n\n### Behavior\nComprehensive mobile-first overhaul eliminating horizontal overflow, keyboard overlap, fixed viewport height clipping, desktop-first density, chart squishing, and touch target violations across all screens (Dashboard, Quick Add, Ledger, Reports, Categories, Navigation) from 320px to 430px+.\n\n### Verification\nnpm test && npm run lint && npm run build\n\n### Harness State\npassing\n\n### Dependencies\nNone\n\n### Evidence\nAll 20 test suites and 374 Vitest tests passed, ESLint 10 passed with 0 errors, Vite 8 build succeeded, and automated Headless Chrome verified zero horizontal overflow (scrollWidth <= clientWidth) across all 8 mobile viewports (320px to 430px+ and landscape) on all core routes.\n\n### Commit\n799ec40\n\n### Completion Date\n2026-10-25",
       "checklists": [
         {
           "name": "Implementation",
