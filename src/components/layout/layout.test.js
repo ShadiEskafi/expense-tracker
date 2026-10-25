@@ -144,5 +144,22 @@ describe('F008: Arabic-First & RTL Design System Layout Shell', () => {
       expect(shellContent).toContain('@media (max-width: 767px)');
       expect(shellContent).toContain('scale(0.96)');
     });
+
+    it('verifies anti-FOUC inline script in index.html prevents dark mode refresh flash', async () => {
+      const fs = await import('node:fs');
+      const path = await import('node:path');
+      const { fileURLToPath } = await import('node:url');
+      const dir = path.dirname(fileURLToPath(import.meta.url));
+      const htmlPath = path.resolve(dir, '../../../index.html');
+      const htmlContent = fs.readFileSync(htmlPath, 'utf8');
+
+      // Must not have hardcoded light theme attribute on <html> element
+      expect(htmlContent).not.toContain('<html lang="ar" dir="rtl" data-theme="light">');
+      expect(htmlContent).toContain('<html lang="ar" dir="rtl">');
+
+      // Must have synchronous theme resolver before DOM renders
+      expect(htmlContent).toContain('expense_tracker_theme');
+      expect(htmlContent).toContain('document.documentElement.setAttribute(\'data-theme\', theme)');
+    });
   });
 });

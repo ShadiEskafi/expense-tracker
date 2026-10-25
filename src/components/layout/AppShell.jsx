@@ -28,9 +28,13 @@ export function AppShell() {
   const [pendingCount, setPendingCount] = useState(0);
   const [lastSyncedText, setLastSyncedText] = useState('الآن');
 
-  // Initialize theme from localStorage or system preference
+  // Initialize theme from documentElement attribute (set synchronously by anti-FOUC script), localStorage, or system preference
   const [theme, setTheme] = useState(() => {
     try {
+      if (typeof document !== 'undefined') {
+        const current = document.documentElement.getAttribute('data-theme');
+        if (current === 'dark' || current === 'light') return current;
+      }
       const stored = localStorage.getItem(THEME_STORAGE_KEY);
       if (stored === 'dark' || stored === 'light') return stored;
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -42,9 +46,13 @@ export function AppShell() {
     return 'light';
   });
 
-  // Apply theme to document element
+  // Apply theme to document element and meta theme-color
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) {
+      meta.setAttribute('content', theme === 'dark' ? '#0B0F19' : '#0F172A');
+    }
     try {
       localStorage.setItem(THEME_STORAGE_KEY, theme);
     } catch {
