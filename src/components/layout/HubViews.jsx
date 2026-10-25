@@ -3,156 +3,21 @@ import {
   TransactionsIcon,
   ReportsIcon,
   CategoriesIcon,
-  PlusIcon,
 } from '../common/Icons';
+import { Dashboard } from '../dashboard/Dashboard.jsx';
 
 /**
- * Hub Views Previews for AppShell
+ * Hub Views for AppShell
  * Authentically styled according to design-system/screens.md
  */
 
-export function DashboardView({ onOpenQuickAdd }) {
+export function DashboardView({ onOpenQuickAdd, onSelectTab, refreshTrigger }) {
   return (
-    <div className="hub-view dashboard-view">
-      {/* 1. Net Position Hero / Summary Cards */}
-      <section className="metrics-summary-grid" aria-label="ملخص المركز المالي">
-        <div className="metric-card metric-card-primary">
-          <span className="metric-card-label text-caption">صافي المركز المالي</span>
-          <div className="metric-card-amount">
-            <span className="amount-value text-display financial-num">14,250.00</span>
-            <span className="amount-currency text-body">ر.س</span>
-          </div>
-          <span className="metric-card-sub text-caption">الأصول المتاحة مطروحاً منها الالتزامات</span>
-        </div>
-
-        <div className="metric-card">
-          <span className="metric-card-label text-caption">الأموال السائلة المتاحة</span>
-          <div className="metric-card-amount text-h2 color-income">
-            <span className="amount-value financial-num">17,500.00</span>
-            <span className="amount-currency text-caption">ر.س</span>
-          </div>
-          <span className="metric-card-sub text-caption">كاش الحسابات الجارية والمحافظ</span>
-        </div>
-
-        <div className="metric-card">
-          <span className="metric-card-label text-caption">التزامات البطاقات الائتمانية</span>
-          <div className="metric-card-amount text-h2 color-liability">
-            <span className="amount-value financial-num">3,250.00</span>
-            <span className="amount-currency text-caption">ر.س</span>
-          </div>
-          <span className="metric-card-sub text-caption">مستحق السداد (ديون قصيرة الأجل)</span>
-        </div>
-      </section>
-
-      {/* 2. Quick Actions & FTUX Welcome Banner */}
-      <section className="dashboard-banner-card">
-        <div className="banner-content">
-          <h3 className="banner-title text-h3">جاهز لإدارة مصاريفك بكل ثقة؟</h3>
-          <p className="banner-desc text-body">
-            تطبيق مَصاريفي يعمل بكامل طاقته محلياً دون الحاجة لإنترنت. يمكنك تسجيل أول مصروف بضغطة زر واحدة.
-          </p>
-        </div>
-        <button
-          type="button"
-          className="btn-primary banner-action-btn"
-          onClick={onOpenQuickAdd}
-        >
-          <PlusIcon size={18} />
-          <span>تسجيل معاملة سريعة</span>
-        </button>
-      </section>
-
-      {/* 3. Section Grid: Recent Transactions & Wallets */}
-      <div className="dashboard-grid-two-col">
-        <div className="surface-card">
-          <div className="surface-card-header">
-            <h4 className="text-h3">المحافظ والحسابات</h4>
-            <span className="text-caption">3 حسابات نشطة</span>
-          </div>
-          <div className="accounts-preview-list">
-            <div className="account-row-item">
-              <div className="account-icon-box">
-                <AccountsIcon size={18} />
-              </div>
-              <div className="account-info">
-                <span className="account-name text-body">الحساب الجاري الرئيسي</span>
-                <span className="account-type text-caption">مصرف الراجحي</span>
-              </div>
-              <div className="account-balance text-h3 financial-num">
-                12,500.00 <span className="text-caption">ر.س</span>
-              </div>
-            </div>
-
-            <div className="account-row-item">
-              <div className="account-icon-box">
-                <AccountsIcon size={18} />
-              </div>
-              <div className="account-info">
-                <span className="account-name text-body">نقدية المحفظة (كاش)</span>
-                <span className="account-type text-caption">أموال نقدية</span>
-              </div>
-              <div className="account-balance text-h3 financial-num">
-                5,000.00 <span className="text-caption">ر.س</span>
-              </div>
-            </div>
-
-            <div className="account-row-item is-liability">
-              <div className="account-icon-box">
-                <AccountsIcon size={18} />
-              </div>
-              <div className="account-info">
-                <span className="account-name text-body">بطاقة فيزا الائتمانية</span>
-                <span className="liability-badge text-micro">مستحق السداد</span>
-              </div>
-              <div className="account-balance text-h3 color-liability financial-num">
-                - 3,250.00 <span className="text-caption">ر.س</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="surface-card">
-          <div className="surface-card-header">
-            <h4 className="text-h3">آخر المعاملات المسجلة</h4>
-            <span className="text-caption">سجل اليوم</span>
-          </div>
-          <div className="transactions-preview-list">
-            <div className="tx-row-item">
-              <div className="tx-badge-dot expense" />
-              <div className="tx-info">
-                <span className="tx-title text-body">مشتريات بقالة وسوبرماركت</span>
-                <span className="tx-meta text-caption">الحساب الجاري • طعام ومؤونة</span>
-              </div>
-              <div className="tx-amount color-expense text-body financial-num">
-                - 145.00 <span className="text-caption">ر.س</span>
-              </div>
-            </div>
-
-            <div className="tx-row-item">
-              <div className="tx-badge-dot income" />
-              <div className="tx-info">
-                <span className="tx-title text-body">راتب شهري أساسي</span>
-                <span className="tx-meta text-caption">الحساب الجاري • الراتب والمهنة</span>
-              </div>
-              <div className="tx-amount color-income text-body financial-num">
-                + 15,000.00 <span className="text-caption">ر.س</span>
-              </div>
-            </div>
-
-            <div className="tx-row-item">
-              <div className="tx-badge-dot transfer" />
-              <div className="tx-info">
-                <span className="tx-title text-body">سداد بطاقة الائتمان</span>
-                <span className="tx-meta text-caption">من الجاري إلى فيزا الائتمانية</span>
-              </div>
-              <div className="tx-amount color-transfer text-body financial-num">
-                ↔ 1,000.00 <span className="text-caption">ر.س</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Dashboard
+      onOpenQuickAdd={onOpenQuickAdd}
+      onSelectTab={onSelectTab}
+      refreshTrigger={refreshTrigger}
+    />
   );
 }
 

@@ -27,6 +27,7 @@ export function AppShell() {
   const [syncStatus, setSyncStatus] = useState('synced');
   const [pendingCount, setPendingCount] = useState(0);
   const [lastSyncedText, setLastSyncedText] = useState('الآن');
+  const [dashboardRefreshTrigger, setDashboardRefreshTrigger] = useState(0);
 
   // Initialize theme from documentElement attribute (set synchronously by anti-FOUC script), localStorage, or system preference
   const [theme, setTheme] = useState(() => {
@@ -78,6 +79,10 @@ export function AppShell() {
     setIsQuickAddOpen(false);
   }, []);
 
+  const handleQuickAddSuccess = useCallback(() => {
+    setDashboardRefreshTrigger((prev) => prev + 1);
+  }, []);
+
   const handleOpenSearch = useCallback(() => {
     setActiveTab('transactions');
   }, []);
@@ -121,7 +126,13 @@ export function AppShell() {
   const renderActiveView = () => {
     switch (activeTab) {
       case 'dashboard':
-        return <DashboardView onOpenQuickAdd={handleOpenQuickAdd} />;
+        return (
+          <DashboardView
+            onOpenQuickAdd={handleOpenQuickAdd}
+            onSelectTab={setActiveTab}
+            refreshTrigger={dashboardRefreshTrigger}
+          />
+        );
       case 'transactions':
         return <TransactionsView />;
       case 'accounts':
@@ -133,7 +144,13 @@ export function AppShell() {
       case 'settings':
         return <SettingsView theme={theme} onToggleTheme={handleToggleTheme} />;
       default:
-        return <DashboardView onOpenQuickAdd={handleOpenQuickAdd} />;
+        return (
+          <DashboardView
+            onOpenQuickAdd={handleOpenQuickAdd}
+            onSelectTab={setActiveTab}
+            refreshTrigger={dashboardRefreshTrigger}
+          />
+        );
     }
   };
 
@@ -194,6 +211,7 @@ export function AppShell() {
       <QuickAdd
         isOpen={isQuickAddOpen}
         onClose={handleCloseQuickAdd}
+        onSuccess={handleQuickAddSuccess}
       />
     </div>
   );

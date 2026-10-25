@@ -16,7 +16,6 @@
       "F019"
     ],
     "Ready": [
-      "F010",
       "F011",
       "F013",
       "F014",
@@ -35,7 +34,8 @@
       "F006",
       "F007",
       "F008",
-      "F009"
+      "F009",
+      "F010"
     ]
   },
   "wip_count": 0,
@@ -630,7 +630,7 @@
         "F005",
         "F008"
       ],
-      "description": "### Feature ID\nF009\n\n### Behavior\nFast transaction entry form requiring only amount and category, with auto-focused decimal keypad on mobile, today default date, last-used account, and non-destructive validation.\n\n### Verification\nnpm test src/components/QuickAdd.test.jsx\n\n### Harness State\npassing\n\n### Dependencies\n- F005\n- F008\n\n### Evidence\nAll 20 unit and integration tests passed in src/components/QuickAdd.test.jsx (607ms), verifying accessible dialog semantics (role=dialog, aria-modal, aria-labelledby), 3-mode segmented switcher (expense, income, transfer), amount input with decimal keypad and tabular numbers, today default date, last-used account persistence in localStorage, category chips filtering by mode, collapsible details (notes and tags), non-destructive validation preserving user inputs, error-state shake keyframes, concentric border-radius, scale(0.96) press feedback, and atomic Dexie database persistence with ledger balance recalculation.",
+      "description": "### Feature ID\nF009\n\n### Behavior\nFast transaction entry form requiring only amount and category, with auto-focused decimal keypad on mobile, today default date, last-used account, and non-destructive validation.\n\n### Verification\nnpm test src/components/QuickAdd.test.jsx\n\n### Harness State\npassing\n\n### Dependencies\n- F005\n- F008\n\n### Evidence\nAll 20 unit and integration tests passed in src/components/QuickAdd.test.jsx (607ms), verifying accessible dialog semantics (role=dialog, aria-modal, aria-labelledby), 3-mode segmented switcher (expense, income, transfer), amount input with decimal keypad and tabular numbers, today default date, last-used account persistence in localStorage, category chips filtering by mode, collapsible details (notes and tags), non-destructive validation preserving user inputs, error-state shake keyframes, concentric border-radius, scale(0.96) press feedback, and atomic Dexie database persistence with ledger balance recalculation.\n\n### Commit\nd9a73ec\n\n### Completion Date\n2026-10-25",
       "checklists": [
         {
           "name": "Implementation",
@@ -692,8 +692,8 @@
     {
       "id": "F010",
       "title": "[F010] Dashboard Financial Overview & Analytics Widgets",
-      "list": "Ready",
-      "harness_state": "not-started",
+      "list": "Done",
+      "harness_state": "passing",
       "labels": [
         "MVP",
         "UI/UX",
@@ -703,14 +703,14 @@
         "F007",
         "F008"
       ],
-      "description": "### Feature ID\nF010\n\n### Behavior\nRenders KPI metrics, account balance cards, recent transactions, spending category breakdown chart, and cash flow trend chart using Recharts with accessible fallbacks.\n\n### Verification\nnpm run lint && npm run build\n\n### Harness State\nnot-started\n\n### Dependencies\n- F007\n- F008",
+      "description": "### Feature ID\nF010\n\n### Behavior\nRenders KPI metrics, account balance cards, recent transactions, spending category breakdown chart, and cash flow trend chart using Recharts with accessible fallbacks.\n\n### Verification\nnpm run lint && npm run build\n\n### Harness State\npassing\n\n### Dependencies\n- F007\n- F008\n\n### Evidence\nAll checks passed: npm run lint with 0 errors, npm run build producing production bundle in 2.98s, 7 backend analytics unit tests in src/services/dashboardAnalytics.test.js, and 13 integration tests in src/components/dashboard/Dashboard.test.jsx (total 252 automated tests passing across 13 test files). Fully implements 5 financial health KPI cards (Net Financial Position hero, Available Liquid Funds, Total Liabilities with credit card alerts, Month Expenses with MoM delta percentage pill, and Month Income with cash flow surplus), horizontally scrollable/grid account balance cards with ledger-calculated balances, Recharts Donut category spending breakdown chart with interactive central amount and accessible table fallback, Recharts Grouped Bar cash flow trend chart (weekly income vs expense) with accessible table fallback, recent transactions list widget with categorized vector icons and tabular numbers, welcoming FTUX quick add banner, and seamless real-time refresh upon transaction creation.",
       "checklists": [
         {
           "name": "Implementation",
           "items": [
             {
               "name": "Feature implemented",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -719,23 +719,23 @@
           "items": [
             {
               "name": "Feature verification passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant tests passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Typecheck passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Lint passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Build passed",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -744,19 +744,19 @@
           "items": [
             {
               "name": "feature_list.json updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "progress.md updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant docs updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Atomic commit created",
-              "checked": false
+              "checked": true
             }
           ]
         }

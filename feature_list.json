@@ -80,8 +80,8 @@
       "name": "Dashboard Financial Overview & Analytics Widgets",
       "behavior": "Renders KPI metrics, account balance cards, recent transactions, spending category breakdown chart, and cash flow trend chart using Recharts with accessible fallbacks.",
       "verification": "npm run lint && npm run build",
-      "state": "not-started",
-      "evidence": null
+      "state": "passing",
+      "evidence": "All checks passed: npm run lint with 0 errors, npm run build producing production bundle in 2.98s, 7 backend analytics unit tests in src/services/dashboardAnalytics.test.js, and 13 integration tests in src/components/dashboard/Dashboard.test.jsx (total 252 automated tests passing across 13 test files). Fully implements 5 financial health KPI cards (Net Financial Position hero, Available Liquid Funds, Total Liabilities with credit card alerts, Month Expenses with MoM delta percentage pill, and Month Income with cash flow surplus), horizontally scrollable/grid account balance cards with ledger-calculated balances, Recharts Donut category spending breakdown chart with interactive central amount and accessible table fallback, Recharts Grouped Bar cash flow trend chart (weekly income vs expense) with accessible table fallback, recent transactions list widget with categorized vector icons and tabular numbers, welcoming FTUX quick add banner, and seamless real-time refresh upon transaction creation."
     },
     {
       "id": "F011",
