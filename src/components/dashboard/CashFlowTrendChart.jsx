@@ -154,6 +154,7 @@ export function CashFlowTrendChart({
                 />
                 <YAxis
                   orientation="right"
+                  width={36}
                   tickLine={false}
                   axisLine={{ stroke: 'var(--color-border-subtle)' }}
                   tick={{ fill: 'var(--color-text-muted)', fontSize: 11 }}

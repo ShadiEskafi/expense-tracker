@@ -160,7 +160,7 @@ export function AppShell() {
           />
         );
       case 'settings':
-        return <SettingsView theme={theme} onToggleTheme={handleToggleTheme} />;
+        return <SettingsView theme={theme} onToggleTheme={handleToggleTheme} onSelectTab={setActiveTab} />;
       default:
         return (
           <DashboardView

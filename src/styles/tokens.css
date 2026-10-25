@@ -89,11 +89,17 @@
   --bottom-nav-height: 64px;
   --content-max-width: 1200px;
 
+  /* Mobile Safe Area & Viewport Insets */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+
   /* Hit Targets & Minimum Touch Sizing (WCAG AA) */
   --size-touch-min: 44px;
   --size-btn-height-lg: 52px;
   --size-btn-height-md: 44px;
-  --size-btn-height-sm: 36px;
+  --size-btn-height-sm: 40px;
   --size-input-height: 48px;
   --size-amount-display: 40px;
   --size-icon-sm: 16px;

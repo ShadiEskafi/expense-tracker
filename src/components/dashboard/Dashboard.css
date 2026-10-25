@@ -28,7 +28,48 @@
 
 @media (max-width: 680px) {
   .dashboard-kpi-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+
+  .kpi-card-hero {
+    grid-column: span 2;
+  }
+
+  .kpi-card {
+    padding: var(--space-3);
+    gap: var(--space-1);
+  }
+
+  .kpi-card-hero .kpi-amount {
+    font-size: 26px;
+  }
+
+  .kpi-card:not(.kpi-card-hero) .kpi-amount {
+    font-size: 18px;
+  }
+
+  .kpi-subtitle {
+    display: none;
+  }
+
+  .kpi-card-hero .kpi-subtitle {
+    display: block;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 360px) {
+  .dashboard-kpi-grid {
+    gap: var(--space-2);
+  }
+
+  .kpi-card {
+    padding: var(--space-2);
+  }
+
+  .kpi-card:not(.kpi-card-hero) .kpi-amount {
+    font-size: 15px;
   }
 }
 
@@ -381,6 +422,14 @@
   position: relative;
 }
 
+@media (max-width: 680px) {
+  .dashboard-widget {
+    padding: var(--space-3);
+    gap: var(--space-3);
+    border-radius: var(--radius-lg);
+  }
+}
+
 .widget-header {
   display: flex;
   align-items: center;
@@ -486,6 +535,21 @@
   border-bottom: 1px solid var(--color-divider);
   color: var(--color-text-primary);
   vertical-align: middle;
+}
+
+@media (max-width: 500px) {
+  .a11y-breakdown-table th:last-child,
+  .a11y-breakdown-table td:last-child {
+    display: none;
+  }
+  .pct-bar-wrapper {
+    min-width: 48px;
+  }
+  .a11y-breakdown-table th,
+  .a11y-breakdown-table td {
+    padding: var(--space-2) var(--space-1);
+    font-size: 12px;
+  }
 }
 
 .breakdown-table-row {

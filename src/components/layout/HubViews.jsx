@@ -71,7 +71,7 @@ export function CategoriesView({ refreshTrigger, onCategoryMutated }) {
   );
 }
 
-export function SettingsView({ theme, onToggleTheme }) {
+export function SettingsView({ theme, onToggleTheme, onSelectTab }) {
   return (
     <div className="hub-view">
       <div className="surface-card">
@@ -82,6 +82,21 @@ export function SettingsView({ theme, onToggleTheme }) {
           </div>
         </div>
         <div className="settings-options-list">
+          {/* Mobile Secondary Access: Categories Management */}
+          <div className="settings-row-item">
+            <div className="settings-row-info">
+              <span className="text-body font-semibold">إدارة التصنيفات المالية</span>
+              <span className="text-caption">عرض، إضافة، وتعديل تصنيفات المصاريف والدخل المخصصة</span>
+            </div>
+            <button
+              type="button"
+              className="btn-primary"
+              onClick={() => onSelectTab && onSelectTab('categories')}
+            >
+              إدارة التصنيفات
+            </button>
+          </div>
+
           <div className="settings-row-item">
             <div className="settings-row-info">
               <span className="text-body font-semibold">مظهر التطبيق</span>

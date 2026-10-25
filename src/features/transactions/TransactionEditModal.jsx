@@ -137,6 +137,7 @@ export function TransactionEditModal({
         aria-labelledby="edit-dialog-title"
         onClick={(e) => e.stopPropagation()}
       >
+        <div className="sheet-drag-handle" aria-hidden="true" />
         <div className="modal-header">
           <h2 id="edit-dialog-title" className="text-h3">
             تعديل المعاملة

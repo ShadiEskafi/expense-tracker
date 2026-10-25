@@ -321,6 +321,9 @@ export function QuickAdd({
         onKeyDown={handleKeyDown}
         data-testid="quick-add-dialog"
       >
+        {/* 0. Mobile Drag Handle Indicator */}
+        <div className="quick-add-drag-handle" aria-hidden="true" />
+
         {/* 1. Header with Title & Accessible Close Button */}
         <div className="quick-add-header">
           <div className="quick-add-header-info">

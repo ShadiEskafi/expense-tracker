@@ -39,13 +39,14 @@ The project harness engineering foundation has been established with all 5 core 
 - [x] **F011**: Transaction Ledger, Keyword Search & Multi-Filtering (`src/features/transactions/` with `filter.js`, `filter.test.js` with 28 passing tests, `TransactionLedger.jsx`, `TransactionLedger.css`, `TransactionFilterDrawer.jsx`, `TransactionDetailModal.jsx`, `TransactionEditModal.jsx`, `TransactionDeleteConfirmModal.jsx`, `TransactionLedger.test.jsx` with 9 passing tests, wired into `AppShell.jsx` & `HubViews.jsx`, built with `/impeccable`, `/make-interfaces-feel-better`, `/ui-ux-pro-max`, `/transitions-dev`).
 - [x] **F012**: Periodic Reports & Analytics View (`src/features/reports/` with `reportsAnalytics.js`, `reportsAnalytics.test.js` with 20 passing tests, `ReportsView.jsx`, `ReportsView.css`, `ReportsPeriodControls.jsx`, `ReportsKpiCards.jsx`, `ReportsCategoryBreakdown.jsx`, `ReportsSpendingCadence.jsx`, `ReportsTopExpenses.jsx`, and `ReportsView.test.jsx` with 11 passing tests, total 320 passing tests across 17 suites, clean build and lint, wired into `AppShell.jsx` & `HubViews.jsx`, built with `/impeccable`, `/ui-ux-pro-max`, `/make-interfaces-feel-better`).
 - [x] **F013**: Categories Management View (`src/services/categoryGuard.js`, `src/services/categoryGuard.test.js` with 16 passing tests, `src/features/categories/` with `CategoriesView.jsx`, `CategoriesView.css`, `CategoryCard.jsx`, `CategoryFormModal.jsx`, `CategoryDeleteModal.jsx`, `categoryConstants.js`, and `CategoriesView.test.jsx` with 12 passing tests, total 348 passing tests across 19 suites, clean build and lint, wired into `AppShell.jsx` & `HubViews.jsx`, built with `/impeccable`, `/ui-ux-pro-max`, `/make-interfaces-feel-better`, `/transitions-dev`).
+- [x] **F-MOB**: Mobile UX Corrective Audit & Overhaul (`src/test/mobileUxAudit.test.jsx` with 25 passing tests, comprehensive updates across `design-system/`, `tokens.css`, `AppShell.css`, `QuickAdd.css`, `Dashboard.css`, `TransactionLedger.css`, `ReportsView.css`, `CategoriesView.css`, total 373 passing tests across 20 suites, 0 lint warnings/errors, clean Vite build, verified mobile-first from 320px to 430px+).
 - [x] **Trello Visual Tracking Integration**: Operational specification in `docs/project-tracking.md`, synchronization engine in `scripts/trello-sync.js`, routing in `AGENTS.md`, and 12 unit tests in `scripts/trello-sync.test.js`.
 
 ---
 
 ## 3. Current Focus & WIP Limit (WIP=1)
-- **Active Feature**: None currently in progress (`state: passing`).
-- **Next Feature in Queue**: **F014** (`Currency Configuration & Immutability Lock`).
+- **Active Feature**: None (F-MOB successfully concluded and verified).
+- **Next Feature in Queue**: **F014** (`Currency Configuration & Immutability Lock`). Ready for cold-start and activation.
 
 ---
 

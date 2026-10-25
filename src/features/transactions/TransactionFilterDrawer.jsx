@@ -114,6 +114,7 @@ export function TransactionFilterDrawer({
         aria-label="خيارات التصفية المتقدمة"
         onClick={(e) => e.stopPropagation()}
       >
+        <div className="sheet-drag-handle" aria-hidden="true" />
         {/* Header */}
         <div className="filter-drawer-header">
           <div className="header-title-wrap">

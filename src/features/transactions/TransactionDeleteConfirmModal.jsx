@@ -45,6 +45,7 @@ export function TransactionDeleteConfirmModal({
         aria-describedby="delete-dialog-desc"
         onClick={(e) => e.stopPropagation()}
       >
+        <div className="sheet-drag-handle" aria-hidden="true" />
         <div className="modal-header">
           <div className="delete-icon-badge">
             <TrashIcon size={24} className="color-expense" />

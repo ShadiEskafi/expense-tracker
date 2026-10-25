@@ -94,6 +94,7 @@ function CategoryDeleteModalContent({
       aria-modal="true"
       aria-labelledby="delete-modal-title"
     >
+      <div className="sheet-drag-handle" aria-hidden="true" />
       {/* Header */}
       <div className="cat-modal-header">
         <div className="cat-modal-header-titles">

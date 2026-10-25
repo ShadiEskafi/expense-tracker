@@ -116,6 +116,7 @@ export function ReportsSpendingCadence({
                 <YAxis
                   stroke="var(--color-text-muted)"
                   fontSize={11}
+                  width={36}
                   tickLine={false}
                   axisLine={{ stroke: 'var(--color-border-subtle)' }}
                   tickFormatter={(val) => `${val}`}

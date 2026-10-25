@@ -277,6 +277,7 @@ export function CategoryFormModal({
         aria-modal="true"
         aria-labelledby="category-modal-title"
       >
+        <div className="sheet-drag-handle" aria-hidden="true" />
         {/* Modal Header */}
         <div className="cat-modal-header">
           <div className="cat-modal-header-titles">

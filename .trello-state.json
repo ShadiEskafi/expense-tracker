@@ -1,6 +1,6 @@
 {
   "board_name": "Expense Management App — Harness Board",
-  "total_features": 20,
+  "total_features": 21,
   "lists": [
     "Backlog",
     "Ready",
@@ -35,7 +35,8 @@
       "F010",
       "F011",
       "F012",
-      "F013"
+      "F013",
+      "F-MOB"
     ]
   },
   "wip_count": 0,
@@ -921,7 +922,75 @@
         "F005",
         "F008"
       ],
-      "description": "### Feature ID\nF013\n\n### Behavior\nAllows viewing, adding, editing, and deleting custom categories with transaction reassignment guard preventing deletion of referenced categories.\n\n### Verification\nnpm test src/services/categoryGuard.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F003\n- F005\n- F008\n\n### Evidence\nAll checks passed: npm run lint with 0 errors, npm run build producing production bundle in 4.16s, 16 unit tests in src/services/categoryGuard.test.js, and 12 component tests in src/features/categories/CategoriesView.test.jsx (total 348 automated tests passing across 19 test suites). Fully implements Categories Management View with sliding tabs (Expense vs Income), real-time search & scope filter pills (الكل, الافتراضية, المخصصة), 4 overview metric counters, CategoryCard with badge & transaction usage count, CategoryFormModal for create & edit with type selector, name validation, 18-icon picker, 16-color palette and real-time preview, and CategoryDeleteModal with CategoryInUse transaction reassignment guard preventing deletion of referenced categories and atomically reassigning transactions.",
+      "description": "### Feature ID\nF013\n\n### Behavior\nAllows viewing, adding, editing, and deleting custom categories with transaction reassignment guard preventing deletion of referenced categories.\n\n### Verification\nnpm test src/services/categoryGuard.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F003\n- F005\n- F008\n\n### Evidence\nAll checks passed: npm run lint with 0 errors, npm run build producing production bundle in 4.16s, 16 unit tests in src/services/categoryGuard.test.js, and 12 component tests in src/features/categories/CategoriesView.test.jsx (total 348 automated tests passing across 19 test suites). Fully implements Categories Management View with sliding tabs (Expense vs Income), real-time search & scope filter pills (الكل, الافتراضية, المخصصة), 4 overview metric counters, CategoryCard with badge & transaction usage count, CategoryFormModal for create & edit with type selector, name validation, 18-icon picker, 16-color palette and real-time preview, and CategoryDeleteModal with CategoryInUse transaction reassignment guard preventing deletion of referenced categories and atomically reassigning transactions.\n\n### Commit\n629b292\n\n### Completion Date\n2026-10-25",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": true
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": true
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": true
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": true
+            },
+            {
+              "name": "Lint passed",
+              "checked": true
+            },
+            {
+              "name": "Build passed",
+              "checked": true
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": true
+            },
+            {
+              "name": "progress.md updated",
+              "checked": true
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": true
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F-MOB",
+      "title": "[F-MOB] Mobile UX Corrective Audit & Fix",
+      "list": "Done",
+      "harness_state": "passing",
+      "labels": [
+        "MVP"
+      ],
+      "dependencies": [],
+      "description": "### Feature ID\nF-MOB\n\n### Behavior\nComprehensive mobile-first overhaul eliminating horizontal overflow, keyboard overlap, fixed viewport height clipping, desktop-first density, chart squishing, and touch target violations across all screens (Dashboard, Quick Add, Ledger, Reports, Categories, Navigation) from 320px to 430px+.\n\n### Verification\nnpm test && npm run lint && npm run build\n\n### Harness State\npassing\n\n### Dependencies\nNone\n\n### Evidence\nAll 20 test suites and 373 tests passed (including 25 mobile UX responsive invariant tests in src/test/mobileUxAudit.test.jsx), ESLint 10 passed with 0 errors, Vite build succeeded with 0 errors.",
       "checklists": [
         {
           "name": "Implementation",

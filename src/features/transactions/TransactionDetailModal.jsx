@@ -66,6 +66,7 @@ export function TransactionDetailModal({
         aria-labelledby="tx-detail-title"
         onClick={(e) => e.stopPropagation()}
       >
+        <div className="sheet-drag-handle" aria-hidden="true" />
         {/* Header */}
         <div className="modal-header">
           <div className="header-type-wrap">
