@@ -13,6 +13,8 @@ import {
   SettingsView,
 } from './HubViews';
 import { NAV_HUBS } from './navigationConfig';
+import { getBaseCurrency } from '../../services/currencyLock.js';
+import { db } from '../../db/db.js';
 
 const THEME_STORAGE_KEY = 'expense_tracker_theme';
 
@@ -28,6 +30,20 @@ export function AppShell() {
   const [pendingCount, setPendingCount] = useState(0);
   const [lastSyncedText, setLastSyncedText] = useState('الآن');
   const [dashboardRefreshTrigger, setDashboardRefreshTrigger] = useState(0);
+  const [baseCurrency, setBaseCurrencyState] = useState('SAR');
+
+  // Load and subscribe to active base currency
+  useEffect(() => {
+    let isCancelled = false;
+    getBaseCurrency(db).then((code) => {
+      if (!isCancelled) {
+        setBaseCurrencyState(code);
+      }
+    });
+    return () => {
+      isCancelled = true;
+    };
+  }, [dashboardRefreshTrigger]);
 
   // Initialize theme from documentElement attribute (set synchronously by anti-FOUC script), localStorage, or system preference
   const [theme, setTheme] = useState(() => {
@@ -160,7 +176,19 @@ export function AppShell() {
           />
         );
       case 'settings':
-        return <SettingsView theme={theme} onToggleTheme={handleToggleTheme} onSelectTab={setActiveTab} />;
+        return (
+          <SettingsView
+            theme={theme}
+            onToggleTheme={handleToggleTheme}
+            onSelectTab={setActiveTab}
+            database={db}
+            refreshTrigger={dashboardRefreshTrigger}
+            onCurrencyChanged={(code) => {
+              setBaseCurrencyState(code);
+              setDashboardRefreshTrigger((p) => p + 1);
+            }}
+          />
+        );
       default:
         return (
           <DashboardView
@@ -230,6 +258,7 @@ export function AppShell() {
         isOpen={isQuickAddOpen}
         onClose={handleCloseQuickAdd}
         onSuccess={handleQuickAddSuccess}
+        currencyCode={baseCurrency}
       />
     </div>
   );

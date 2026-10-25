@@ -120,8 +120,8 @@
       "name": "Currency Configuration & Immutability Lock",
       "behavior": "Allows selecting base currency on first run, locking currency selector once transactions or non-zero balances exist to prevent misleading numbers.",
       "verification": "npm test src/services/currencyLock.test.js",
-      "state": "not-started",
-      "evidence": null
+      "state": "passing",
+      "evidence": "All checks passed: npm run lint with 0 errors, npm run build producing production bundle in 3.22s, 15 unit tests in src/services/currencyLock.test.js, and 11 component tests in src/features/settings/SettingsView.test.jsx (total 400 automated tests passing across 22 test suites). Fully implements Currency Configuration & Immutability Lock engine (getBaseCurrency, checkCurrencyLockStatus, setBaseCurrency, inferInitialCurrency, CurrencyLockedError, CurrencyValidationError), locking policy preventing currency modifications once transactions or non-zero balances exist, synchronization of zero-balance starter accounts, accessible CurrencySelectorModal with search and Arab/Global scope filters, CurrencyLockCard with lock badge, educational explanation callout, and tactile interactions conforming to /impeccable and /make-interfaces-feel-better."
     },
     {
       "id": "F015",

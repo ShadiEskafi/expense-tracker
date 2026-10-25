@@ -5,6 +5,8 @@ import { Dashboard } from '../dashboard/Dashboard.jsx';
 import { TransactionLedger } from '../../features/transactions/TransactionLedger.jsx';
 import { ReportsView as PeriodicReportsView } from '../../features/reports/ReportsView.jsx';
 import { CategoriesView as CategoriesManagementView } from '../../features/categories/CategoriesView.jsx';
+import { SettingsView as BaseSettingsView } from '../../features/settings/SettingsView.jsx';
+import { db } from '../../db/db.js';
 
 /**
  * Hub Views for AppShell
@@ -71,63 +73,23 @@ export function CategoriesView({ refreshTrigger, onCategoryMutated }) {
   );
 }
 
-export function SettingsView({ theme, onToggleTheme, onSelectTab }) {
+export function SettingsView({
+  theme,
+  onToggleTheme,
+  onSelectTab,
+  database = db,
+  refreshTrigger = 0,
+  onCurrencyChanged
+}) {
   return (
-    <div className="hub-view">
-      <div className="surface-card">
-        <div className="surface-card-header">
-          <div>
-            <h3 className="text-h2">الإعدادات والبيانات</h3>
-            <span className="text-caption">تخصيص المظهر، قفل العملة، المزامنة، والنسخ الاحتياطي</span>
-          </div>
-        </div>
-        <div className="settings-options-list">
-          {/* Mobile Secondary Access: Categories Management */}
-          <div className="settings-row-item">
-            <div className="settings-row-info">
-              <span className="text-body font-semibold">إدارة التصنيفات المالية</span>
-              <span className="text-caption">عرض، إضافة، وتعديل تصنيفات المصاريف والدخل المخصصة</span>
-            </div>
-            <button
-              type="button"
-              className="btn-primary"
-              onClick={() => onSelectTab && onSelectTab('categories')}
-            >
-              إدارة التصنيفات
-            </button>
-          </div>
-
-          <div className="settings-row-item">
-            <div className="settings-row-info">
-              <span className="text-body font-semibold">مظهر التطبيق</span>
-              <span className="text-caption">التبديل بين الوضع الفاتح والداكن</span>
-            </div>
-            <button
-              type="button"
-              className="btn-secondary"
-              onClick={onToggleTheme}
-            >
-              {theme === 'dark' ? 'الوضع الداكن (نشط)' : 'الوضع الفاتح (نشط)'}
-            </button>
-          </div>
-
-          <div className="settings-row-item">
-            <div className="settings-row-info">
-              <span className="text-body font-semibold">العملة الأساسية المقفلة</span>
-              <span className="text-caption">ريال سعودي (SAR - ر.س) • محسوبة بوحدات الماينور الصحيحة</span>
-            </div>
-            <span className="status-badge-locked text-caption">مقفل لحماية البيانات</span>
-          </div>
-
-          <div className="settings-row-item">
-            <div className="settings-row-info">
-              <span className="text-body font-semibold">التخزين والمزامنة</span>
-              <span className="text-caption">تخزين محلي أولاً (IndexedDB / Dexie.js) • وضع الضيف الآمن</span>
-            </div>
-            <span className="status-badge-active text-caption">محلي نشط</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <BaseSettingsView
+      theme={theme}
+      onToggleTheme={onToggleTheme}
+      onSelectTab={onSelectTab}
+      database={database}
+      refreshTrigger={refreshTrigger}
+      onCurrencyChanged={onCurrencyChanged}
+    />
   );
 }
+

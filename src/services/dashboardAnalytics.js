@@ -4,6 +4,7 @@ import { getCategories, seedDefaultCategories, isCategoriesSeeded } from './cate
 import { getTransactions } from './transaction.js';
 import { getDashboardOverviewMetrics } from './financialMetrics.js';
 import { DEFAULT_CURRENCY_CODE } from '../utils/currency.js';
+import { getBaseCurrency } from './currencyLock.js';
 
 /**
  * Returns the current month in 'YYYY-MM' format.
@@ -300,7 +301,8 @@ export async function getDashboardData(database = db, options = {}) {
     await seedDefaultCategories(database, userId);
   }
   if (!accountsSeeded) {
-    await seedDefaultAccounts(database, userId, options.currency || DEFAULT_CURRENCY_CODE);
+    const configuredCurrency = await getBaseCurrency(database);
+    await seedDefaultAccounts(database, userId, options.currency || configuredCurrency || DEFAULT_CURRENCY_CODE);
   }
 
   // 2. Query all dashboard subsystems in parallel
@@ -357,7 +359,8 @@ export async function getDashboardData(database = db, options = {}) {
     };
   });
 
-  const currency = metrics.currency || DEFAULT_CURRENCY_CODE;
+  const configuredBaseCurrency = await getBaseCurrency(database);
+  const currency = configuredBaseCurrency || metrics.currency || DEFAULT_CURRENCY_CODE;
 
   return {
     metrics,
