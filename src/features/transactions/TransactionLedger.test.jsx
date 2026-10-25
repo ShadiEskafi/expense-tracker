@@ -7,6 +7,7 @@ import { TransactionDetailModal } from './TransactionDetailModal.jsx';
 import { TransactionEditModal } from './TransactionEditModal.jsx';
 import { TransactionDeleteConfirmModal } from './TransactionDeleteConfirmModal.jsx';
 import { TransactionFilterDrawer } from './TransactionFilterDrawer.jsx';
+import { TransactionExportModal } from './TransactionExportModal.jsx';
 import { createAccount } from '../../services/account.js';
 import { seedDefaultCategories, getCategories } from '../../services/category.js';
 import { DEFAULT_FILTERS } from './filter.js';
@@ -95,6 +96,7 @@ describe('Transaction Ledger Component Tests (F011)', () => {
       expect(html).toContain('أمس');
       expect(html).toContain('هذا الأسبوع');
       expect(html).toContain('هذا الشهر');
+      expect(html).toContain('تصدير CSV');
     });
   });
 
@@ -306,6 +308,44 @@ describe('Transaction Ledger Component Tests (F011)', () => {
       expect(html).toContain('#عمل');
       expect(html).toContain('كاش المحفظة');
       expect(html).toContain('الحساب الجاري');
+    });
+  });
+
+  describe('7. Transaction CSV Export Options Modal (F015)', () => {
+    it('renders export dialog with filtered and total options when open', () => {
+      const html = renderToString(
+        <TransactionExportModal
+          isOpen={true}
+          filteredCount={5}
+          totalCount={20}
+          onExportFiltered={() => {}}
+          onExportAll={() => {}}
+          onClose={() => {}}
+          isExporting={false}
+        />
+      );
+
+      expect(html).toContain('خيارات تصدير ملف CSV');
+      expect(html).toContain('تصدير النتائج المفلترة فقط');
+      expect(html).toContain('5 معاملة');
+      expect(html).toContain('تصدير السجل بالكامل');
+      expect(html).toContain('20 معاملة');
+    });
+
+    it('returns null when isOpen is false', () => {
+      const html = renderToString(
+        <TransactionExportModal
+          isOpen={false}
+          filteredCount={5}
+          totalCount={20}
+          onExportFiltered={() => {}}
+          onExportAll={() => {}}
+          onClose={() => {}}
+          isExporting={false}
+        />
+      );
+
+      expect(html).toBe('');
     });
   });
 });

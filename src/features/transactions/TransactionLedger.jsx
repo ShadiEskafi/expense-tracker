@@ -11,9 +11,11 @@ import {
   WalletIcon,
   TransferIcon,
   EditIcon,
-  TrashIcon
+  TrashIcon,
+  DownloadIcon
 } from '../../components/common/Icons.jsx';
 import { formatCurrency } from '../../utils/currency.js';
+import { exportTransactions } from '../../utils/csvExport.js';
 import {
   DEFAULT_FILTERS,
   DATE_PRESETS,
@@ -27,6 +29,7 @@ import { TransactionFilterDrawer } from './TransactionFilterDrawer.jsx';
 import { TransactionDetailModal } from './TransactionDetailModal.jsx';
 import { TransactionEditModal } from './TransactionEditModal.jsx';
 import { TransactionDeleteConfirmModal } from './TransactionDeleteConfirmModal.jsx';
+import { TransactionExportModal } from './TransactionExportModal.jsx';
 import { updateTransaction, deleteTransaction } from '../../services/transaction.js';
 import { updateTransfer, deleteTransfer } from '../../services/transfer.js';
 import './TransactionLedger.css';
@@ -63,6 +66,16 @@ export function TransactionLedger({
   const [editingTx, setEditingTx] = useState(null);
   const [deletingTx, setDeletingTx] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  // Export State (F015)
+  const [isExporting, setIsExporting] = useState(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState(null);
+
+  const triggerToast = useCallback((msg) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3000);
+  }, []);
 
   // Initial load and auto-refresh on external mutations
   useEffect(() => {
@@ -192,6 +205,48 @@ export function TransactionLedger({
   // Total active transactions count in DB
   const totalDbTransactions = rawTransactions.filter((tx) => tx.deleted_at === null).length;
 
+  // Export handlers (F015)
+  const handleExportClick = () => {
+    if (activeFiltersCount > 0) {
+      setIsExportModalOpen(true);
+    } else {
+      handleExportAll();
+    }
+  };
+
+  const handleExportFiltered = async () => {
+    try {
+      setIsExporting(true);
+      const res = await exportTransactions({
+        database,
+        transactions: filteredTransactions
+      });
+      setIsExportModalOpen(false);
+      triggerToast(`تم تصدير ${res.count} معاملة مفلترة كملف CSV بنجاح`);
+    } catch (err) {
+      console.error('Failed to export filtered transactions:', err);
+      triggerToast('تعذر تصدير المعاملات المفلترة');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleExportAll = async () => {
+    try {
+      setIsExporting(true);
+      const res = await exportTransactions({
+        database
+      });
+      setIsExportModalOpen(false);
+      triggerToast(`تم تصدير كافة المعاملات (${res.count} معاملة) كملف CSV بنجاح`);
+    } catch (err) {
+      console.error('Failed to export all transactions:', err);
+      triggerToast('تعذر تصدير المعاملات');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="hub-view ledger-view" aria-label="جارٍ تحميل سجل المعاملات...">
@@ -217,17 +272,29 @@ export function TransactionLedger({
               استعراض، تصفية، وبحث كامل في السجل التاريخي لكافة العمليات المالية
             </p>
           </div>
-          {onOpenQuickAdd && (
+          <div className="ledger-title-actions">
             <button
               type="button"
-              className="btn-primary"
-              onClick={onOpenQuickAdd}
-              aria-label="تسجيل معاملة جديدة"
+              className="btn-secondary ledger-export-btn"
+              onClick={handleExportClick}
+              disabled={isExporting || totalDbTransactions === 0}
+              aria-label="تصدير كملف CSV"
             >
-              <PlusIcon size={18} />
-              <span>معاملة جديدة</span>
+              <DownloadIcon size={18} />
+              <span>{isExporting ? 'جارٍ التصدير...' : 'تصدير CSV'}</span>
             </button>
-          )}
+            {onOpenQuickAdd && (
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={onOpenQuickAdd}
+                aria-label="تسجيل معاملة جديدة"
+              >
+                <PlusIcon size={18} />
+                <span>معاملة جديدة</span>
+              </button>
+            )}
+          </div>
         </div>
 
         {/* 2. Search & Controls Bar */}
@@ -669,6 +736,24 @@ export function TransactionLedger({
         onConfirm={handleConfirmDelete}
         isDeleting={isDeleting}
       />
+
+      {/* 11. Export Options Modal (F015) */}
+      <TransactionExportModal
+        isOpen={isExportModalOpen}
+        onClose={() => setIsExportModalOpen(false)}
+        filteredCount={filteredTransactions.length}
+        totalCount={totalDbTransactions}
+        onExportFiltered={handleExportFiltered}
+        onExportAll={handleExportAll}
+        isExporting={isExporting}
+      />
+
+      {/* Toast Feedback */}
+      {toastMessage && (
+        <div className="ledger-toast-banner text-caption" role="status">
+          <span>✓ {toastMessage}</span>
+        </div>
+      )}
     </div>
   );
 }

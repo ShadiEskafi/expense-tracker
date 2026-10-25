@@ -128,8 +128,8 @@
       "name": "CSV Export Engine",
       "behavior": "Exports all transactions or filtered transactions to UTF-8 BOM CSV for Arabic spreadsheet compatibility.",
       "verification": "npm test src/utils/csvExport.test.js",
-      "state": "not-started",
-      "evidence": null
+      "state": "passing",
+      "evidence": "All 32 unit and integration tests passed in src/utils/csvExport.test.js (70ms), and full suite passed with 435 tests across 23 test suites. Fully implements RFC 4180 compliant CSV serialization, UTF-8 BOM encoding for seamless Arabic spreadsheet rendering in Microsoft Excel and Google Sheets, anti-CSV formula injection sanitization, ISO 4217 integer minor units to major units decimal conversion, category and account relation enrichment, single-record transfer formatting (source and destination), TransactionExportModal for selective filtered or full ledger export in TransactionLedger, direct export in SettingsView, and non-blocking toast feedback."
     },
     {
       "id": "F016",

@@ -41,18 +41,19 @@ The project harness engineering foundation has been established with all 5 core 
 - [x] **F013**: Categories Management View (`src/services/categoryGuard.js`, `src/services/categoryGuard.test.js` with 16 passing tests, `src/features/categories/` with `CategoriesView.jsx`, `CategoriesView.css`, `CategoryCard.jsx`, `CategoryFormModal.jsx`, `CategoryDeleteModal.jsx`, `categoryConstants.js`, and `CategoriesView.test.jsx` with 12 passing tests, total 348 passing tests across 19 suites, clean build and lint, wired into `AppShell.jsx` & `HubViews.jsx`, built with `/impeccable`, `/ui-ux-pro-max`, `/make-interfaces-feel-better`, `/transitions-dev`).
 - [x] **F-MOB**: Mobile Layout Recomposition & Viewport Verification (`design-system/responsive-system.md`, `design-system/screens.md`, `design-system/spacing-layout.md`, `src/styles/tokens.css`, `src/styles/AppShell.css`, `src/components/dashboard/Dashboard.css`, `src/components/dashboard/Dashboard.jsx`, `src/features/transactions/TransactionLedger.css`, `src/features/reports/ReportsView.css`, `src/features/categories/CategoriesView.css`, `src/test/mobileUxAudit.test.jsx` with 26 passing tests, automated Headless Chrome verification via `scripts/verify-mobile-viewports.js` passing 100% with zero horizontal overflow across 320x568, 360x640, 375x667, 390x844, 393x852, 412x915, 430x932, and 844x390 landscape, 374 Vitest tests passing across 20 suites, clean lint, clean Vite 8 production build).
 - [x] **F014**: Currency Configuration & Immutability Lock (`src/services/currencyLock.js`, `src/services/currencyLock.test.js` with 15 passing tests, `src/features/settings/` with `SettingsView.jsx`, `SettingsView.css`, `CurrencyLockCard.jsx`, `CurrencySelectorModal.jsx`, and `SettingsView.test.jsx` with 11 passing tests, total 400 passing tests across 22 suites, clean build and lint, wired into `AppShell.jsx` & `HubViews.jsx`, built with `/impeccable` and `/make-interfaces-feel-better`).
+- [x] **F015**: CSV Export Engine (`src/utils/csvExport.js`, `src/utils/csvExport.test.js` with 32 passing tests, `src/features/transactions/TransactionExportModal.jsx`, `TransactionLedger.jsx`, `TransactionLedger.test.jsx` with 11 passing tests, `SettingsView.jsx`, `SettingsView.test.jsx` with 12 passing tests, total 435 passing tests across 23 suites, clean build and lint, built with `/impeccable`, `/ui-ux-pro-max`, `/make-interfaces-feel-better`, `/transitions-dev`).
 - [x] **Trello Visual Tracking Integration**: Operational specification in `docs/project-tracking.md`, synchronization engine in `scripts/trello-sync.js`, routing in `AGENTS.md`, and 12 unit tests in `scripts/trello-sync.test.js`.
 
 ---
 
 ## 3. Current Focus & WIP Limit (WIP=1)
-- **Active Feature**: None (F014 successfully concluded and verified).
-- **Next Feature in Queue**: **F015** (`CSV Export Engine`). Ready for cold-start and activation.
+- **Active Feature**: None (F015 successfully concluded and verified).
+- **Next Feature in Queue**: **F016** (`Atomic JSON Backup & Restore Pipeline`). Ready for cold-start and activation.
 
 ---
 
 ## 4. Blockers & Risks
-- **Blockers**: None. Full health pipeline (lint, 400 vitest tests across 22 suites, vite build) passing with 0 errors.
+- **Blockers**: None. Full health pipeline (lint, 435 vitest tests across 23 suites, vite build) passing with 0 errors.
 - **Risks & Mitigations**:
   - *Browser Storage Eviction*: Mitigated by calling `navigator.storage.persist()` and providing complete atomic JSON backup/restore.
   - *Multi-Device Concurrency*: Mitigated by Optimistic Concurrency Control (OCC) and conflict archiving in `conflict_audit_log`.
@@ -60,9 +61,9 @@ The project harness engineering foundation has been established with all 5 core 
 ---
 
 ## 5. Handoff Protocol for Next Session / Agent
-1. Execute `./init.ps1` (or `./init.sh`) to confirm zero regressions (400 tests passing across 22 suites).
+1. Execute `./init.ps1` (or `./init.sh`) to confirm zero regressions (435 tests passing across 23 suites).
 2. Read `progress.md` and `DECISIONS.md`.
-3. Pick **F015** (`CSV Export Engine`) from `feature_list.json`, transition `state: active`.
-4. Run `npm run trello:sync` to move F015 card to `In Progress`.
-5. Implement CSV Export Engine (`src/utils/csvExport.js`), supporting UTF-8 BOM encoding for Arabic spreadsheet compatibility (Excel, Numbers, Google Sheets), column mapping, date/amount formatting, and filtered exports.
-6. Verify automated tests (`npm test src/utils/csvExport.test.js && npm run lint && npm run build`), update `feature_list.json` to `passing` with evidence, run `npm run trello:sync`, and record atomic git commit.
+3. Pick **F016** (`Atomic JSON Backup & Restore Pipeline`) from `feature_list.json`, transition `state: active`.
+4. Run `npm run trello:sync` to move F016 card to `In Progress`.
+5. Implement Atomic JSON Backup & Restore Engine (`src/services/backupRestore.js`), supporting schema validation, metadata preview, rollback safety snapshot, atomic Dexie transaction, and sync version updates.
+6. Verify automated tests (`npm test src/services/backupRestore.test.js && npm run lint && npm run build`), update `feature_list.json` to `passing` with evidence, run `npm run trello:sync`, and record atomic git commit.

@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import { CurrencyLockCard } from './CurrencyLockCard.jsx';
 import {
   CategoriesIcon,
   SunIcon,
   MoonIcon,
   CloudCheckIcon,
-  SettingsIcon
+  SettingsIcon,
+  DownloadIcon
 } from '../../components/common/Icons.jsx';
+import { exportTransactions } from '../../utils/csvExport.js';
 import { db } from '../../db/db.js';
 import './SettingsView.css';
 
@@ -21,6 +24,23 @@ export function SettingsView({
   refreshTrigger = 0,
   onCurrencyChanged
 }) {
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportToast, setExportToast] = useState(null);
+
+  const handleExportAllCsv = async () => {
+    try {
+      setIsExporting(true);
+      const res = await exportTransactions({ database });
+      setExportToast(`تم تصدير ${res.count} معاملة كملف CSV بنجاح.`);
+      setTimeout(() => setExportToast(null), 3500);
+    } catch (err) {
+      console.error('Failed to export transactions from settings:', err);
+      setExportToast('تعذر تصدير المعاملات.');
+      setTimeout(() => setExportToast(null), 3500);
+    } finally {
+      setIsExporting(false);
+    }
+  };
   return (
     <div className="hub-view settings-view">
       {/* 1. Header Hero Card */}
@@ -103,7 +123,45 @@ export function SettingsView({
         </div>
       </div>
 
-      {/* 4. Local-First Engine & Storage Safety Card */}
+      {/* 4. Data Portability & CSV Export Card (F015) */}
+      <div className="surface-card settings-export-card">
+        <div className="surface-card-header">
+          <div>
+            <h3 className="text-h2">تصدير البيانات والنسخ الاحتياطي</h3>
+            <span className="text-caption">تصدير السجل المالي التاريخي بصيغ مفتوحة قابلة للاستخدام في أي تطبيق</span>
+          </div>
+        </div>
+
+        <div className="settings-options-list">
+          <div className="settings-row-item">
+            <div className="settings-row-info">
+              <span className="text-body font-semibold">تصدير كافة المعاملات كملف CSV</span>
+              <span className="text-caption">
+                تصدير كافة المعاملات بترميز UTF-8 مع BOM لضمان التوافق التام مع Excel و Numbers و Google Sheets
+              </span>
+            </div>
+            <button
+              type="button"
+              className="btn-secondary csv-export-btn"
+              onClick={handleExportAllCsv}
+              disabled={isExporting}
+              aria-label="تصدير كافة المعاملات كملف CSV"
+            >
+              <DownloadIcon size={16} />
+              <span>{isExporting ? 'جارٍ التصدير...' : 'تصدير كملف CSV'}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Feedback toast */}
+        {exportToast && (
+          <div className="currency-success-toast text-caption" role="status">
+            ✓ {exportToast}
+          </div>
+        )}
+      </div>
+
+      {/* 5. Local-First Engine & Storage Safety Card */}
       <div className="surface-card settings-storage-card">
         <div className="surface-card-header">
           <div>

@@ -97,6 +97,21 @@ describe('Settings View & Currency Immutability Lock Component Tests (F014)', ()
       expect(html).toContain('خصوصية تامة واستخدام دون اتصال');
       expect(html).toContain('دقة الحسابات المالية (ISO 4217)');
     });
+
+    it('renders the Data Portability & CSV Export card with export action button (F015)', () => {
+      const html = renderToString(
+        <SettingsView
+          theme="light"
+          onToggleTheme={vi.fn()}
+          onSelectTab={vi.fn()}
+          database={testDb}
+        />
+      );
+
+      expect(html).toContain('تصدير البيانات والنسخ الاحتياطي');
+      expect(html).toContain('تصدير كافة المعاملات كملف CSV');
+      expect(html).toContain('تصدير كملف CSV');
+    });
   });
 
   describe('2. CurrencyLockCard Component Tests', () => {
