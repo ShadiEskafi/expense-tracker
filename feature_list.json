@@ -72,8 +72,8 @@
       "name": "Quick Add Transaction Flow (<5s Target)",
       "behavior": "Fast transaction entry form requiring only amount and category, with auto-focused decimal keypad on mobile, today default date, last-used account, and non-destructive validation.",
       "verification": "npm test src/components/QuickAdd.test.jsx",
-      "state": "not-started",
-      "evidence": null
+      "state": "passing",
+      "evidence": "All 20 unit and integration tests passed in src/components/QuickAdd.test.jsx (607ms), verifying accessible dialog semantics (role=dialog, aria-modal, aria-labelledby), 3-mode segmented switcher (expense, income, transfer), amount input with decimal keypad and tabular numbers, today default date, last-used account persistence in localStorage, category chips filtering by mode, collapsible details (notes and tags), non-destructive validation preserving user inputs, error-state shake keyframes, concentric border-radius, scale(0.96) press feedback, and atomic Dexie database persistence with ledger balance recalculation."
     },
     {
       "id": "F010",

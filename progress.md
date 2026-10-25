@@ -34,18 +34,19 @@ The project harness engineering foundation has been established with all 5 core 
 - [x] **F006**: Internal Account Transfer (Single-Record Model) (`src/services/transfer.js`, `src/services/transfer.test.js` with 31 passing tests).
 - [x] **F007**: Credit Card Liability & Financial Position Metrics (`src/services/financialMetrics.js`, `src/services/financialMetrics.test.js` with 28 passing tests).
 - [x] **F008**: Arabic-First & RTL Design System Layout Shell (`src/styles/tokens.css`, `src/styles/AppShell.css`, `src/components/layout/AppShell.jsx`, `src/components/layout/layout.test.js` with 8 passing tests, clean build and lint).
+- [x] **F009**: Quick Add Transaction Flow (<5s Target) (`src/components/QuickAdd.jsx`, `src/components/QuickAdd.css`, `src/components/quickAddConstants.js`, `src/components/QuickAdd.test.jsx` with 20 passing tests, wired into `AppShell.jsx`, built with `/impeccable`, `/ui-ux-pro-max`, `/make-interfaces-feel-better`, `/transitions-dev`).
 - [x] **Trello Visual Tracking Integration**: Operational specification in `docs/project-tracking.md`, synchronization engine in `scripts/trello-sync.js`, routing in `AGENTS.md`, and 12 unit tests in `scripts/trello-sync.test.js`.
 
 ---
 
 ## 3. Current Focus & WIP Limit (WIP=1)
 - **Active Feature**: None currently in progress (`state: not-started`).
-- **Next Feature in Queue**: **F009** (`Quick Add Transaction Flow (<5s Target)`).
+- **Next Feature in Queue**: **F010** (`Dashboard Financial Overview & Analytics Widgets`).
 
 ---
 
 ## 4. Blockers & Risks
-- **Blockers**: None. Full health pipeline (lint, 211 vitest tests across 10 suites, vite build) passing with 0 errors.
+- **Blockers**: None. Full health pipeline (lint, 231 vitest tests across 11 suites, vite build) passing with 0 errors.
 - **Risks & Mitigations**:
   - *Browser Storage Eviction*: Mitigated by calling `navigator.storage.persist()` and providing complete atomic JSON backup/restore.
   - *Multi-Device Concurrency*: Mitigated by Optimistic Concurrency Control (OCC) and conflict archiving in `conflict_audit_log`.
@@ -53,9 +54,9 @@ The project harness engineering foundation has been established with all 5 core 
 ---
 
 ## 5. Handoff Protocol for Next Session / Agent
-1. Execute `./init.ps1` (or `./init.sh`) to confirm zero regressions.
+1. Execute `./init.ps1` (or `./init.sh`) to confirm zero regressions (231 tests passing).
 2. Read `progress.md` and `DECISIONS.md`.
-3. Pick **F009** from `feature_list.json`, transition `state: active`.
-4. Run `npm run trello:sync` to move F009 card to `In Progress`.
-5. Implement Quick Add Transaction Flow (<5s target) inside `src/components/QuickAdd.jsx`, integrating numeric keypad, today default date, last-used account, and atomic save to Dexie.
-6. Verify test pass (`npm test src/components/QuickAdd.test.jsx`), update `feature_list.json` to `passing` with evidence, run `npm run trello:sync`, and commit.
+3. Pick **F010** from `feature_list.json`, transition `state: active`.
+4. Run `npm run trello:sync` to move F010 card to `In Progress`.
+5. Implement Dashboard Financial Overview & Analytics Widgets in `src/components/dashboard/`, rendering KPI metrics (Available Funds, Liabilities, Net Position, Cash Flow), account balance cards, recent transactions list, spending category breakdown chart (Donut), and cash flow trend chart.
+6. Verify production build & linter (`npm run lint && npm run build`), update `feature_list.json` to `passing` with evidence, run `npm run trello:sync`, and record atomic git commit.

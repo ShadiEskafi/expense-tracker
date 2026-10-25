@@ -3,7 +3,7 @@ import { DesktopSidebar } from './DesktopSidebar';
 import { DesktopHeader } from './DesktopHeader';
 import { MobileTopBar } from './MobileTopBar';
 import { MobileBottomNav } from './MobileBottomNav';
-import { QuickAddModalPlaceholder } from './QuickAddModalPlaceholder';
+import { QuickAdd } from '../QuickAdd';
 import {
   DashboardView,
   TransactionsView,
@@ -182,8 +182,8 @@ export function AppShell() {
         />
       </div>
 
-      {/* 3. Quick Add Modal / Bottom Sheet Shell */}
-      <QuickAddModalPlaceholder
+      {/* 3. Quick Add Modal / Bottom Sheet Shell (F009) */}
+      <QuickAdd
         isOpen={isQuickAddOpen}
         onClose={handleCloseQuickAdd}
       />

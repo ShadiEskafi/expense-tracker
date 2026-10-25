@@ -1,0 +1,603 @@
+/**
+ * QuickAdd Component Styles
+ * Arabic-First, RTL Native, Responsive (<5s entry target)
+ * Adheres to:
+ * - transitions-dev (modal, sheet, segmented tab, error shake)
+ * - make-interfaces-feel-better (concentric radius, scale 0.96, tabular nums, hit targets)
+ * - ui-ux-pro-max (color contrast, accessibility, safe areas)
+ * - design-system/forms.md & screens.md
+ */
+
+/* 1. Modal Overlay & Backdrop */
+.quick-add-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: var(--z-modal-backdrop, 40);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4, 16px);
+  animation: overlayFadeIn 0.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (max-width: 767px) {
+  .quick-add-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+}
+
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 2. Dialog Container (Concentric Radius: 24px) */
+.quick-add-dialog {
+  width: 100%;
+  max-width: 520px;
+  background-color: var(--color-bg-surface-elevated, #FFFFFF);
+  border-radius: var(--radius-2xl, 24px);
+  box-shadow: var(--shadow-modal, 0 20px 25px -5px rgba(0, 0, 0, 0.12));
+  border: 1px solid var(--color-border-subtle, #E2E8F0);
+  padding: var(--space-6, 24px);
+  z-index: var(--z-modal-content, 45);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4, 16px);
+  max-height: 90vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  animation: modalScaleUp 0.22s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (max-width: 767px) {
+  .quick-add-dialog {
+    max-width: 100%;
+    max-height: 92vh;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    padding: var(--space-5, 20px) var(--space-4, 16px);
+    padding-bottom: calc(var(--space-6, 24px) + env(safe-area-inset-bottom, 0px));
+    animation: sheetSlideUp 0.24s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+}
+
+@keyframes modalScaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes sheetSlideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* 3. Header Section */
+.quick-add-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quick-add-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.quick-add-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-primary, #0F172A);
+  text-wrap: balance;
+}
+
+.quick-add-subtitle {
+  font-size: 12px;
+  color: var(--color-text-secondary, #475569);
+}
+
+.quick-add-close-btn {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: var(--radius-full, 9999px);
+  border: none;
+  background-color: var(--color-bg-surface-subtle, #F1F5F9);
+  color: var(--color-text-secondary, #475569);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition-property: background-color, color, transform;
+  transition-duration: var(--duration-fast, 150ms);
+  transition-timing-function: var(--ease-standard, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.quick-add-close-btn:hover {
+  background-color: var(--color-bg-surface-active, #E2E8F0);
+  color: var(--color-text-primary, #0F172A);
+}
+
+.quick-add-close-btn:active {
+  transform: scale(0.96);
+}
+
+/* 4. Type Segmented Control (Expense / Income / Transfer) */
+.quick-add-type-switcher {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background-color: var(--color-bg-surface-subtle, #F1F5F9);
+  padding: 4px;
+  border-radius: var(--radius-md, 12px);
+  border: 1px solid var(--color-border-subtle, #E2E8F0);
+  gap: 4px;
+}
+
+.quick-add-type-btn {
+  height: 38px;
+  border: none;
+  border-radius: var(--radius-sm, 8px);
+  background-color: transparent;
+  color: var(--color-text-secondary, #475569);
+  font-family: var(--font-family-base);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2, 8px);
+  transition-property: background-color, color, box-shadow, transform;
+  transition-duration: var(--duration-fast, 150ms);
+  transition-timing-function: var(--ease-standard, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.quick-add-type-btn:active {
+  transform: scale(0.96);
+}
+
+.quick-add-type-btn.is-active {
+  background-color: var(--color-bg-surface, #FFFFFF);
+  box-shadow: var(--shadow-sm, 0 1px 2px 0 rgba(0, 0, 0, 0.04));
+  font-weight: 700;
+}
+
+.quick-add-type-btn.is-active.is-expense {
+  color: var(--color-expense, #E11D48);
+}
+
+.quick-add-type-btn.is-active.is-income {
+  color: var(--color-income, #059669);
+}
+
+.quick-add-type-btn.is-active.is-transfer {
+  color: var(--color-transfer, #6366F1);
+}
+
+/* 5. Amount Input Hero Section */
+.quick-add-amount-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4, 16px) var(--space-3, 12px);
+  background-color: var(--color-bg-surface-subtle, #F1F5F9);
+  border: 1px solid var(--color-border-subtle, #E2E8F0);
+  border-radius: var(--radius-lg, 16px);
+  gap: var(--space-1, 4px);
+  transition-property: border-color, box-shadow;
+  transition-duration: var(--duration-fast, 150ms);
+}
+
+.quick-add-amount-card.has-error {
+  border-color: var(--color-expense, #E11D48);
+  background-color: var(--color-expense-subtle, #FFF1F2);
+  animation: errorShake 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.quick-add-amount-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2, 8px);
+  direction: ltr; /* LTR container isolation for numeric monetary input */
+  width: 100%;
+}
+
+.quick-add-amount-input {
+  width: 100%;
+  max-width: 260px;
+  background: transparent;
+  border: none;
+  font-family: var(--font-family-base);
+  font-size: 36px;
+  font-weight: 800;
+  text-align: center;
+  color: var(--color-text-primary, #0F172A);
+  font-variant-numeric: tabular-nums;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+
+.quick-add-amount-input::placeholder {
+  color: var(--color-text-muted, #94A3B8);
+  opacity: 0.6;
+}
+
+.quick-add-currency-badge {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-secondary, #475569);
+  user-select: none;
+}
+
+.quick-add-error-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-expense, #E11D48);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1, 4px);
+}
+
+/* 6. Visual Category Chips Grid */
+.quick-add-section-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary, #475569);
+  margin-bottom: var(--space-2, 8px);
+}
+
+.quick-add-category-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-2, 8px);
+  padding: 2px;
+}
+
+@media (max-width: 480px) {
+  .quick-add-category-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.quick-add-category-chip {
+  min-height: 64px;
+  padding: var(--space-2, 8px) 4px;
+  border-radius: var(--radius-md, 12px);
+  border: 1px solid var(--color-border-subtle, #E2E8F0);
+  background-color: var(--color-bg-surface, #FFFFFF);
+  color: var(--color-text-primary, #0F172A);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-family: var(--font-family-base);
+  transition-property: background-color, border-color, box-shadow, transform;
+  transition-duration: var(--duration-fast, 150ms);
+  transition-timing-function: var(--ease-standard, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.quick-add-category-chip:hover {
+  background-color: var(--color-bg-surface-subtle, #F1F5F9);
+  border-color: var(--color-border-strong, #CBD5E1);
+}
+
+.quick-add-category-chip:active {
+  transform: scale(0.96);
+}
+
+.quick-add-category-chip.is-selected {
+  border-color: var(--active-cat-color, var(--color-brand-primary, #0F172A));
+  background-color: var(--color-bg-surface-subtle, #F1F5F9);
+  box-shadow: 0 0 0 2px var(--active-cat-color, var(--color-brand-primary, #0F172A));
+  font-weight: 700;
+}
+
+.quick-add-cat-icon-wrap {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full, 9999px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition-property: transform;
+  transition-duration: var(--duration-fast, 150ms);
+}
+
+.quick-add-category-chip.is-selected .quick-add-cat-icon-wrap {
+  transform: scale(1.1);
+}
+
+.quick-add-cat-label {
+  font-size: 11px;
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.quick-add-category-container.has-error .quick-add-category-grid {
+  border: 1px solid var(--color-expense, #E11D48);
+  border-radius: var(--radius-lg, 16px);
+  padding: var(--space-2, 8px);
+  background-color: var(--color-expense-subtle, #FFF1F2);
+  animation: errorShake 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* 7. Accounts & Date Selectors */
+.quick-add-meta-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3, 12px);
+}
+
+@media (max-width: 480px) {
+  .quick-add-meta-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.quick-add-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.quick-add-field-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary, #475569);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.quick-add-select,
+.quick-add-input-text,
+.quick-add-input-date {
+  height: var(--size-input-height, 48px);
+  padding: 0 var(--space-3, 12px);
+  border-radius: var(--radius-md, 12px);
+  border: 1px solid var(--color-border-subtle, #E2E8F0);
+  background-color: var(--color-bg-surface, #FFFFFF);
+  color: var(--color-text-primary, #0F172A);
+  font-family: var(--font-family-base);
+  font-size: 14px;
+  outline: none;
+  transition-property: border-color, box-shadow;
+  transition-duration: var(--duration-fast, 150ms);
+}
+
+.quick-add-select:focus,
+.quick-add-input-text:focus,
+.quick-add-input-date:focus {
+  border-color: var(--color-focus-ring, #0284C7);
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+}
+
+.quick-add-select.has-error {
+  border-color: var(--color-expense, #E11D48);
+}
+
+/* 8. Collapsible Details ("إضافة تفاصيل") */
+.quick-add-details-toggle {
+  background: none;
+  border: none;
+  color: var(--color-brand-primary, #0F172A);
+  font-family: var(--font-family-base);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1, 4px);
+  padding: var(--space-2, 8px) 0;
+  align-self: flex-start;
+  transition-property: opacity, color;
+  transition-duration: var(--duration-fast, 150ms);
+}
+
+.quick-add-details-toggle:hover {
+  opacity: 0.8;
+}
+
+.quick-add-details-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 12px);
+  padding: var(--space-3, 12px);
+  background-color: var(--color-bg-surface-subtle, #F1F5F9);
+  border-radius: var(--radius-lg, 16px);
+  border: 1px solid var(--color-border-subtle, #E2E8F0);
+  animation: detailsExpand 0.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes detailsExpand {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.quick-add-textarea {
+  min-height: 64px;
+  padding: var(--space-2, 8px) var(--space-3, 12px);
+  border-radius: var(--radius-md, 12px);
+  border: 1px solid var(--color-border-subtle, #E2E8F0);
+  background-color: var(--color-bg-surface, #FFFFFF);
+  color: var(--color-text-primary, #0F172A);
+  font-family: var(--font-family-base);
+  font-size: 13px;
+  resize: vertical;
+  outline: none;
+}
+
+.quick-add-textarea:focus {
+  border-color: var(--color-focus-ring, #0284C7);
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+}
+
+/* 9. Action Buttons / Footer */
+.quick-add-footer {
+  display: flex;
+  gap: var(--space-3, 12px);
+  margin-top: var(--space-2, 8px);
+}
+
+.quick-add-submit-btn {
+  flex: 1;
+  height: var(--size-btn-height-lg, 52px);
+  border: none;
+  border-radius: var(--radius-md, 12px);
+  background-color: var(--color-brand-primary, #0F172A);
+  color: var(--color-text-inverse, #FFFFFF);
+  font-family: var(--font-family-base);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2, 8px);
+  box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.06));
+  transition-property: background-color, transform, box-shadow;
+  transition-duration: var(--duration-fast, 150ms);
+  transition-timing-function: var(--ease-standard, cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.quick-add-submit-btn:hover {
+  background-color: var(--color-brand-primary-hover, #1E293B);
+}
+
+.quick-add-submit-btn:active {
+  transform: scale(0.96);
+}
+
+.quick-add-submit-btn.is-expense {
+  background-color: var(--color-expense, #E11D48);
+}
+.quick-add-submit-btn.is-expense:hover {
+  background-color: #BE123C;
+}
+
+.quick-add-submit-btn.is-income {
+  background-color: var(--color-income, #059669);
+}
+.quick-add-submit-btn.is-income:hover {
+  background-color: #047857;
+}
+
+.quick-add-submit-btn.is-transfer {
+  background-color: var(--color-transfer, #6366F1);
+}
+.quick-add-submit-btn.is-transfer:hover {
+  background-color: #4F46E5;
+}
+
+.quick-add-cancel-btn {
+  height: var(--size-btn-height-lg, 52px);
+  padding: 0 var(--space-5, 20px);
+  border: 1px solid var(--color-border-subtle, #E2E8F0);
+  border-radius: var(--radius-md, 12px);
+  background-color: var(--color-bg-surface-subtle, #F1F5F9);
+  color: var(--color-text-secondary, #475569);
+  font-family: var(--font-family-base);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition-property: background-color, color, transform;
+  transition-duration: var(--duration-fast, 150ms);
+}
+
+.quick-add-cancel-btn:hover {
+  background-color: var(--color-bg-surface-active, #E2E8F0);
+  color: var(--color-text-primary, #0F172A);
+}
+
+.quick-add-cancel-btn:active {
+  transform: scale(0.96);
+}
+
+/* 10. Success Confirmation State */
+.quick-add-success-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2, 8px);
+  padding: var(--space-4, 16px);
+  background-color: var(--color-income-subtle, #ECFDF5);
+  border: 1px solid var(--color-income, #059669);
+  border-radius: var(--radius-lg, 16px);
+  color: var(--color-income, #059669);
+  font-weight: 700;
+  font-size: 15px;
+  animation: successPop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes successPop {
+  0% { transform: scale(0.95); opacity: 0; }
+  70% { transform: scale(1.03); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* 11. Error State Shake (transitions-dev decision rule) */
+@keyframes errorShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  20%, 60% {
+    transform: translateX(-6px);
+  }
+  40%, 80% {
+    transform: translateX(6px);
+  }
+}
+
+/* 12. Accessibility & Reduced Motion Guard */
+@media (prefers-reduced-motion: reduce) {
+  .quick-add-overlay,
+  .quick-add-dialog,
+  .quick-add-amount-card.has-error,
+  .quick-add-category-container.has-error .quick-add-category-grid,
+  .quick-add-details-panel,
+  .quick-add-success-banner {
+    animation: none !important;
+  }
+  .quick-add-type-btn,
+  .quick-add-submit-btn,
+  .quick-add-cancel-btn,
+  .quick-add-close-btn,
+  .quick-add-category-chip {
+    transition: none !important;
+    transform: none !important;
+  }
+}
