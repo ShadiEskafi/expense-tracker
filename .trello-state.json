@@ -10,21 +10,20 @@
   ],
   "distribution": {
     "Backlog": [
+      "F012",
+      "F015",
+      "F018",
+      "F019"
+    ],
+    "Ready": [
       "F009",
       "F010",
       "F011",
-      "F012",
       "F013",
-      "F015",
-      "F018",
-      "F019",
-      "F020"
-    ],
-    "Ready": [
-      "F008",
       "F014",
       "F016",
-      "F017"
+      "F017",
+      "F020"
     ],
     "In Progress": [],
     "Blocked": [],
@@ -35,7 +34,8 @@
       "F004",
       "F005",
       "F006",
-      "F007"
+      "F007",
+      "F008"
     ]
   },
   "wip_count": 0,
@@ -485,7 +485,7 @@
         "F005",
         "F006"
       ],
-      "description": "### Feature ID\nF007\n\n### Behavior\nDistinguishes between Available Funds, Credit Card Debt (Liabilities), Net Financial Position, and Period Cash Flow. Card payments reduce liability as transfers.\n\n### Verification\nnpm test src/services/financialMetrics.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F004\n- F005\n- F006\n\n### Evidence\nAll 28 unit tests passed in src/services/financialMetrics.test.js (323ms), verifying distinction between Available Liquid Funds, Credit Card Debt (Liabilities), Overdraft Liabilities, Net Financial Position, Period Cash Flow (income, expenses, savings rate), Transfer Non-Distortion Invariant (transfers never alter income/expense/cash flow), Month-over-Month comparisons, Credit Card Liability summary, validated recordCreditCardPayment execution, and atomic dashboard overview metrics.",
+      "description": "### Feature ID\nF007\n\n### Behavior\nDistinguishes between Available Funds, Credit Card Debt (Liabilities), Net Financial Position, and Period Cash Flow. Card payments reduce liability as transfers.\n\n### Verification\nnpm test src/services/financialMetrics.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F004\n- F005\n- F006\n\n### Evidence\nAll 28 unit tests passed in src/services/financialMetrics.test.js (323ms), verifying distinction between Available Liquid Funds, Credit Card Debt (Liabilities), Overdraft Liabilities, Net Financial Position, Period Cash Flow (income, expenses, savings rate), Transfer Non-Distortion Invariant (transfers never alter income/expense/cash flow), Month-over-Month comparisons, Credit Card Liability summary, validated recordCreditCardPayment execution, and atomic dashboard overview metrics.\n\n### Commit\nc7354c8\n\n### Completion Date\n2026-10-25",
       "checklists": [
         {
           "name": "Implementation",
@@ -547,8 +547,8 @@
     {
       "id": "F008",
       "title": "[F008] Arabic-First & RTL Design System Layout Shell",
-      "list": "Ready",
-      "harness_state": "not-started",
+      "list": "Done",
+      "harness_state": "passing",
       "labels": [
         "MVP",
         "UI/UX",
@@ -558,14 +558,14 @@
         "F001",
         "F004"
       ],
-      "description": "### Feature ID\nF008\n\n### Behavior\nApp shell rendering in RTL direction with IBM Plex Sans Arabic, CSS design tokens, bottom navigation for mobile, and right-aligned sidebar for desktop.\n\n### Verification\nnpm run lint && npm run build\n\n### Harness State\nnot-started\n\n### Dependencies\n- F001\n- F004",
+      "description": "### Feature ID\nF008\n\n### Behavior\nApp shell rendering in RTL direction with IBM Plex Sans Arabic, CSS design tokens, bottom navigation for mobile, and right-aligned sidebar for desktop.\n\n### Verification\nnpm run lint && npm run build\n\n### Harness State\npassing\n\n### Dependencies\n- F001\n- F004\n\n### Evidence\nAll checks passed: npm run lint with 0 errors, npm run build producing production bundle in 449ms, and 8 layout tests passing in src/components/layout/layout.test.js. Fully implements RTL-native layout, IBM Plex Sans Arabic font integration, CSS design tokens, 6 primary navigation hubs, responsive right-aligned desktop sidebar (260px), sticky header with breadcrumb and search trigger, mobile top bar, mobile bottom navigation bar (64px) with elevated center Quick Add FAB, sync status pill with 5 operational states, light/dark theme switching with localStorage persistence, and accessible Quick Add modal shell.",
       "checklists": [
         {
           "name": "Implementation",
           "items": [
             {
               "name": "Feature implemented",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -574,23 +574,23 @@
           "items": [
             {
               "name": "Feature verification passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant tests passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Typecheck passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Lint passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Build passed",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -599,19 +599,19 @@
           "items": [
             {
               "name": "feature_list.json updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "progress.md updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant docs updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Atomic commit created",
-              "checked": false
+              "checked": true
             }
           ]
         }
@@ -620,7 +620,7 @@
     {
       "id": "F009",
       "title": "[F009] Quick Add Transaction Flow (<5s Target)",
-      "list": "Backlog",
+      "list": "Ready",
       "harness_state": "not-started",
       "labels": [
         "MVP",
@@ -692,7 +692,7 @@
     {
       "id": "F010",
       "title": "[F010] Dashboard Financial Overview & Analytics Widgets",
-      "list": "Backlog",
+      "list": "Ready",
       "harness_state": "not-started",
       "labels": [
         "MVP",
@@ -765,7 +765,7 @@
     {
       "id": "F011",
       "title": "[F011] Transaction Ledger, Keyword Search & Multi-Filtering",
-      "list": "Backlog",
+      "list": "Ready",
       "harness_state": "not-started",
       "labels": [
         "MVP",
@@ -909,7 +909,7 @@
     {
       "id": "F013",
       "title": "[F013] Categories Management View",
-      "list": "Backlog",
+      "list": "Ready",
       "harness_state": "not-started",
       "labels": [
         "MVP",
@@ -1421,7 +1421,7 @@
     {
       "id": "F020",
       "title": "[F020] PWA Offline Caching & Storage Persistence",
-      "list": "Backlog",
+      "list": "Ready",
       "harness_state": "not-started",
       "labels": [
         "MVP",

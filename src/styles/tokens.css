@@ -1,0 +1,297 @@
+/**
+ * Design Tokens — Arabic-First Expense Management App
+ * Single Source of Truth: design-system/design-tokens.md & typography.md
+ */
+
+:root {
+  /* Surface & Background (Light Mode) */
+  --color-bg-app: #F8FAFC;
+  --color-bg-surface: #FFFFFF;
+  --color-bg-surface-elevated: #FFFFFF;
+  --color-bg-surface-subtle: #F1F5F9;
+  --color-bg-surface-active: #E2E8F0;
+
+  /* Typography & Icons */
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #475569;
+  --color-text-muted: #94A3B8;
+  --color-text-inverse: #FFFFFF;
+
+  /* Borders & Dividers */
+  --color-border-subtle: #E2E8F0;
+  --color-border-strong: #CBD5E1;
+  --color-divider: #F1F5F9;
+
+  /* Financial Semantic Colors */
+  --color-income: #059669;
+  --color-income-subtle: #ECFDF5;
+  --color-expense: #E11D48;
+  --color-expense-subtle: #FFF1F2;
+  --color-transfer: #6366F1;
+  --color-transfer-subtle: #EEF2FF;
+  --color-liability: #D97706;
+  --color-liability-subtle: #FFFBEB;
+
+  /* System & Sync States */
+  --color-sync-synced: #10B981;
+  --color-sync-pending: #F59E0B;
+  --color-sync-syncing: #3B82F6;
+  --color-sync-failed: #EF4444;
+  --color-sync-offline: #64748B;
+
+  /* Brand & Interaction */
+  --color-brand-primary: #0F172A;
+  --color-brand-primary-hover: #1E293B;
+  --color-focus-ring: #0284C7;
+
+  /* Spacing Scale (8pt Grid with 4pt Micro) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Border Radius */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* Elevation & Layered Shadows */
+  --shadow-none: none;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --shadow-modal: 0 20px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.06);
+
+  /* Z-Index Layers */
+  --z-base: 0;
+  --z-sticky-header: 10;
+  --z-bottom-nav: 20;
+  --z-drawer-backdrop: 30;
+  --z-drawer-sheet: 35;
+  --z-modal-backdrop: 40;
+  --z-modal-content: 45;
+  --z-toast: 50;
+  --z-tooltip: 60;
+
+  /* Layout Dimensions */
+  --sidebar-width: 260px;
+  --header-height: 64px;
+  --bottom-nav-height: 64px;
+  --content-max-width: 1200px;
+
+  /* Hit Targets & Minimum Touch Sizing (WCAG AA) */
+  --size-touch-min: 44px;
+  --size-btn-height-lg: 52px;
+  --size-btn-height-md: 44px;
+  --size-btn-height-sm: 36px;
+  --size-input-height: 48px;
+  --size-amount-display: 40px;
+  --size-icon-sm: 16px;
+  --size-icon-md: 20px;
+  --size-icon-lg: 24px;
+
+  /* Motion Tokens */
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --duration-instant: 100ms;
+  --duration-fast: 150ms;
+  --duration-normal: 220ms;
+  --duration-slow: 300ms;
+
+  /* Font Families */
+  --font-family-arabic: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Arial, sans-serif;
+  --font-family-base: var(--font-family-arabic);
+}
+
+/* Dark Theme Tokens */
+[data-theme="dark"] {
+  --color-bg-app: #0B0F19;
+  --color-bg-surface: #161F30;
+  --color-bg-surface-elevated: #1E293B;
+  --color-bg-surface-subtle: #1E293B;
+  --color-bg-surface-active: #334155;
+
+  --color-text-primary: #F8FAFC;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
+  --color-text-inverse: #0F172A;
+
+  --color-border-subtle: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.16);
+  --color-divider: rgba(255, 255, 255, 0.05);
+
+  --color-income: #10B981;
+  --color-income-subtle: rgba(16, 185, 129, 0.12);
+  --color-expense: #FB7185;
+  --color-expense-subtle: rgba(251, 113, 133, 0.12);
+  --color-transfer: #818CF8;
+  --color-transfer-subtle: rgba(129, 140, 248, 0.12);
+  --color-liability: #FBBF24;
+  --color-liability-subtle: rgba(251, 191, 36, 0.12);
+
+  --color-sync-synced: #34D399;
+  --color-sync-pending: #FBBF24;
+  --color-sync-syncing: #60A5FA;
+  --color-sync-failed: #F87171;
+  --color-sync-offline: #94A3B8;
+
+  --color-brand-primary: #38BDF8;
+  --color-brand-primary-hover: #0EA5E9;
+  --color-focus-ring: #38BDF8;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.35), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.45), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+  --shadow-modal: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+}
+
+/* Base Styles & Resets */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-family-base);
+  font-size: 16px;
+  line-height: 1.5;
+  direction: rtl;
+  text-align: right;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-bg-app);
+  color: var(--color-text-primary);
+  color-scheme: light dark;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--color-bg-app);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+  overflow-x: hidden;
+}
+
+/* Browser Surfaces (Selection, Caret, Scrollbars, Focus) */
+::selection {
+  background-color: var(--color-focus-ring);
+  color: #FFFFFF;
+}
+
+input, textarea {
+  caret-color: var(--color-brand-primary);
+}
+
+/* Subtle, Custom Scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--color-border-strong);
+  border-radius: var(--radius-full);
+}
+
+/* Accessible Focus States */
+:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Typography Scale Classes */
+.text-display {
+  font-size: clamp(32px, 4vw, 40px);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.text-h1 {
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.text-h2 {
+  font-size: clamp(18px, 2.5vw, 20px);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.text-h3 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.text-body {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.text-caption {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+}
+
+.text-micro {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* Tabular Financial Numbers Formatting */
+.financial-num {
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+}
+
+.amount-value {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+  text-align: right;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Motion Restraint: Prefers Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

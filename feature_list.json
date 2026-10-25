@@ -64,8 +64,8 @@
       "name": "Arabic-First & RTL Design System Layout Shell",
       "behavior": "App shell rendering in RTL direction with IBM Plex Sans Arabic, CSS design tokens, bottom navigation for mobile, and right-aligned sidebar for desktop.",
       "verification": "npm run lint && npm run build",
-      "state": "not-started",
-      "evidence": null
+      "state": "passing",
+      "evidence": "All checks passed: npm run lint with 0 errors, npm run build producing production bundle in 449ms, and 8 layout tests passing in src/components/layout/layout.test.js. Fully implements RTL-native layout, IBM Plex Sans Arabic font integration, CSS design tokens, 6 primary navigation hubs, responsive right-aligned desktop sidebar (260px), sticky header with breadcrumb and search trigger, mobile top bar, mobile bottom navigation bar (64px) with elevated center Quick Add FAB, sync status pill with 5 operational states, light/dark theme switching with localStorage persistence, and accessible Quick Add modal shell."
     },
     {
       "id": "F009",
