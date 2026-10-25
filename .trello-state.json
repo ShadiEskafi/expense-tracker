@@ -14,7 +14,6 @@
       "F019"
     ],
     "Ready": [
-      "F012",
       "F013",
       "F014",
       "F015",
@@ -35,7 +34,8 @@
       "F008",
       "F009",
       "F010",
-      "F011"
+      "F011",
+      "F012"
     ]
   },
   "wip_count": 0,
@@ -775,7 +775,7 @@
         "F005",
         "F008"
       ],
-      "description": "### Feature ID\nF011\n\n### Behavior\nDisplays chronologically grouped transactions with real-time text search and multi-filtering by type, category, date range, account, and tags.\n\n### Verification\nnpm test src/features/transactions/filter.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F005\n- F008\n\n### Evidence\nAll 28 unit and integration tests passed in src/features/transactions/filter.test.js (305ms), and 9 integration tests passed in src/features/transactions/TransactionLedger.test.jsx (total 289 tests passing across 15 test suites). Fully implements chronological date grouping with daily subtotal headers ('اليوم', 'أمس', specific Arabic dates), real-time debounced text search with Arabic diacritic normalization (tashkeel, alef forms, taa marbuta), segmented type tabs (الكل, مصاريف, دخل, تحويلات), date range preset pills with custom date boundaries, filter drawer for multi-filtering by categories and accounts and amount ranges, active filters indicator badge and removable chips, filtered financial KPI summary banner (Total Expenses, Total Income, Net Cash Flow), accessible TransactionDetailModal, non-destructive TransactionEditModal, and soft-delete TransactionDeleteConfirmModal with automatic ledger-backed balance restoration.",
+      "description": "### Feature ID\nF011\n\n### Behavior\nDisplays chronologically grouped transactions with real-time text search and multi-filtering by type, category, date range, account, and tags.\n\n### Verification\nnpm test src/features/transactions/filter.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F005\n- F008\n\n### Evidence\nAll 28 unit and integration tests passed in src/features/transactions/filter.test.js (305ms), and 9 integration tests passed in src/features/transactions/TransactionLedger.test.jsx (total 289 tests passing across 15 test suites). Fully implements chronological date grouping with daily subtotal headers ('اليوم', 'أمس', specific Arabic dates), real-time debounced text search with Arabic diacritic normalization (tashkeel, alef forms, taa marbuta), segmented type tabs (الكل, مصاريف, دخل, تحويلات), date range preset pills with custom date boundaries, filter drawer for multi-filtering by categories and accounts and amount ranges, active filters indicator badge and removable chips, filtered financial KPI summary banner (Total Expenses, Total Income, Net Cash Flow), accessible TransactionDetailModal, non-destructive TransactionEditModal, and soft-delete TransactionDeleteConfirmModal with automatic ledger-backed balance restoration.\n\n### Commit\n7538a55\n\n### Completion Date\n2026-10-25",
       "checklists": [
         {
           "name": "Implementation",
@@ -837,8 +837,8 @@
     {
       "id": "F012",
       "title": "[F012] Periodic Reports & Analytics View",
-      "list": "Ready",
-      "harness_state": "not-started",
+      "list": "Done",
+      "harness_state": "passing",
       "labels": [
         "MVP",
         "UI/UX"
@@ -847,14 +847,14 @@
         "F010",
         "F011"
       ],
-      "description": "### Feature ID\nF012\n\n### Behavior\nAllows filtering by week, month, year, or custom date range, displaying category expenditure breakdown and ranked top expenses.\n\n### Verification\nnpm run lint && npm run build\n\n### Harness State\nnot-started\n\n### Dependencies\n- F010\n- F011",
+      "description": "### Feature ID\nF012\n\n### Behavior\nAllows filtering by week, month, year, or custom date range, displaying category expenditure breakdown and ranked top expenses.\n\n### Verification\nnpm run lint && npm run build\n\n### Harness State\npassing\n\n### Dependencies\n- F010\n- F011\n\n### Evidence\nAll checks passed: npm run lint with 0 errors, npm run build producing production bundle in 5.70s, 20 reports engine unit tests in src/features/reports/reportsAnalytics.test.js, and 11 integration tests in src/features/reports/ReportsView.test.jsx (total 320 automated tests passing across 17 test suites). Fully implements period presets (This Week, This Month, This Year, Custom Date Range), period navigation stepper with Arabic headlines, 5 period financial health KPI cards (Total Expense, Total Income, Net Cash Flow with surplus/deficit badge, Daily Average Spend, and Savings Rate %), Recharts Donut spending category breakdown chart with central overlay and interactive category drilldown pills, accessible sortable breakdown data table with proportional colored progress bars, Recharts Grouped Bar spending cadence trend chart (Income vs Expense) with accessible fallback, ranked top individual expenses list (#1, #2, ...) with rank badges and metadata, transaction detail modal inspection, non-destructive editing and deletion, welcoming empty state, and responsive RTL styling conforming to /impeccable, /ui-ux-pro-max, and /make-interfaces-feel-better.",
       "checklists": [
         {
           "name": "Implementation",
           "items": [
             {
               "name": "Feature implemented",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -863,23 +863,23 @@
           "items": [
             {
               "name": "Feature verification passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant tests passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Typecheck passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Lint passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Build passed",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -888,19 +888,19 @@
           "items": [
             {
               "name": "feature_list.json updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "progress.md updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant docs updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Atomic commit created",
-              "checked": false
+              "checked": true
             }
           ]
         }

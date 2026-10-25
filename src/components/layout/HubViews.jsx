@@ -1,10 +1,10 @@
 import {
   AccountsIcon,
-  ReportsIcon,
   CategoriesIcon,
 } from '../common/Icons';
 import { Dashboard } from '../dashboard/Dashboard.jsx';
 import { TransactionLedger } from '../../features/transactions/TransactionLedger.jsx';
+import { ReportsView as PeriodicReportsView } from '../../features/reports/ReportsView.jsx';
 
 /**
  * Hub Views for AppShell
@@ -51,23 +51,14 @@ export function AccountsView() {
   );
 }
 
-export function ReportsView() {
+export function ReportsView({ onOpenQuickAdd, onSelectTab, refreshTrigger, onTransactionMutated }) {
   return (
-    <div className="hub-view">
-      <div className="surface-card">
-        <div className="surface-card-header">
-          <div>
-            <h3 className="text-h2">التقارير والتحليلات البيانية</h3>
-            <span className="text-caption">تحليل الإنفاق، التوزيع حسب التصنيف، وأعلى المصاريف</span>
-          </div>
-        </div>
-        <div className="empty-placeholder-card">
-          <ReportsIcon size={36} className="placeholder-icon" />
-          <h4 className="text-h3">قسم التحليلات والرسوم البيانية</h4>
-          <p className="text-caption">سيتم ربط المخططات الإحصائية في ميزتي F010 و F012.</p>
-        </div>
-      </div>
-    </div>
+    <PeriodicReportsView
+      onOpenQuickAdd={onOpenQuickAdd}
+      onSelectTab={onSelectTab}
+      refreshTrigger={refreshTrigger}
+      onTransactionMutated={onTransactionMutated}
+    />
   );
 }
 

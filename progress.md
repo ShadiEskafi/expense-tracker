@@ -37,18 +37,19 @@ The project harness engineering foundation has been established with all 5 core 
 - [x] **F009**: Quick Add Transaction Flow (<5s Target) (`src/components/QuickAdd.jsx`, `src/components/QuickAdd.css`, `src/components/quickAddConstants.js`, `src/components/QuickAdd.test.jsx` with 20 passing tests, wired into `AppShell.jsx`, built with `/impeccable`, `/ui-ux-pro-max`, `/make-interfaces-feel-better`, `/transitions-dev`).
 - [x] **F010**: Dashboard Financial Overview & Analytics Widgets (`src/services/dashboardAnalytics.js`, `src/services/dashboardAnalytics.test.js` with 7 passing tests, `src/components/dashboard/` with `Dashboard.jsx`, `Dashboard.css`, `DashboardKpiCards.jsx`, `AccountBalanceCards.jsx`, `CategoryBreakdownChart.jsx`, `CashFlowTrendChart.jsx`, `RecentTransactionsWidget.jsx`, `DashboardBanner.jsx`, `dashboardUtils.js`, `Dashboard.test.jsx` with 13 passing tests, wired into `AppShell.jsx`, built with `/impeccable`, `/ui-ux-pro-max`, `/make-interfaces-feel-better`).
 - [x] **F011**: Transaction Ledger, Keyword Search & Multi-Filtering (`src/features/transactions/` with `filter.js`, `filter.test.js` with 28 passing tests, `TransactionLedger.jsx`, `TransactionLedger.css`, `TransactionFilterDrawer.jsx`, `TransactionDetailModal.jsx`, `TransactionEditModal.jsx`, `TransactionDeleteConfirmModal.jsx`, `TransactionLedger.test.jsx` with 9 passing tests, wired into `AppShell.jsx` & `HubViews.jsx`, built with `/impeccable`, `/make-interfaces-feel-better`, `/ui-ux-pro-max`, `/transitions-dev`).
+- [x] **F012**: Periodic Reports & Analytics View (`src/features/reports/` with `reportsAnalytics.js`, `reportsAnalytics.test.js` with 20 passing tests, `ReportsView.jsx`, `ReportsView.css`, `ReportsPeriodControls.jsx`, `ReportsKpiCards.jsx`, `ReportsCategoryBreakdown.jsx`, `ReportsSpendingCadence.jsx`, `ReportsTopExpenses.jsx`, and `ReportsView.test.jsx` with 11 passing tests, total 320 passing tests across 17 suites, clean build and lint, wired into `AppShell.jsx` & `HubViews.jsx`, built with `/impeccable`, `/ui-ux-pro-max`, `/make-interfaces-feel-better`).
 - [x] **Trello Visual Tracking Integration**: Operational specification in `docs/project-tracking.md`, synchronization engine in `scripts/trello-sync.js`, routing in `AGENTS.md`, and 12 unit tests in `scripts/trello-sync.test.js`.
 
 ---
 
 ## 3. Current Focus & WIP Limit (WIP=1)
 - **Active Feature**: None currently in progress (`state: passing`).
-- **Next Feature in Queue**: **F012** (`Periodic Reports & Analytics View`).
+- **Next Feature in Queue**: **F013** (`Categories Management View`).
 
 ---
 
 ## 4. Blockers & Risks
-- **Blockers**: None. Full health pipeline (lint, 289 vitest tests across 15 suites, vite build) passing with 0 errors.
+- **Blockers**: None. Full health pipeline (lint, 320 vitest tests across 17 suites, vite build) passing with 0 errors.
 - **Risks & Mitigations**:
   - *Browser Storage Eviction*: Mitigated by calling `navigator.storage.persist()` and providing complete atomic JSON backup/restore.
   - *Multi-Device Concurrency*: Mitigated by Optimistic Concurrency Control (OCC) and conflict archiving in `conflict_audit_log`.
@@ -56,9 +57,9 @@ The project harness engineering foundation has been established with all 5 core 
 ---
 
 ## 5. Handoff Protocol for Next Session / Agent
-1. Execute `./init.ps1` (or `./init.sh`) to confirm zero regressions (289 tests passing).
+1. Execute `./init.ps1` (or `./init.sh`) to confirm zero regressions (320 tests passing).
 2. Read `progress.md` and `DECISIONS.md`.
-3. Pick **F012** from `feature_list.json`, transition `state: active`.
-4. Run `npm run trello:sync` to move F012 card to `In Progress`.
-5. Implement Periodic Reports & Analytics View (`src/features/reports/` or `src/components/reports/`), supporting time interval selection (Week, Month, Year, Custom), expenditure category breakdown ranking with percentages, top individual expenses ranking, and visual charts.
+3. Pick **F013** (`Categories Management View`) from `feature_list.json`, transition `state: active`.
+4. Run `npm run trello:sync` to move F013 card to `In Progress`.
+5. Implement Categories Management View (`src/features/categories/` or `src/components/categories/`), supporting switching between Expense and Income categories, pre-seeded vs custom categories, color and icon customization, create/edit modals, and category deletion guards (reassignment prompt if referenced by active transactions).
 6. Verify automated tests (`npm run lint && npm run build`), update `feature_list.json` to `passing` with evidence, run `npm run trello:sync`, and record atomic git commit.

@@ -144,7 +144,14 @@ export function AppShell() {
       case 'accounts':
         return <AccountsView />;
       case 'reports':
-        return <ReportsView />;
+        return (
+          <ReportsView
+            onOpenQuickAdd={handleOpenQuickAdd}
+            onSelectTab={setActiveTab}
+            refreshTrigger={dashboardRefreshTrigger}
+            onTransactionMutated={() => setDashboardRefreshTrigger((p) => p + 1)}
+          />
+        );
       case 'categories':
         return <CategoriesView />;
       case 'settings':
