@@ -56,8 +56,8 @@
       "name": "Credit Card Liability & Financial Position Metrics",
       "behavior": "Distinguishes between Available Funds, Credit Card Debt (Liabilities), Net Financial Position, and Period Cash Flow. Card payments reduce liability as transfers.",
       "verification": "npm test src/services/financialMetrics.test.js",
-      "state": "not-started",
-      "evidence": null
+      "state": "passing",
+      "evidence": "All 28 unit tests passed in src/services/financialMetrics.test.js (323ms), verifying distinction between Available Liquid Funds, Credit Card Debt (Liabilities), Overdraft Liabilities, Net Financial Position, Period Cash Flow (income, expenses, savings rate), Transfer Non-Distortion Invariant (transfers never alter income/expense/cash flow), Month-over-Month comparisons, Credit Card Liability summary, validated recordCreditCardPayment execution, and atomic dashboard overview metrics."
     },
     {
       "id": "F008",

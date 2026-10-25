@@ -32,18 +32,19 @@ The project harness engineering foundation has been established with all 5 core 
 - [x] **F004**: Account Management & Ledger-Backed Balance Service (`src/services/account.js`, `src/services/account.test.js` with 34 passing tests).
 - [x] **F005**: Expense & Income Transaction CRUD (`src/services/transaction.js`, `src/services/transaction.test.js` with 35 passing tests).
 - [x] **F006**: Internal Account Transfer (Single-Record Model) (`src/services/transfer.js`, `src/services/transfer.test.js` with 31 passing tests).
+- [x] **F007**: Credit Card Liability & Financial Position Metrics (`src/services/financialMetrics.js`, `src/services/financialMetrics.test.js` with 28 passing tests).
 - [x] **Trello Visual Tracking Integration**: Operational specification in `docs/project-tracking.md`, synchronization engine in `scripts/trello-sync.js`, routing in `AGENTS.md`, and 12 unit tests in `scripts/trello-sync.test.js`.
 
 ---
 
 ## 3. Current Focus & WIP Limit (WIP=1)
 - **Active Feature**: None currently in progress (`state: not-started`).
-- **Next Feature in Queue**: **F007** (`Credit Card Liability & Financial Position Metrics`).
+- **Next Feature in Queue**: **F008** (`Arabic-First & RTL Design System Layout Shell`).
 
 ---
 
 ## 4. Blockers & Risks
-- **Blockers**: None. Full health pipeline (lint, 175 vitest tests, vite build) passing with 0 errors.
+- **Blockers**: None. Full health pipeline (lint, 203 vitest tests, vite build) passing with 0 errors.
 - **Risks & Mitigations**:
   - *Browser Storage Eviction*: Mitigated by calling `navigator.storage.persist()` and providing complete atomic JSON backup/restore.
   - *Multi-Device Concurrency*: Mitigated by Optimistic Concurrency Control (OCC) and conflict archiving in `conflict_audit_log`.
@@ -53,7 +54,7 @@ The project harness engineering foundation has been established with all 5 core 
 ## 5. Handoff Protocol for Next Session / Agent
 1. Execute `./init.ps1` (or `./init.sh`) to confirm zero regressions.
 2. Read `progress.md` and `DECISIONS.md`.
-3. Pick **F007** from `feature_list.json`, transition `state: active`.
-4. Run `npm run trello:sync` to move F007 card to `In Progress`.
-5. Implement Credit Card Liability & Financial Position Metrics (`src/services/financialMetrics.js` and `src/services/financialMetrics.test.js`), calculating Available Funds (Cash, Bank, Wallet), Liabilities (Credit Card Debt), Net Financial Position, and Period Cash Flow.
-6. Verify test pass (`npm test src/services/financialMetrics.test.js`), update `feature_list.json` to `passing` with evidence, run `npm run trello:sync`, and commit.
+3. Pick **F008** from `feature_list.json`, transition `state: active`.
+4. Run `npm run trello:sync` to move F008 card to `In Progress`.
+5. Implement Arabic-First & RTL Design System Layout Shell following `design-system/` specifications with IBM Plex Sans Arabic, CSS design tokens, bottom navigation for mobile, and right-aligned sidebar for desktop.
+6. Verify test pass (`npm run lint && npm run build`), update `feature_list.json` to `passing` with evidence, run `npm run trello:sync`, and commit.

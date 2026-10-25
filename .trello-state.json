@@ -21,7 +21,6 @@
       "F020"
     ],
     "Ready": [
-      "F007",
       "F008",
       "F014",
       "F016",
@@ -35,7 +34,8 @@
       "F003",
       "F004",
       "F005",
-      "F006"
+      "F006",
+      "F007"
     ]
   },
   "wip_count": 0,
@@ -412,7 +412,7 @@
         "F004",
         "F005"
       ],
-      "description": "### Feature ID\nF006\n\n### Behavior\nExecutes transfers between accounts using a single transaction of type 'transfer' with source and destination account IDs, atomically updating both balances.\n\n### Verification\nnpm test src/services/transfer.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F004\n- F005\n\n### Evidence\nAll 31 unit tests passed in src/services/transfer.test.js (425ms), verifying single-record transfer model, integer minor units, category_id null invariant, atomic source deduction & destination crediting, credit card debt settlement without cash flow distortion, transfer updates with 4-account reconciliation, soft deletion with atomic balance restoration, restoration guards against deleted accounts, search & multi-filtering, and offline mutation queue synchronization.",
+      "description": "### Feature ID\nF006\n\n### Behavior\nExecutes transfers between accounts using a single transaction of type 'transfer' with source and destination account IDs, atomically updating both balances.\n\n### Verification\nnpm test src/services/transfer.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F004\n- F005\n\n### Evidence\nAll 31 unit tests passed in src/services/transfer.test.js (425ms), verifying single-record transfer model, integer minor units, category_id null invariant, atomic source deduction & destination crediting, credit card debt settlement without cash flow distortion, transfer updates with 4-account reconciliation, soft deletion with atomic balance restoration, restoration guards against deleted accounts, search & multi-filtering, and offline mutation queue synchronization.\n\n### Commit\n466a3d8\n\n### Completion Date\n2026-10-25",
       "checklists": [
         {
           "name": "Implementation",
@@ -474,8 +474,8 @@
     {
       "id": "F007",
       "title": "[F007] Credit Card Liability & Financial Position Metrics",
-      "list": "Ready",
-      "harness_state": "not-started",
+      "list": "Done",
+      "harness_state": "passing",
       "labels": [
         "MVP",
         "Financial Logic"
@@ -485,14 +485,14 @@
         "F005",
         "F006"
       ],
-      "description": "### Feature ID\nF007\n\n### Behavior\nDistinguishes between Available Funds, Credit Card Debt (Liabilities), Net Financial Position, and Period Cash Flow. Card payments reduce liability as transfers.\n\n### Verification\nnpm test src/services/financialMetrics.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F004\n- F005\n- F006",
+      "description": "### Feature ID\nF007\n\n### Behavior\nDistinguishes between Available Funds, Credit Card Debt (Liabilities), Net Financial Position, and Period Cash Flow. Card payments reduce liability as transfers.\n\n### Verification\nnpm test src/services/financialMetrics.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F004\n- F005\n- F006\n\n### Evidence\nAll 28 unit tests passed in src/services/financialMetrics.test.js (323ms), verifying distinction between Available Liquid Funds, Credit Card Debt (Liabilities), Overdraft Liabilities, Net Financial Position, Period Cash Flow (income, expenses, savings rate), Transfer Non-Distortion Invariant (transfers never alter income/expense/cash flow), Month-over-Month comparisons, Credit Card Liability summary, validated recordCreditCardPayment execution, and atomic dashboard overview metrics.",
       "checklists": [
         {
           "name": "Implementation",
           "items": [
             {
               "name": "Feature implemented",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -501,23 +501,23 @@
           "items": [
             {
               "name": "Feature verification passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant tests passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Typecheck passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Lint passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Build passed",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -526,19 +526,19 @@
           "items": [
             {
               "name": "feature_list.json updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "progress.md updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant docs updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Atomic commit created",
-              "checked": false
+              "checked": true
             }
           ]
         }
