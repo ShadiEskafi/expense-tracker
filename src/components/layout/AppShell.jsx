@@ -153,7 +153,12 @@ export function AppShell() {
           />
         );
       case 'categories':
-        return <CategoriesView />;
+        return (
+          <CategoriesView
+            refreshTrigger={dashboardRefreshTrigger}
+            onCategoryMutated={() => setDashboardRefreshTrigger((p) => p + 1)}
+          />
+        );
       case 'settings':
         return <SettingsView theme={theme} onToggleTheme={handleToggleTheme} />;
       default:

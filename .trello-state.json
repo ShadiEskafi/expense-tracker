@@ -14,7 +14,6 @@
       "F019"
     ],
     "Ready": [
-      "F013",
       "F014",
       "F015",
       "F016",
@@ -35,7 +34,8 @@
       "F009",
       "F010",
       "F011",
-      "F012"
+      "F012",
+      "F013"
     ]
   },
   "wip_count": 0,
@@ -847,7 +847,7 @@
         "F010",
         "F011"
       ],
-      "description": "### Feature ID\nF012\n\n### Behavior\nAllows filtering by week, month, year, or custom date range, displaying category expenditure breakdown and ranked top expenses.\n\n### Verification\nnpm run lint && npm run build\n\n### Harness State\npassing\n\n### Dependencies\n- F010\n- F011\n\n### Evidence\nAll checks passed: npm run lint with 0 errors, npm run build producing production bundle in 5.70s, 20 reports engine unit tests in src/features/reports/reportsAnalytics.test.js, and 11 integration tests in src/features/reports/ReportsView.test.jsx (total 320 automated tests passing across 17 test suites). Fully implements period presets (This Week, This Month, This Year, Custom Date Range), period navigation stepper with Arabic headlines, 5 period financial health KPI cards (Total Expense, Total Income, Net Cash Flow with surplus/deficit badge, Daily Average Spend, and Savings Rate %), Recharts Donut spending category breakdown chart with central overlay and interactive category drilldown pills, accessible sortable breakdown data table with proportional colored progress bars, Recharts Grouped Bar spending cadence trend chart (Income vs Expense) with accessible fallback, ranked top individual expenses list (#1, #2, ...) with rank badges and metadata, transaction detail modal inspection, non-destructive editing and deletion, welcoming empty state, and responsive RTL styling conforming to /impeccable, /ui-ux-pro-max, and /make-interfaces-feel-better.",
+      "description": "### Feature ID\nF012\n\n### Behavior\nAllows filtering by week, month, year, or custom date range, displaying category expenditure breakdown and ranked top expenses.\n\n### Verification\nnpm run lint && npm run build\n\n### Harness State\npassing\n\n### Dependencies\n- F010\n- F011\n\n### Evidence\nAll checks passed: npm run lint with 0 errors, npm run build producing production bundle in 5.70s, 20 reports engine unit tests in src/features/reports/reportsAnalytics.test.js, and 11 integration tests in src/features/reports/ReportsView.test.jsx (total 320 automated tests passing across 17 test suites). Fully implements period presets (This Week, This Month, This Year, Custom Date Range), period navigation stepper with Arabic headlines, 5 period financial health KPI cards (Total Expense, Total Income, Net Cash Flow with surplus/deficit badge, Daily Average Spend, and Savings Rate %), Recharts Donut spending category breakdown chart with central overlay and interactive category drilldown pills, accessible sortable breakdown data table with proportional colored progress bars, Recharts Grouped Bar spending cadence trend chart (Income vs Expense) with accessible fallback, ranked top individual expenses list (#1, #2, ...) with rank badges and metadata, transaction detail modal inspection, non-destructive editing and deletion, welcoming empty state, and responsive RTL styling conforming to /impeccable, /ui-ux-pro-max, and /make-interfaces-feel-better.\n\n### Commit\n7e502cd\n\n### Completion Date\n2026-10-25",
       "checklists": [
         {
           "name": "Implementation",
@@ -909,8 +909,8 @@
     {
       "id": "F013",
       "title": "[F013] Categories Management View",
-      "list": "Ready",
-      "harness_state": "not-started",
+      "list": "Done",
+      "harness_state": "passing",
       "labels": [
         "MVP",
         "UI/UX",
@@ -921,14 +921,14 @@
         "F005",
         "F008"
       ],
-      "description": "### Feature ID\nF013\n\n### Behavior\nAllows viewing, adding, editing, and deleting custom categories with transaction reassignment guard preventing deletion of referenced categories.\n\n### Verification\nnpm test src/services/categoryGuard.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F003\n- F005\n- F008",
+      "description": "### Feature ID\nF013\n\n### Behavior\nAllows viewing, adding, editing, and deleting custom categories with transaction reassignment guard preventing deletion of referenced categories.\n\n### Verification\nnpm test src/services/categoryGuard.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F003\n- F005\n- F008\n\n### Evidence\nAll checks passed: npm run lint with 0 errors, npm run build producing production bundle in 4.16s, 16 unit tests in src/services/categoryGuard.test.js, and 12 component tests in src/features/categories/CategoriesView.test.jsx (total 348 automated tests passing across 19 test suites). Fully implements Categories Management View with sliding tabs (Expense vs Income), real-time search & scope filter pills (الكل, الافتراضية, المخصصة), 4 overview metric counters, CategoryCard with badge & transaction usage count, CategoryFormModal for create & edit with type selector, name validation, 18-icon picker, 16-color palette and real-time preview, and CategoryDeleteModal with CategoryInUse transaction reassignment guard preventing deletion of referenced categories and atomically reassigning transactions.",
       "checklists": [
         {
           "name": "Implementation",
           "items": [
             {
               "name": "Feature implemented",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -937,23 +937,23 @@
           "items": [
             {
               "name": "Feature verification passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant tests passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Typecheck passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Lint passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Build passed",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -962,19 +962,19 @@
           "items": [
             {
               "name": "feature_list.json updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "progress.md updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant docs updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Atomic commit created",
-              "checked": false
+              "checked": true
             }
           ]
         }

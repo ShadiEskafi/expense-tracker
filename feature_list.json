@@ -104,8 +104,8 @@
       "name": "Categories Management View",
       "behavior": "Allows viewing, adding, editing, and deleting custom categories with transaction reassignment guard preventing deletion of referenced categories.",
       "verification": "npm test src/services/categoryGuard.test.js",
-      "state": "not-started",
-      "evidence": null
+      "state": "passing",
+      "evidence": "All checks passed: npm run lint with 0 errors, npm run build producing production bundle in 4.16s, 16 unit tests in src/services/categoryGuard.test.js, and 12 component tests in src/features/categories/CategoriesView.test.jsx (total 348 automated tests passing across 19 test suites). Fully implements Categories Management View with sliding tabs (Expense vs Income), real-time search & scope filter pills (الكل, الافتراضية, المخصصة), 4 overview metric counters, CategoryCard with badge & transaction usage count, CategoryFormModal for create & edit with type selector, name validation, 18-icon picker, 16-color palette and real-time preview, and CategoryDeleteModal with CategoryInUse transaction reassignment guard preventing deletion of referenced categories and atomically reassigning transactions."
     },
     {
       "id": "F014",

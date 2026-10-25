@@ -1,10 +1,10 @@
 import {
   AccountsIcon,
-  CategoriesIcon,
 } from '../common/Icons';
 import { Dashboard } from '../dashboard/Dashboard.jsx';
 import { TransactionLedger } from '../../features/transactions/TransactionLedger.jsx';
 import { ReportsView as PeriodicReportsView } from '../../features/reports/ReportsView.jsx';
+import { CategoriesView as CategoriesManagementView } from '../../features/categories/CategoriesView.jsx';
 
 /**
  * Hub Views for AppShell
@@ -62,23 +62,12 @@ export function ReportsView({ onOpenQuickAdd, onSelectTab, refreshTrigger, onTra
   );
 }
 
-export function CategoriesView() {
+export function CategoriesView({ refreshTrigger, onCategoryMutated }) {
   return (
-    <div className="hub-view">
-      <div className="surface-card">
-        <div className="surface-card-header">
-          <div>
-            <h3 className="text-h2">إدارة التصنيفات</h3>
-            <span className="text-caption">تصنيفات المصاريف والدخل المحددة مسبقاً وتخصيصها</span>
-          </div>
-        </div>
-        <div className="empty-placeholder-card">
-          <CategoriesIcon size={36} className="placeholder-icon" />
-          <h4 className="text-h3">التصنيفات المعتمدة محملة</h4>
-          <p className="text-caption">16 تصنيفاً قياسياً معرّفة بدقة في F003، مع إمكانية التخصيص في F013.</p>
-        </div>
-      </div>
-    </div>
+    <CategoriesManagementView
+      refreshTrigger={refreshTrigger}
+      onCategoryMutated={onCategoryMutated}
+    />
   );
 }
 
