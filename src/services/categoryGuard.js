@@ -145,7 +145,11 @@ export async function deleteCategoryWithGuard(
     }
 
     // Execute atomic reassignment within a database transaction
-    await database.transaction('rw', [database.transactions, database.categories], async () => {
+    const tables = [database.transactions, database.categories];
+    if (database.offline_mutation_queue) {
+      tables.push(database.offline_mutation_queue);
+    }
+    await database.transaction('rw', tables, async () => {
       reassignedCount = await reassignTransactionsCategory(
         categoryId,
         reassignToCategoryId,

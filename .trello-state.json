@@ -10,11 +10,10 @@
   ],
   "distribution": {
     "Backlog": [
-      "F018",
       "F019"
     ],
     "Ready": [
-      "F017",
+      "F018",
       "F020"
     ],
     "In Progress": [],
@@ -36,7 +35,8 @@
       "F-MOB",
       "F014",
       "F015",
-      "F016"
+      "F016",
+      "F017"
     ]
   },
   "wip_count": 0,
@@ -1210,7 +1210,7 @@
         "F004",
         "F005"
       ],
-      "description": "### Feature ID\nF016\n\n### Behavior\nExports complete JSON backup; restores data atomically with schema validation, metadata preview, and pre-restore rollback snapshot.\n\n### Verification\nnpm test src/services/backupRestore.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F001\n- F003\n- F004\n- F005\n\n### Evidence\nAll 26 unit and integration tests passed in src/services/backupRestore.test.js (766ms), and full suite passed with 463 tests across 24 test suites. Fully implements 6-step atomic backup and restore pipeline (ADR-008, Section 22): schema versioning and validation, metadata preview, in-memory pre-restore safety snapshot across all 6 Dexie tables, atomic Dexie transaction rollback on error, browser File upload & parsing, UTF-8 JSON file download, accessible BackupRestoreModal dialog with drag & drop zone, interactive preview cards and safety warnings, SettingsView integration, and full application state refresh.",
+      "description": "### Feature ID\nF016\n\n### Behavior\nExports complete JSON backup; restores data atomically with schema validation, metadata preview, and pre-restore rollback snapshot.\n\n### Verification\nnpm test src/services/backupRestore.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F001\n- F003\n- F004\n- F005\n\n### Evidence\nAll 26 unit and integration tests passed in src/services/backupRestore.test.js (766ms), and full suite passed with 463 tests across 24 test suites. Fully implements 6-step atomic backup and restore pipeline (ADR-008, Section 22): schema versioning and validation, metadata preview, in-memory pre-restore safety snapshot across all 6 Dexie tables, atomic Dexie transaction rollback on error, browser File upload & parsing, UTF-8 JSON file download, accessible BackupRestoreModal dialog with drag & drop zone, interactive preview cards and safety warnings, SettingsView integration, and full application state refresh.\n\n### Commit\n212a734\n\n### Completion Date\n2026-10-26",
       "checklists": [
         {
           "name": "Implementation",
@@ -1272,8 +1272,8 @@
     {
       "id": "F017",
       "title": "[F017] Offline Mutation Queue & Concurrency Engine (OCC)",
-      "list": "Ready",
-      "harness_state": "not-started",
+      "list": "Done",
+      "harness_state": "passing",
       "labels": [
         "MVP",
         "Sync"
@@ -1282,14 +1282,14 @@
         "F001",
         "F005"
       ],
-      "description": "### Feature ID\nF017\n\n### Behavior\nQueues offline CRUD operations sequentially with client_base_version; handles version-based conflict archiving into conflict_audit_log upon conflict.\n\n### Verification\nnpm test src/services/syncQueue.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F001\n- F005",
+      "description": "### Feature ID\nF017\n\n### Behavior\nQueues offline CRUD operations sequentially with client_base_version; handles version-based conflict archiving into conflict_audit_log upon conflict.\n\n### Verification\nnpm test src/services/syncQueue.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F001\n- F005\n\n### Evidence\nAll 38 unit and integration tests passed in src/services/syncQueue.test.js (184ms), and full suite passed with 501 tests across 25 test suites. Fully implements Offline Mutation Queue & Concurrency Engine (OCC) satisfying ADR-005 and Frozen Specification Section 18: strict FIFO mutation queuing (UPSERT, DELETE), client_base_version tracking, mutation status transitions (pending, syncing, failed, requeued), retry counter with permanent failure thresholds, queue metrics and SyncStatusPill resolution, Optimistic Concurrency Control (OCC) revision verification, non-destructive conflict archiving into conflict_audit_log, automatic ledger-backed account balance reconciliation upon transaction conflict, sync response dispatching, and Arabic sync alert event subscriptions.",
       "checklists": [
         {
           "name": "Implementation",
           "items": [
             {
               "name": "Feature implemented",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -1298,23 +1298,23 @@
           "items": [
             {
               "name": "Feature verification passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant tests passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Typecheck passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Lint passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Build passed",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -1323,19 +1323,19 @@
           "items": [
             {
               "name": "feature_list.json updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "progress.md updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant docs updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Atomic commit created",
-              "checked": false
+              "checked": true
             }
           ]
         }
@@ -1344,7 +1344,7 @@
     {
       "id": "F018",
       "title": "[F018] Supabase Cloud Sync & Initial Account Merge",
-      "list": "Backlog",
+      "list": "Ready",
       "harness_state": "not-started",
       "labels": [
         "MVP",

@@ -380,7 +380,24 @@ export async function createCategory(data, database = db) {
     sync_version: typeof data.sync_version === 'number' ? data.sync_version : 1
   };
 
-  await database.categories.add(categoryRecord);
+  if (database.offline_mutation_queue) {
+    await database.transaction('rw', database.categories, database.offline_mutation_queue, async () => {
+      await database.categories.add(categoryRecord);
+      await database.offline_mutation_queue.add({
+        id: generateUUID(),
+        entity_type: 'category',
+        entity_id: categoryRecord.id,
+        action: 'UPSERT',
+        client_base_version: 0,
+        payload: JSON.stringify(categoryRecord),
+        client_timestamp: now,
+        retry_count: 0,
+        status: 'pending'
+      });
+    });
+  } else {
+    await database.categories.add(categoryRecord);
+  }
   return categoryRecord;
 }
 
@@ -444,7 +461,24 @@ export async function updateCategory(id, updates, database = db) {
   updatedRecord.updated_at = new Date().toISOString();
   updatedRecord.sync_version = (existing.sync_version || 1) + 1;
 
-  await database.categories.put(updatedRecord);
+  if (database.offline_mutation_queue) {
+    await database.transaction('rw', database.categories, database.offline_mutation_queue, async () => {
+      await database.categories.put(updatedRecord);
+      await database.offline_mutation_queue.add({
+        id: generateUUID(),
+        entity_type: 'category',
+        entity_id: updatedRecord.id,
+        action: 'UPSERT',
+        client_base_version: existing.sync_version || 1,
+        payload: JSON.stringify(updatedRecord),
+        client_timestamp: updatedRecord.updated_at,
+        retry_count: 0,
+        status: 'pending'
+      });
+    });
+  } else {
+    await database.categories.put(updatedRecord);
+  }
   return updatedRecord;
 }
 
@@ -492,7 +526,24 @@ export async function deleteCategory(id, database = db, { force = false } = {}) 
     sync_version: (existing.sync_version || 1) + 1
   };
 
-  await database.categories.put(updatedRecord);
+  if (database.offline_mutation_queue) {
+    await database.transaction('rw', database.categories, database.offline_mutation_queue, async () => {
+      await database.categories.put(updatedRecord);
+      await database.offline_mutation_queue.add({
+        id: generateUUID(),
+        entity_type: 'category',
+        entity_id: updatedRecord.id,
+        action: 'DELETE',
+        client_base_version: existing.sync_version || 1,
+        payload: JSON.stringify(updatedRecord),
+        client_timestamp: now,
+        retry_count: 0,
+        status: 'pending'
+      });
+    });
+  } else {
+    await database.categories.put(updatedRecord);
+  }
   return updatedRecord;
 }
 
@@ -520,7 +571,10 @@ export async function reassignTransactionsCategory(fromCategoryId, toCategoryId,
   }
 
   let count = 0;
-  await database.transaction('rw', database.transactions, async () => {
+  const tables = [database.transactions];
+  if (database.offline_mutation_queue) tables.push(database.offline_mutation_queue);
+
+  await database.transaction('rw', tables, async () => {
     const transactions = await database.transactions
       .where('category_id')
       .equals(fromCategoryId)
@@ -528,11 +582,27 @@ export async function reassignTransactionsCategory(fromCategoryId, toCategoryId,
 
     const now = new Date().toISOString();
     for (const tx of transactions) {
-      await database.transactions.update(tx.id, {
+      const updatedTx = {
+        ...tx,
         category_id: toCategoryId,
         updated_at: now,
         sync_version: (tx.sync_version || 1) + 1
-      });
+      };
+      await database.transactions.put(updatedTx);
+
+      if (database.offline_mutation_queue) {
+        await database.offline_mutation_queue.add({
+          id: generateUUID(),
+          entity_type: 'transaction',
+          entity_id: tx.id,
+          action: 'UPSERT',
+          client_base_version: tx.sync_version || 1,
+          payload: JSON.stringify(updatedTx),
+          client_timestamp: now,
+          retry_count: 0,
+          status: 'pending'
+        });
+      }
       count++;
     }
   });

@@ -44,27 +44,28 @@ The project harness engineering foundation has been established with all 5 core 
 - [x] **F015**: CSV Export Engine (`src/utils/csvExport.js`, `src/utils/csvExport.test.js` with 32 passing tests, `src/features/transactions/TransactionExportModal.jsx`, `TransactionLedger.jsx`, `TransactionLedger.test.jsx` with 11 passing tests, `SettingsView.jsx`, `SettingsView.test.jsx` with 12 passing tests, total 435 passing tests across 23 suites, clean build and lint, built with `/impeccable`, `/ui-ux-pro-max`, `/make-interfaces-feel-better`, `/transitions-dev`).
 - [x] **F016**: Atomic JSON Backup & Restore Pipeline (`src/services/backupRestore.js`, `src/services/backupRestore.test.js` with 26 passing tests, `src/features/settings/BackupRestoreModal.jsx`, `SettingsView.jsx`, `SettingsView.css`, and `SettingsView.test.jsx` with 14 passing tests, total 463 passing tests across 24 suites, clean build and lint, built with `/impeccable`, `/ui-ux-pro-max`, `/make-interfaces-feel-better`, `/transitions-dev`).
 - [x] **Trello Visual Tracking Integration**: Operational specification in `docs/project-tracking.md`, synchronization engine in `scripts/trello-sync.js`, routing in `AGENTS.md`, and 12 unit tests in `scripts/trello-sync.test.js`.
+- [x] **F017**: Offline Mutation Queue & Concurrency Engine (OCC) (`src/services/syncQueue.js`, `src/services/syncQueue.test.js` with 38 passing tests, category mutation queuing in `src/services/category.js` and `src/services/categoryGuard.js`, total 501 passing tests across 25 suites, clean build and lint).
 
 ---
 
 ## 3. Current Focus & WIP Limit (WIP=1)
-- **Active Feature**: None (F016 successfully concluded and verified).
-- **Next Feature in Queue**: **F017** (`Offline Mutation Queue & Concurrency Engine (OCC)`). Ready for cold-start and activation.
+- **Active Feature**: None (F017 successfully concluded and verified).
+- **Next Feature in Queue**: **F018** (`Supabase Cloud Sync & Initial Account Merge`). Ready for cold-start and activation.
 
 ---
 
 ## 4. Blockers & Risks
-- **Blockers**: None. Full health pipeline (lint, 463 vitest tests across 24 suites, vite build) passing with 0 errors.
+- **Blockers**: None. Full health pipeline (lint, 501 vitest tests across 25 suites, vite build) passing with 0 errors.
 - **Risks & Mitigations**:
   - *Browser Storage Eviction*: Mitigated by calling `navigator.storage.persist()` and providing complete atomic JSON backup/restore.
-  - *Multi-Device Concurrency*: Mitigated by Optimistic Concurrency Control (OCC) and conflict archiving in `conflict_audit_log`.
+  - *Multi-Device Concurrency*: Mitigated by Optimistic Concurrency Control (OCC) and conflict archiving in `conflict_audit_log` (F017).
 
 ---
 
 ## 5. Handoff Protocol for Next Session / Agent
-1. Execute `./init.ps1` (or `./init.sh`) to confirm zero regressions (463 tests passing across 24 suites).
+1. Execute `./init.ps1` (or `./init.sh`) to confirm zero regressions (501 tests passing across 25 suites).
 2. Read `progress.md` and `DECISIONS.md`.
-3. Pick **F017** (`Offline Mutation Queue & Concurrency Engine (OCC)`) from `feature_list.json`, transition `state: active`.
-4. Run `npm run trello:sync` to move F017 card to `In Progress`.
-5. Implement Offline Mutation Queue & OCC Engine (`src/services/syncQueue.js`), supporting FIFO queuing, monotonic client_base_version tracking, conflict detection, and conflict archiving into `conflict_audit_log`.
-6. Verify automated tests (`npm test src/services/syncQueue.test.js && npm run lint && npm run build`), update `feature_list.json` to `passing` with evidence, run `npm run trello:sync`, and record atomic git commit.
+3. Pick **F018** (`Supabase Cloud Sync & Initial Account Merge`) from `feature_list.json`, transition `state: active`.
+4. Run `npm run trello:sync` to move F018 card to `In Progress`.
+5. Implement Supabase Cloud Sync (`src/services/cloudSync.js`), supporting Supabase Auth integration, initial deterministic category merge by slug, account independence, and pull/push sync cycles using F017 queue.
+6. Verify automated tests (`npm test src/services/cloudSync.test.js && npm run lint && npm run build`), update `feature_list.json` to `passing` with evidence, run `npm run trello:sync`, and record atomic git commit.

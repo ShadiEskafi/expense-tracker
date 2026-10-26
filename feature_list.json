@@ -144,8 +144,8 @@
       "name": "Offline Mutation Queue & Concurrency Engine (OCC)",
       "behavior": "Queues offline CRUD operations sequentially with client_base_version; handles version-based conflict archiving into conflict_audit_log upon conflict.",
       "verification": "npm test src/services/syncQueue.test.js",
-      "state": "not-started",
-      "evidence": null
+      "state": "passing",
+      "evidence": "All 38 unit and integration tests passed in src/services/syncQueue.test.js (184ms), and full suite passed with 501 tests across 25 test suites. Fully implements Offline Mutation Queue & Concurrency Engine (OCC) satisfying ADR-005 and Frozen Specification Section 18: strict FIFO mutation queuing (UPSERT, DELETE), client_base_version tracking, mutation status transitions (pending, syncing, failed, requeued), retry counter with permanent failure thresholds, queue metrics and SyncStatusPill resolution, Optimistic Concurrency Control (OCC) revision verification, non-destructive conflict archiving into conflict_audit_log, automatic ledger-backed account balance reconciliation upon transaction conflict, sync response dispatching, and Arabic sync alert event subscriptions."
     },
     {
       "id": "F018",
