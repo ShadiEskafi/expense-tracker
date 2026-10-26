@@ -136,8 +136,8 @@
       "name": "Atomic JSON Backup & Restore Pipeline",
       "behavior": "Exports complete JSON backup; restores data atomically with schema validation, metadata preview, and pre-restore rollback snapshot.",
       "verification": "npm test src/services/backupRestore.test.js",
-      "state": "not-started",
-      "evidence": null
+      "state": "passing",
+      "evidence": "All 26 unit and integration tests passed in src/services/backupRestore.test.js (766ms), and full suite passed with 463 tests across 24 test suites. Fully implements 6-step atomic backup and restore pipeline (ADR-008, Section 22): schema versioning and validation, metadata preview, in-memory pre-restore safety snapshot across all 6 Dexie tables, atomic Dexie transaction rollback on error, browser File upload & parsing, UTF-8 JSON file download, accessible BackupRestoreModal dialog with drag & drop zone, interactive preview cards and safety warnings, SettingsView integration, and full application state refresh."
     },
     {
       "id": "F017",

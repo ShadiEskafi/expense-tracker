@@ -14,7 +14,6 @@
       "F019"
     ],
     "Ready": [
-      "F016",
       "F017",
       "F020"
     ],
@@ -36,7 +35,8 @@
       "F013",
       "F-MOB",
       "F014",
-      "F015"
+      "F015",
+      "F016"
     ]
   },
   "wip_count": 0,
@@ -1135,7 +1135,7 @@
         "F005",
         "F011"
       ],
-      "description": "### Feature ID\nF015\n\n### Behavior\nExports all transactions or filtered transactions to UTF-8 BOM CSV for Arabic spreadsheet compatibility.\n\n### Verification\nnpm test src/utils/csvExport.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F005\n- F011\n\n### Evidence\nAll 32 unit and integration tests passed in src/utils/csvExport.test.js (70ms), and full suite passed with 435 tests across 23 test suites. Fully implements RFC 4180 compliant CSV serialization, UTF-8 BOM encoding for seamless Arabic spreadsheet rendering in Microsoft Excel and Google Sheets, anti-CSV formula injection sanitization, ISO 4217 integer minor units to major units decimal conversion, category and account relation enrichment, single-record transfer formatting (source and destination), TransactionExportModal for selective filtered or full ledger export in TransactionLedger, direct export in SettingsView, and non-blocking toast feedback.",
+      "description": "### Feature ID\nF015\n\n### Behavior\nExports all transactions or filtered transactions to UTF-8 BOM CSV for Arabic spreadsheet compatibility.\n\n### Verification\nnpm test src/utils/csvExport.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F005\n- F011\n\n### Evidence\nAll 32 unit and integration tests passed in src/utils/csvExport.test.js (70ms), and full suite passed with 435 tests across 23 test suites. Fully implements RFC 4180 compliant CSV serialization, UTF-8 BOM encoding for seamless Arabic spreadsheet rendering in Microsoft Excel and Google Sheets, anti-CSV formula injection sanitization, ISO 4217 integer minor units to major units decimal conversion, category and account relation enrichment, single-record transfer formatting (source and destination), TransactionExportModal for selective filtered or full ledger export in TransactionLedger, direct export in SettingsView, and non-blocking toast feedback.\n\n### Commit\n8bccd16\n\n### Completion Date\n2026-10-25",
       "checklists": [
         {
           "name": "Implementation",
@@ -1197,8 +1197,8 @@
     {
       "id": "F016",
       "title": "[F016] Atomic JSON Backup & Restore Pipeline",
-      "list": "Ready",
-      "harness_state": "not-started",
+      "list": "Done",
+      "harness_state": "passing",
       "labels": [
         "MVP",
         "Data",
@@ -1210,14 +1210,14 @@
         "F004",
         "F005"
       ],
-      "description": "### Feature ID\nF016\n\n### Behavior\nExports complete JSON backup; restores data atomically with schema validation, metadata preview, and pre-restore rollback snapshot.\n\n### Verification\nnpm test src/services/backupRestore.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F001\n- F003\n- F004\n- F005",
+      "description": "### Feature ID\nF016\n\n### Behavior\nExports complete JSON backup; restores data atomically with schema validation, metadata preview, and pre-restore rollback snapshot.\n\n### Verification\nnpm test src/services/backupRestore.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F001\n- F003\n- F004\n- F005\n\n### Evidence\nAll 26 unit and integration tests passed in src/services/backupRestore.test.js (766ms), and full suite passed with 463 tests across 24 test suites. Fully implements 6-step atomic backup and restore pipeline (ADR-008, Section 22): schema versioning and validation, metadata preview, in-memory pre-restore safety snapshot across all 6 Dexie tables, atomic Dexie transaction rollback on error, browser File upload & parsing, UTF-8 JSON file download, accessible BackupRestoreModal dialog with drag & drop zone, interactive preview cards and safety warnings, SettingsView integration, and full application state refresh.",
       "checklists": [
         {
           "name": "Implementation",
           "items": [
             {
               "name": "Feature implemented",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -1226,23 +1226,23 @@
           "items": [
             {
               "name": "Feature verification passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant tests passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Typecheck passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Lint passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Build passed",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -1251,19 +1251,19 @@
           "items": [
             {
               "name": "feature_list.json updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "progress.md updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant docs updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Atomic commit created",
-              "checked": false
+              "checked": true
             }
           ]
         }

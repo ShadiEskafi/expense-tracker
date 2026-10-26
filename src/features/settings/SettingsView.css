@@ -642,7 +642,313 @@
 }
 
 /* ==========================================================================
-   5. Mobile Responsiveness (< 768px and < 480px)
+   5. Backup & Restore Modal & Actions (F016)
+   ========================================================================== */
+
+.backup-actions-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2-5);
+  flex-wrap: wrap;
+}
+
+.backup-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  background-color: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: modalBackdropFadeIn var(--duration-normal) var(--ease-out);
+}
+
+.backup-modal-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 540px;
+  max-height: 85vh;
+  padding: var(--space-6);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--color-border-card);
+  background: var(--color-bg-card);
+  box-shadow: var(--shadow-xl);
+  animation: modalScaleIn var(--duration-normal) var(--ease-out);
+  overflow-y: auto;
+}
+
+.backup-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.backup-modal-title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.backup-modal-icon-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-brand-primary-light);
+  color: var(--color-brand-primary);
+  flex-shrink: 0;
+}
+
+.backup-modal-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out);
+}
+
+.backup-modal-close-btn:hover {
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+}
+
+.backup-modal-close-btn:active {
+  transform: scale(0.96);
+}
+
+.backup-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+/* Dropzone */
+.backup-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-4);
+  border-radius: var(--radius-xl);
+  border: 2px dashed var(--color-border-subtle);
+  background: var(--color-bg-secondary);
+  cursor: pointer;
+  text-align: center;
+  transition: border-color var(--duration-fast) var(--ease-out),
+              background-color var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out);
+}
+
+.backup-dropzone:hover {
+  border-color: var(--color-brand-primary);
+  background-color: var(--color-brand-primary-light);
+}
+
+.backup-dropzone:focus-visible {
+  outline: 2px solid var(--color-brand-primary);
+  outline-offset: 2px;
+}
+
+.backup-dropzone.processing {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.backup-dropzone-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  background: var(--color-bg-card);
+  color: var(--color-brand-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.backup-dropzone-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* File pill */
+.backup-file-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2-5) var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.backup-file-icon {
+  color: var(--color-brand-primary);
+  flex-shrink: 0;
+}
+
+.change-file-btn {
+  font-size: var(--text-caption-size);
+  color: var(--color-brand-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+/* Metadata Grid */
+.backup-metadata-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-2-5);
+  margin-top: var(--space-3);
+}
+
+.backup-metadata-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-2);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-subtle);
+  text-align: center;
+}
+
+.backup-date-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-secondary);
+  padding: 0 var(--space-1);
+  margin-top: var(--space-1);
+}
+
+/* Safety Warning Callout */
+.backup-safety-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3-5) var(--space-4);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-warning-bg, #fffbeb);
+  color: var(--color-warning-text, #92400e);
+  border: 1px solid var(--color-warning-border, #fde68a);
+  margin-top: var(--space-3);
+}
+
+.backup-safety-icon-wrap {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.backup-safety-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* Success Banner */
+.backup-success-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3-5);
+  padding: var(--space-4);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-success-bg, #ecfdf5);
+  color: var(--color-success-text, #065f46);
+  border: 1px solid var(--color-success-border, #a7f3d0);
+  animation: currencyFadeIn var(--duration-normal) var(--ease-out);
+}
+
+.backup-success-icon {
+  flex-shrink: 0;
+}
+
+.backup-success-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Error Banner */
+.backup-error-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3-5);
+  padding: var(--space-3-5) var(--space-4);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-danger-bg, #fef2f2);
+  color: var(--color-danger-text, #991b1b);
+  border: 1px solid var(--color-danger-border, #fecaca);
+  animation: currencyFadeIn var(--duration-normal) var(--ease-out);
+}
+
+.backup-error-icon {
+  flex-shrink: 0;
+}
+
+.backup-error-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Modal Footer */
+.backup-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.backup-cancel-btn {
+  min-height: 40px;
+  padding: 0 var(--space-4);
+}
+
+.backup-confirm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: 0 var(--space-5);
+  background-color: var(--color-brand-primary);
+  color: #ffffff;
+  font-weight: 600;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.backup-confirm-btn:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+/* ==========================================================================
+   6. Mobile Responsiveness (< 768px and < 480px)
    ========================================================================== */
 
 @media (max-width: 768px) {
@@ -678,16 +984,22 @@
     gap: var(--space-3);
   }
 
-  .currency-modal-backdrop {
+  .currency-modal-backdrop,
+  .backup-modal-backdrop {
     align-items: flex-end;
     padding: 0;
   }
 
-  .currency-modal-card {
+  .currency-modal-card,
+  .backup-modal-card {
     max-height: 90vh;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     padding: var(--space-5) var(--space-4);
+  }
+
+  .backup-metadata-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -700,5 +1012,16 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 2px;
+  }
+
+  .backup-actions-group {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .backup-actions-group > button {
+    width: 100%;
+    justify-content: center;
   }
 }

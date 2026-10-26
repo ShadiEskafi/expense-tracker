@@ -79,7 +79,8 @@ export function SettingsView({
   onSelectTab,
   database = db,
   refreshTrigger = 0,
-  onCurrencyChanged
+  onCurrencyChanged,
+  onDataRestored
 }) {
   return (
     <BaseSettingsView
@@ -89,6 +90,7 @@ export function SettingsView({
       database={database}
       refreshTrigger={refreshTrigger}
       onCurrencyChanged={onCurrencyChanged}
+      onDataRestored={onDataRestored}
     />
   );
 }

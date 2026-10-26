@@ -1,19 +1,22 @@
 import { useState } from 'react';
 import { CurrencyLockCard } from './CurrencyLockCard.jsx';
+import { BackupRestoreModal } from './BackupRestoreModal.jsx';
 import {
   CategoriesIcon,
   SunIcon,
   MoonIcon,
   CloudCheckIcon,
   SettingsIcon,
-  DownloadIcon
+  DownloadIcon,
+  UploadIcon
 } from '../../components/common/Icons.jsx';
 import { exportTransactions } from '../../utils/csvExport.js';
+import { downloadBackup } from '../../services/backupRestore.js';
 import { db } from '../../db/db.js';
 import './SettingsView.css';
 
 /**
- * Settings & Data Safety View (F014 + Shell Hub)
+ * Settings & Data Safety View (F014 + F015 + F016 + Shell Hub)
  * Ref: design-system/screens.md (Section 9: Settings & Data Safety)
  */
 export function SettingsView({
@@ -22,9 +25,12 @@ export function SettingsView({
   onSelectTab,
   database = db,
   refreshTrigger = 0,
-  onCurrencyChanged
+  onCurrencyChanged,
+  onDataRestored
 }) {
   const [isExporting, setIsExporting] = useState(false);
+  const [isDownloadingBackup, setIsDownloadingBackup] = useState(false);
+  const [isRestoreModalOpen, setIsRestoreModalOpen] = useState(false);
   const [exportToast, setExportToast] = useState(null);
 
   const handleExportAllCsv = async () => {
@@ -39,6 +45,33 @@ export function SettingsView({
       setTimeout(() => setExportToast(null), 3500);
     } finally {
       setIsExporting(false);
+    }
+  };
+
+  const handleDownloadBackup = async () => {
+    try {
+      setIsDownloadingBackup(true);
+      const res = await downloadBackup(database);
+      setExportToast(`تم تنزيل النسخة الاحتياطية بنجاح (${res.filename}).`);
+      setTimeout(() => setExportToast(null), 3500);
+    } catch (err) {
+      console.error('Failed to download backup:', err);
+      setExportToast('تعذر تنزيل النسخة الاحتياطية.');
+      setTimeout(() => setExportToast(null), 3500);
+    } finally {
+      setIsDownloadingBackup(false);
+    }
+  };
+
+  const handleRestoreSuccess = (result) => {
+    setExportToast('تمت استعادة النسخة الاحتياطية وتحديث البيانات بنجاح.');
+    setTimeout(() => setExportToast(null), 4000);
+
+    if (result?.metadata?.base_currency && onCurrencyChanged) {
+      onCurrencyChanged(result.metadata.base_currency);
+    }
+    if (onDataRestored) {
+      onDataRestored(result);
     }
   };
   return (
@@ -133,6 +166,7 @@ export function SettingsView({
         </div>
 
         <div className="settings-options-list">
+          {/* CSV Export Option (F015) */}
           <div className="settings-row-item">
             <div className="settings-row-info">
               <span className="text-body font-semibold">تصدير كافة المعاملات كملف CSV</span>
@@ -151,6 +185,37 @@ export function SettingsView({
               <span>{isExporting ? 'جارٍ التصدير...' : 'تصدير كملف CSV'}</span>
             </button>
           </div>
+
+          {/* JSON Backup & Restore Options (F016) */}
+          <div className="settings-row-item">
+            <div className="settings-row-info">
+              <span className="text-body font-semibold">نسخة احتياطية كاملة واستعادة (JSON)</span>
+              <span className="text-caption">
+                تنزيل نسخة احتياطية شاملة لكافة الحسابات والتصنيفات والمعاملات والإعدادات، أو استعادة نسخة سابقة بشكل ذري وآمن
+              </span>
+            </div>
+            <div className="backup-actions-group">
+              <button
+                type="button"
+                className="btn-secondary json-backup-download-btn"
+                onClick={handleDownloadBackup}
+                disabled={isDownloadingBackup}
+                aria-label="تنزيل نسخة احتياطية كاملة بصيغة JSON"
+              >
+                <DownloadIcon size={16} />
+                <span>{isDownloadingBackup ? 'جارٍ التنزيل...' : 'تنزيل نسخة JSON'}</span>
+              </button>
+              <button
+                type="button"
+                className="btn-secondary json-backup-restore-btn"
+                onClick={() => setIsRestoreModalOpen(true)}
+                aria-label="استعادة نسخة احتياطية سابقة بصيغة JSON"
+              >
+                <UploadIcon size={16} />
+                <span>استعادة نسخة JSON</span>
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Feedback toast */}
@@ -160,6 +225,14 @@ export function SettingsView({
           </div>
         )}
       </div>
+
+      {/* Backup & Restore Modal (F016) */}
+      <BackupRestoreModal
+        isOpen={isRestoreModalOpen}
+        onClose={() => setIsRestoreModalOpen(false)}
+        database={database}
+        onRestoreSuccess={handleRestoreSuccess}
+      />
 
       {/* 5. Local-First Engine & Storage Safety Card */}
       <div className="surface-card settings-storage-card">

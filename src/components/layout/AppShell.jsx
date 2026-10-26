@@ -187,6 +187,12 @@ export function AppShell() {
               setBaseCurrencyState(code);
               setDashboardRefreshTrigger((p) => p + 1);
             }}
+            onDataRestored={(result) => {
+              if (result?.metadata?.base_currency) {
+                setBaseCurrencyState(result.metadata.base_currency);
+              }
+              setDashboardRefreshTrigger((p) => p + 1);
+            }}
           />
         );
       default:

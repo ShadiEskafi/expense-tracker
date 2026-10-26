@@ -5,6 +5,7 @@ import { ExpenseDatabase } from '../../db/db.js';
 import { SettingsView } from './SettingsView.jsx';
 import { CurrencyLockCard } from './CurrencyLockCard.jsx';
 import { CurrencySelectorModal } from './CurrencySelectorModal.jsx';
+import { BackupRestoreModal } from './BackupRestoreModal.jsx';
 import {
   setBaseCurrency,
   checkCurrencyLockStatus,
@@ -98,7 +99,7 @@ describe('Settings View & Currency Immutability Lock Component Tests (F014)', ()
       expect(html).toContain('دقة الحسابات المالية (ISO 4217)');
     });
 
-    it('renders the Data Portability & CSV Export card with export action button (F015)', () => {
+    it('renders the Data Portability card with CSV export and JSON backup & restore actions (F015 & F016)', () => {
       const html = renderToString(
         <SettingsView
           theme="light"
@@ -111,6 +112,11 @@ describe('Settings View & Currency Immutability Lock Component Tests (F014)', ()
       expect(html).toContain('تصدير البيانات والنسخ الاحتياطي');
       expect(html).toContain('تصدير كافة المعاملات كملف CSV');
       expect(html).toContain('تصدير كملف CSV');
+
+      // F016 JSON Backup & Restore buttons
+      expect(html).toContain('نسخة احتياطية كاملة واستعادة (JSON)');
+      expect(html).toContain('تنزيل نسخة JSON');
+      expect(html).toContain('استعادة نسخة JSON');
     });
   });
 
@@ -254,6 +260,38 @@ describe('Settings View & Currency Immutability Lock Component Tests (F014)', ()
       expect(status.reason).toBe('HAS_TRANSACTIONS');
       expect(status.transactionCount).toBe(1);
       expect(status.explanationAr).toContain('تغيير العملة دون تحويل أسعار الصرف');
+    });
+  });
+
+  describe('5. BackupRestoreModal Component Tests (F016)', () => {
+    it('does not render when isOpen is false', () => {
+      const html = renderToString(
+        <BackupRestoreModal
+          isOpen={false}
+          onClose={vi.fn()}
+          database={testDb}
+        />
+      );
+
+      expect(html).toBe('');
+    });
+
+    it('renders accessible dialog with title, dropzone, and safety instructions when isOpen is true', () => {
+      const html = renderToString(
+        <BackupRestoreModal
+          isOpen={true}
+          onClose={vi.fn()}
+          database={testDb}
+        />
+      );
+
+      expect(html).toContain('role="dialog"');
+      expect(html).toContain('aria-modal="true"');
+      expect(html).toContain('استعادة نسخة احتياطية');
+      expect(html).toContain('استبدال البيانات الحالية بسجلات نسخة احتياطية سابقة (JSON)');
+      expect(html).toContain('انقر لاختيار ملف النسخة الاحتياطية (.json)');
+      expect(html).toContain('يدعم ملفات النسخ الاحتياطي الرسمية المُصدَّرة من التطبيق');
+      expect(html).toContain('إلغاء');
     });
   });
 });
