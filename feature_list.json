@@ -156,6 +156,14 @@
       "evidence": "All 22 unit and integration tests passed in src/services/cloudSync.test.js (145ms), and full suite passed with 526 tests across 26 test suites. Fully implements Supabase Cloud Sync and Initial Account Merge satisfying ADR-006, ADR-010, and Frozen Specification Section 19: Supabase Auth integration (email/password signup, signin, session management, auth event subscriptions, guest mode detection), deterministic category deduplication by system slugs (re-mapping local transactions and removing duplicate guest defaults), account independence preservation without destructive mingling, foreign key relationship integrity, push mutations cycle with OCC version verification and conflict archiving, pull remote updates cycle with account balance reconciliation and timestamp tracking, two-way syncWithCloud engine, Arabic relative time formatting, accessible SupabaseAuthModal dialog, SettingsView cloud management card with manual sync and sign-out, and live AppShell sync & user mode connectivity."
     },
     {
+      "id": "F-CORR-MODAL-ILS",
+      "name": "Mobile Modal UX Correction & ILS Currency Support",
+      "behavior": "Transforms Auth and Currency Selection modals to mobile-native bottom sheets with 90dvh, drag handles, safe-area insets, sticky footers, password visibility toggle, pure read-only locked state, and comprehensive ISO 4217 Israeli New Shekel (ILS / ₪) support across monetary engine, formatting, and search.",
+      "verification": "npm test && npm run lint && npm run build",
+      "state": "passing",
+      "evidence": "All 26 test suites and 539 Vitest tests passed, ESLint 10 passed with 0 errors, Vite 8 build passed, and automated Headless Chrome verified 100% zero overflow across 320px-430px+ mobile viewports. ILS verified with 41 currency engine tests."
+    },
+    {
       "id": "F019",
       "name": "Fail-Safe Sign-Out with Un-Synced Mutation Blocking",
       "behavior": "Blocks sign-out and prompts user when pending offline mutations exist; purges local cloud cache only upon confirmed zero pending mutations.",

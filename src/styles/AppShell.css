@@ -759,12 +759,14 @@
   cursor: pointer;
 }
 
-/* 8. Quick Add Modal Shell */
-.modal-overlay {
+/* 8. Quick Add Modal Shell & Shared Modal Primitives */
+.modal-overlay,
+.modal-backdrop {
   position: fixed;
   inset: 0;
   background-color: rgba(15, 23, 42, 0.45);
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   z-index: var(--z-modal-backdrop);
   display: flex;
   align-items: center;
@@ -773,9 +775,29 @@
 }
 
 @media (max-width: 767px) {
-  .modal-overlay {
+  .modal-overlay,
+  .modal-backdrop {
     align-items: flex-end;
     padding: 0;
+  }
+}
+
+/* Mobile Sheet Drag Handle Primitive */
+.sheet-drag-handle,
+.modal-drag-handle {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .sheet-drag-handle,
+  .modal-drag-handle {
+    display: block;
+    width: 36px;
+    height: 4px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-border-strong, #CBD5E1);
+    margin: 0 auto var(--space-2) auto;
+    flex-shrink: 0;
   }
 }
 
@@ -824,6 +846,15 @@
   }
 }
 
+@keyframes sheetSlideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
 .modal-header {
   display: flex;
   align-items: flex-start;
@@ -846,21 +877,36 @@
 }
 
 .modal-close-btn {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: var(--radius-full);
-  border: none;
+  border: 1px solid var(--color-border-subtle);
   background-color: var(--color-bg-surface-subtle);
   color: var(--color-text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  padding: 0;
+  transition: background-color var(--duration-fast) var(--ease-out),
+              color var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out);
 }
 
 .modal-close-btn:hover {
   background-color: var(--color-bg-surface-active);
   color: var(--color-text-primary);
+}
+
+.modal-close-btn:active {
+  transform: scale(0.96);
+}
+
+.modal-close-btn:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
 }
 
 /* Segmented Control */

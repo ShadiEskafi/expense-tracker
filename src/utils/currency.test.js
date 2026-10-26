@@ -327,3 +327,69 @@ describe('Currency Engine: Integer Arithmetic Helpers', () => {
     expect(isNegative(100)).toBe(false);
   });
 });
+
+describe('Currency Engine: Israeli New Shekel (ILS) Support', () => {
+  it('correctly registers ILS with ISO 4217 specifications', () => {
+    expect(CURRENCIES.ILS).toBeDefined();
+    const ils = getCurrency('ILS');
+    expect(ils.code).toBe('ILS');
+    expect(ils.nameAr).toBe('شيكل إسرائيلي جديد');
+    expect(ils.nameArShort).toBe('شيكل جديد');
+    expect(ils.nameEn).toBe('Israeli New Shekel');
+    expect(ils.symbolAr).toBe('₪');
+    expect(ils.symbolEn).toBe('₪');
+    expect(ils.exponent).toBe(2);
+    expect(ils.multiplier).toBe(100);
+  });
+
+  it('is included in getAllCurrencies() list', () => {
+    const all = getAllCurrencies();
+    const found = all.find((c) => c.code === 'ILS');
+    expect(found).toBeDefined();
+    expect(found.code).toBe('ILS');
+    expect(found.symbolAr).toBe('₪');
+  });
+
+  it('converts major units to minor units without floating-point error', () => {
+    expect(toMinorUnits(125.50, 'ILS')).toBe(12550);
+    expect(toMinorUnits('125.50', 'ILS')).toBe(12550);
+    expect(toMinorUnits('0.05', 'ILS')).toBe(5);
+    expect(toMinorUnits('99.99', 'ILS')).toBe(9999);
+  });
+
+  it('converts minor units back to major units and exact string', () => {
+    expect(toMajorUnits(12550, 'ILS')).toBe(125.5);
+    expect(toMajorUnitsString(12550, 'ILS')).toBe('125.50');
+    expect(toMajorUnitsString(5, 'ILS')).toBe('0.05');
+  });
+
+  it('parses user input in Latin and Arabic numerals for ILS', () => {
+    const latinResult = parseAmountInput('125.50', 'ILS');
+    expect(latinResult.isValid).toBe(true);
+    expect(latinResult.minorUnits).toBe(12550);
+
+    const arabicResult = parseAmountInput('١٢٥.٥٠', 'ILS');
+    expect(arabicResult.isValid).toBe(true);
+    expect(arabicResult.minorUnits).toBe(12550);
+  });
+
+  it('formats ILS correctly using Intl.NumberFormat and formatCurrencyParts', () => {
+    const formatted = formatCurrency(12550, 'ILS');
+    expect(formatted).toContain('125.50');
+    expect(formatted).toContain('₪');
+
+    const parts = formatCurrencyParts(12550, 'ILS');
+    expect(parts.formattedNumber).toBe('125.50');
+    expect(parts.currencySymbol).toBe('₪');
+    expect(parts.isNegative).toBe(false);
+  });
+
+  it('performs exact round-trip conversion without precision drift', () => {
+    const inputs = ['125.50', '0.01', '999.99', '1500.00', '49.90'];
+    for (const val of inputs) {
+      const minor = toMinorUnits(val, 'ILS');
+      const majorStr = toMajorUnitsString(minor, 'ILS');
+      expect(majorStr).toBe(val);
+    }
+  });
+});

@@ -15,6 +15,8 @@ import { TransactionEditModal } from '../features/transactions/TransactionEditMo
 import { TransactionDeleteConfirmModal } from '../features/transactions/TransactionDeleteConfirmModal';
 import { CategoryFormModal } from '../features/categories/CategoryFormModal';
 import { CategoryDeleteModal } from '../features/categories/CategoryDeleteModal';
+import { SupabaseAuthModal } from '../features/settings/SupabaseAuthModal';
+import { CurrencySelectorModal } from '../features/settings/CurrencySelectorModal';
 
 describe('Mobile UX Audit & Responsive Invariant Suite (F-MOB)', () => {
   const tokensCss = fs.readFileSync(path.resolve(__dirname, '../styles/tokens.css'), 'utf-8');
@@ -24,6 +26,8 @@ describe('Mobile UX Audit & Responsive Invariant Suite (F-MOB)', () => {
   const categoriesCss = fs.readFileSync(path.resolve(__dirname, '../features/categories/CategoriesView.css'), 'utf-8');
   const reportsCss = fs.readFileSync(path.resolve(__dirname, '../features/reports/ReportsView.css'), 'utf-8');
   const dashboardCss = fs.readFileSync(path.resolve(__dirname, '../components/dashboard/Dashboard.css'), 'utf-8');
+  const settingsCss = fs.readFileSync(path.resolve(__dirname, '../features/settings/SettingsView.css'), 'utf-8');
+  const authModalCss = fs.readFileSync(path.resolve(__dirname, '../features/settings/SupabaseAuthModal.css'), 'utf-8');
 
   describe('1. CSS Tokens & Safe Area Invariants', () => {
     it('defines safe area CSS variables in tokens.css', () => {
@@ -69,6 +73,20 @@ describe('Mobile UX Audit & Responsive Invariant Suite (F-MOB)', () => {
       expect(categoriesCss).toContain('max-height: 90dvh');
       expect(categoriesCss).toContain('border-radius: var(--radius-2xl) var(--radius-2xl) 0 0');
       expect(categoriesCss).toContain('position: sticky');
+    });
+
+    it('transforms currency selector modal to mobile bottom sheet with 90dvh, sticky footer, and safe area', () => {
+      expect(settingsCss).toContain('max-height: 90dvh');
+      expect(settingsCss).toContain('.currency-modal-card .sheet-drag-handle');
+      expect(settingsCss).toContain('position: sticky');
+      expect(settingsCss).toContain('env(safe-area-inset-bottom');
+    });
+
+    it('transforms auth modal to mobile bottom sheet with 90dvh, drag handle, and safe area padding', () => {
+      expect(authModalCss).toContain('max-height: 90dvh');
+      expect(authModalCss).toContain('.auth-modal-card .sheet-drag-handle');
+      expect(authModalCss).toContain('env(safe-area-inset-bottom');
+      expect(authModalCss).toContain('animation: authSheetSlideUp');
     });
   });
 
@@ -231,6 +249,65 @@ describe('Mobile UX Audit & Responsive Invariant Suite (F-MOB)', () => {
       );
 
       expect(html).toContain('sheet-drag-handle');
+    });
+
+    it('renders SupabaseAuthModal with mobile drag handle, segmented tabs, password toggle, and data safety note', () => {
+      const html = renderToString(
+        <SupabaseAuthModal
+          isOpen={true}
+          onClose={() => {}}
+        />
+      );
+
+      expect(html).toContain('sheet-drag-handle');
+      expect(html).toContain('auth-segmented-control');
+      expect(html).toContain('auth-password-toggle-btn');
+      expect(html).toContain('auth-btn-primary');
+      expect(html).toContain('auth-btn-secondary');
+      expect(html).toContain('auth-data-safety-note');
+      expect(html).toContain('ضمان سلامة البيانات:');
+    });
+
+    it('renders CurrencySelectorModal with sheet drag handle, sticky footer, and ILS currency', () => {
+      const html = renderToString(
+        <CurrencySelectorModal
+          isOpen={true}
+          onClose={() => {}}
+          currentCurrency="SAR"
+          onSelectCurrency={() => {}}
+          isLocked={false}
+        />
+      );
+
+      expect(html).toContain('sheet-drag-handle');
+      expect(html).toContain('currency-modal-footer');
+      expect(html).toContain('currency-search-container');
+      expect(html).toContain('currency-scopes-row');
+      expect(html).toContain('ILS');
+      expect(html).toContain('شيكل إسرائيلي جديد');
+      expect(html).toContain('₪');
+    });
+
+    it('renders CurrencySelectorModal in clean read-only locked state when locked', () => {
+      const html = renderToString(
+        <CurrencySelectorModal
+          isOpen={true}
+          onClose={() => {}}
+          currentCurrency="ILS"
+          onSelectCurrency={() => {}}
+          isLocked={true}
+          lockExplanation="لا يمكن تغيير العملة بعد تسجيل بيانات مالية"
+        />
+      );
+
+      expect(html).toContain('sheet-drag-handle');
+      expect(html).toContain('العملة الأساسية مقفلة');
+      expect(html).toContain('currency-locked-callout');
+      expect(html).toContain('currency-active-card');
+      expect(html).toContain('شيكل إسرائيلي جديد');
+      expect(html).toContain('حسناً، فهمت ذلك');
+      expect(html).not.toContain('currency-search-container');
+      expect(html).not.toContain('تأكيد العملة الأساسية');
     });
   });
 

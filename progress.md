@@ -45,18 +45,19 @@ The project harness engineering foundation has been established with all 5 core 
 - [x] **F016**: Atomic JSON Backup & Restore Pipeline (`src/services/backupRestore.js`, `src/services/backupRestore.test.js` with 26 passing tests, `src/features/settings/BackupRestoreModal.jsx`, `SettingsView.jsx`, `SettingsView.css`, and `SettingsView.test.jsx` with 14 passing tests, total 463 passing tests across 24 suites, clean build and lint, built with `/impeccable`, `/ui-ux-pro-max`, `/make-interfaces-feel-better`, `/transitions-dev`).
 - [x] **Trello Visual Tracking Integration**: Operational specification in `docs/project-tracking.md`, synchronization engine in `scripts/trello-sync.js`, routing in `AGENTS.md`, and 12 unit tests in `scripts/trello-sync.test.js`.
 - [x] **F017**: Offline Mutation Queue & Concurrency Engine (OCC) (`src/services/syncQueue.js`, `src/services/syncQueue.test.js` with 38 passing tests, category mutation queuing in `src/services/category.js` and `src/services/categoryGuard.js`, total 501 passing tests across 25 suites, clean build and lint).
-- [x] **F018**: Supabase Cloud Sync & Initial Account Merge (`src/services/cloudSync.js`, `src/services/cloudSync.test.js` with 22 passing tests, `src/features/settings/SupabaseAuthModal.jsx`, `SupabaseAuthModal.css`, `SettingsView.jsx`, `SettingsView.css`, `AppShell.jsx`, `Icons.jsx`, total 526 passing tests across 26 suites, clean build and lint).
+- [x] **F018**: Supabase Cloud Sync & Initial Account Merge (`src/services/cloudSync.js`, `src/services/cloudSync.test.js` with 22 passing tests, `src/features/settings/SupabaseAuthModal.jsx`, `SupabaseAuthModal.css`, `SettingsView.jsx`, `SettingsView.css`, `AppShell.jsx`, `Icons.jsx`, total 526 tests across 26 suites, clean build and lint).
+- [x] **F-CORR-MODAL-ILS**: Mobile Modal UX Correction & ILS Currency Support (`src/utils/currency.js`, `src/utils/currency.test.js`, `src/features/settings/SupabaseAuthModal.jsx`, `src/features/settings/SupabaseAuthModal.css`, `src/features/settings/CurrencySelectorModal.jsx`, `src/features/settings/SettingsView.css`, `src/styles/AppShell.css`, `src/components/common/Icons.jsx`, `src/test/mobileUxAudit.test.jsx`, `design-system/`, 539 Vitest tests passing across 26 test suites, clean build and lint, zero horizontal overflow across 320px to 430px+ mobile viewports).
 
 ---
 
 ## 3. Current Focus & WIP Limit (WIP=1)
-- **Active Feature**: None (F018 successfully concluded and verified).
+- **Active Feature**: None (Corrective milestone F-CORR-MODAL-ILS successfully concluded and verified).
 - **Next Feature in Queue**: **F019** (`Fail-Safe Sign-Out with Un-Synced Mutation Blocking`). Ready for cold-start and activation.
 
 ---
 
 ## 4. Blockers & Risks
-- **Blockers**: None. Full health pipeline (lint, 526 vitest tests across 26 suites, vite build) passing with 0 errors.
+- **Blockers**: None. Full health pipeline (lint, 539 vitest tests across 26 suites, vite build) passing with 0 errors.
 - **Risks & Mitigations**:
   - *Browser Storage Eviction*: Mitigated by calling `navigator.storage.persist()` and providing complete atomic JSON backup/restore.
   - *Multi-Device Concurrency*: Mitigated by Optimistic Concurrency Control (OCC) and conflict archiving in `conflict_audit_log` (F017 + F018).

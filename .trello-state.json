@@ -1,6 +1,6 @@
 {
   "board_name": "Expense Management App — Harness Board",
-  "total_features": 21,
+  "total_features": 22,
   "lists": [
     "Backlog",
     "Ready",
@@ -35,7 +35,8 @@
       "F015",
       "F016",
       "F017",
-      "F018"
+      "F018",
+      "F-CORR-MODAL-ILS"
     ]
   },
   "wip_count": 0,
@@ -1353,7 +1354,75 @@
         "F003",
         "F017"
       ],
-      "description": "### Feature ID\nF018\n\n### Behavior\nIntegrates Supabase Auth; merges guest records idempotently without duplicating default categories by matching system slugs; pulls remote updates.\n\n### Verification\nnpm test src/services/cloudSync.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F003\n- F017\n\n### Evidence\nAll 22 unit and integration tests passed in src/services/cloudSync.test.js (145ms), and full suite passed with 526 tests across 26 test suites. Fully implements Supabase Cloud Sync and Initial Account Merge satisfying ADR-006, ADR-010, and Frozen Specification Section 19: Supabase Auth integration (email/password signup, signin, session management, auth event subscriptions, guest mode detection), deterministic category deduplication by system slugs (re-mapping local transactions and removing duplicate guest defaults), account independence preservation without destructive mingling, foreign key relationship integrity, push mutations cycle with OCC version verification and conflict archiving, pull remote updates cycle with account balance reconciliation and timestamp tracking, two-way syncWithCloud engine, Arabic relative time formatting, accessible SupabaseAuthModal dialog, SettingsView cloud management card with manual sync and sign-out, and live AppShell sync & user mode connectivity.",
+      "description": "### Feature ID\nF018\n\n### Behavior\nIntegrates Supabase Auth; merges guest records idempotently without duplicating default categories by matching system slugs; pulls remote updates.\n\n### Verification\nnpm test src/services/cloudSync.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F003\n- F017\n\n### Evidence\nAll 22 unit and integration tests passed in src/services/cloudSync.test.js (145ms), and full suite passed with 526 tests across 26 test suites. Fully implements Supabase Cloud Sync and Initial Account Merge satisfying ADR-006, ADR-010, and Frozen Specification Section 19: Supabase Auth integration (email/password signup, signin, session management, auth event subscriptions, guest mode detection), deterministic category deduplication by system slugs (re-mapping local transactions and removing duplicate guest defaults), account independence preservation without destructive mingling, foreign key relationship integrity, push mutations cycle with OCC version verification and conflict archiving, pull remote updates cycle with account balance reconciliation and timestamp tracking, two-way syncWithCloud engine, Arabic relative time formatting, accessible SupabaseAuthModal dialog, SettingsView cloud management card with manual sync and sign-out, and live AppShell sync & user mode connectivity.\n\n### Commit\n3636f58\n\n### Completion Date\n2026-10-26",
+      "checklists": [
+        {
+          "name": "Implementation",
+          "items": [
+            {
+              "name": "Feature implemented",
+              "checked": true
+            }
+          ]
+        },
+        {
+          "name": "Verification",
+          "items": [
+            {
+              "name": "Feature verification passed",
+              "checked": true
+            },
+            {
+              "name": "Relevant tests passed",
+              "checked": true
+            },
+            {
+              "name": "Typecheck passed",
+              "checked": true
+            },
+            {
+              "name": "Lint passed",
+              "checked": true
+            },
+            {
+              "name": "Build passed",
+              "checked": true
+            }
+          ]
+        },
+        {
+          "name": "Harness State",
+          "items": [
+            {
+              "name": "feature_list.json updated",
+              "checked": true
+            },
+            {
+              "name": "progress.md updated",
+              "checked": true
+            },
+            {
+              "name": "Relevant docs updated",
+              "checked": true
+            },
+            {
+              "name": "Atomic commit created",
+              "checked": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "F-CORR-MODAL-ILS",
+      "title": "[F-CORR-MODAL-ILS] Mobile Modal UX Correction & ILS Currency Support",
+      "list": "Done",
+      "harness_state": "passing",
+      "labels": [
+        "MVP"
+      ],
+      "dependencies": [],
+      "description": "### Feature ID\nF-CORR-MODAL-ILS\n\n### Behavior\nTransforms Auth and Currency Selection modals to mobile-native bottom sheets with 90dvh, drag handles, safe-area insets, sticky footers, password visibility toggle, pure read-only locked state, and comprehensive ISO 4217 Israeli New Shekel (ILS / ₪) support across monetary engine, formatting, and search.\n\n### Verification\nnpm test && npm run lint && npm run build\n\n### Harness State\npassing\n\n### Dependencies\nNone\n\n### Evidence\nAll 26 test suites and 539 Vitest tests passed, ESLint 10 passed with 0 errors, Vite 8 build passed, and automated Headless Chrome verified 100% zero overflow across 320px-430px+ mobile viewports. ILS verified with 41 currency engine tests.",
       "checklists": [
         {
           "name": "Implementation",

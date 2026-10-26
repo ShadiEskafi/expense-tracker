@@ -4,18 +4,24 @@ import {
   CloudSyncIcon,
   CloudCheckIcon,
   CloudAlertIcon,
-  UserIcon
+  UserIcon,
+  EyeIcon,
+  EyeOffIcon,
+  ShieldCheckIcon
 } from '../../components/common/Icons.jsx';
 import { signInWithEmail, signUpWithEmail } from '../../services/cloudSync.js';
 import { db } from '../../db/db.js';
 import './SupabaseAuthModal.css';
 
 /**
- * SupabaseAuthModal (F018)
+ * SupabaseAuthModal (F018 + UX Polish)
  *
- * Implements cloud authentication and initial guest data merge modal:
- * - Tabs for Sign In and Sign Up
- * - Informative Arabic explanation of guest data merge guarantee
+ * Implements mobile-native cloud authentication and initial guest data merge modal:
+ * - Mobile bottom sheet with drag handle, safe area support, and dvh sizing
+ * - High-contrast segmented control (Sign In / Register) with 44px+ touch targets
+ * - Clear visual hierarchy: Title -> Segmented Tabs -> Form Fields -> Primary Action -> Secondary Action -> Data Safety Note
+ * - Non-destructive validation preserving user inputs
+ * - Password visibility toggle (Eye / EyeOff)
  * - Accessible dialog conforming to design-system/accessibility.md
  * - RTL typography and layout with LTR email/password inputs
  */
@@ -44,13 +50,14 @@ function SupabaseAuthDialog({
   const [activeTab, setActiveTab] = useState('signin'); // 'signin' | 'signup'
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successInfo, setSuccessInfo] = useState(null);
 
   const emailInputRef = useRef(null);
 
-  // Auto-focus email input on open
+  // Auto-focus email input on tab switch
   useEffect(() => {
     emailInputRef.current?.focus();
   }, [activeTab]);
@@ -120,7 +127,7 @@ function SupabaseAuthDialog({
 
   return (
     <div
-      className="modal-backdrop"
+      className="modal-backdrop auth-modal-backdrop"
       onClick={(e) => {
         if (e.target === e.currentTarget && !isSubmitting) {
           onClose();
@@ -129,44 +136,51 @@ function SupabaseAuthDialog({
       role="presentation"
     >
       <div
-        className="surface-card auth-modal-card"
+        className="auth-modal-card"
         role="dialog"
         aria-modal="true"
         aria-labelledby="auth-modal-title"
       >
-        {/* Header */}
+        {/* Mobile Sheet Drag Handle */}
+        <div className="sheet-drag-handle" aria-hidden="true" />
+
+        {/* 1. Header */}
         <div className="auth-modal-header">
           <div className="auth-modal-title-wrap">
             <div className="auth-icon-badge" aria-hidden="true">
-              <CloudSyncIcon size={22} className="text-brand-primary" />
+              <CloudSyncIcon size={22} />
             </div>
-            <div>
-              <h2 id="auth-modal-title" className="text-h2">
+            <div className="auth-title-texts">
+              <h2 id="auth-modal-title" className="auth-modal-heading">
                 {activeTab === 'signin' ? 'تسجيل الدخول إلى حسابك السحابي' : 'إنشاء حساب سحابي جديد'}
               </h2>
-              <span className="text-caption text-secondary">
-                مزامنة فورية متعددة الأجهزة ونسخ احتياطي تلقائي
-              </span>
+              <p className="auth-modal-subheading">
+                {activeTab === 'signin'
+                  ? 'سجّل دخولك لمزامنة بياناتك مع السحابة'
+                  : 'أنشئ حسابك لحفظ ومزامنة نفقاتك بأمان'}
+              </p>
             </div>
           </div>
           <button
             type="button"
-            className="action-button-icon"
+            className="modal-close-btn auth-close-btn"
             onClick={onClose}
             disabled={isSubmitting}
             aria-label="إغلاق النافذة"
           >
-            <CloseIcon size={20} />
+            <CloseIcon size={18} />
           </button>
         </div>
 
-        {/* Tab Controls */}
-        <div className="auth-tabs" role="tablist" aria-label="أنماط المصادقة">
+        {/* 2. Mode Switch (Segmented Control) */}
+        <div className="auth-segmented-control" role="tablist" aria-label="أنماط المصادقة">
           <button
             type="button"
             role="tab"
+            id="auth-tab-signin"
             aria-selected={activeTab === 'signin'}
-            className={`auth-tab-btn ${activeTab === 'signin' ? 'active' : ''}`}
+            aria-controls="auth-form-panel"
+            className={`auth-segmented-tab ${activeTab === 'signin' ? 'is-active' : ''}`}
             onClick={() => {
               setActiveTab('signin');
               setErrorMessage(null);
@@ -174,13 +188,15 @@ function SupabaseAuthDialog({
             disabled={isSubmitting}
           >
             <UserIcon size={16} />
-            تسجيل الدخول
+            <span>تسجيل الدخول</span>
           </button>
           <button
             type="button"
             role="tab"
+            id="auth-tab-signup"
             aria-selected={activeTab === 'signup'}
-            className={`auth-tab-btn ${activeTab === 'signup' ? 'active' : ''}`}
+            aria-controls="auth-form-panel"
+            className={`auth-segmented-tab ${activeTab === 'signup' ? 'is-active' : ''}`}
             onClick={() => {
               setActiveTab('signup');
               setErrorMessage(null);
@@ -188,40 +204,40 @@ function SupabaseAuthDialog({
             disabled={isSubmitting}
           >
             <CloudCheckIcon size={16} />
-            حساب جديد
+            <span>حساب جديد</span>
           </button>
-        </div>
-
-        {/* Informational Merge Notice */}
-        <div className="auth-merge-notice" role="note">
-          <CloudCheckIcon size={18} className="notice-icon" />
-          <p className="text-caption">
-            <strong>ضمان سلامة البيانات:</strong> سيتم دمج كافة حساباتك ومصاريفك وفئاتك المسجلة محلياً على هذا الجهاز تلقائياً وبأمان في حسابك السحابي دون أي تكرار أو فقدان.
-          </p>
         </div>
 
         {/* Error Alert */}
         {errorMessage && (
-          <div className="auth-error-banner" role="alert">
-            <CloudAlertIcon size={18} />
-            <span className="text-body-sm">{errorMessage}</span>
+          <div className="auth-alert auth-alert-error" role="alert">
+            <CloudAlertIcon size={18} className="auth-alert-icon" />
+            <span className="auth-alert-text">{errorMessage}</span>
           </div>
         )}
 
         {/* Success Alert */}
         {successInfo && (
-          <div className="auth-success-banner" role="status">
-            <CloudCheckIcon size={18} />
-            <span className="text-body-sm">
+          <div className="auth-alert auth-alert-success" role="status">
+            <CloudCheckIcon size={18} className="auth-alert-icon" />
+            <span className="auth-alert-text">
               تم {activeTab === 'signin' ? 'تسجيل الدخول' : 'إنشاء الحساب'} ودمج بياناتك بنجاح!
             </span>
           </div>
         )}
 
-        {/* Auth Form */}
-        <form onSubmit={handleSubmit} className="auth-form" noValidate>
+        {/* 3. Authentication Form */}
+        <form
+          id="auth-form-panel"
+          role="tabpanel"
+          aria-labelledby={activeTab === 'signin' ? 'auth-tab-signin' : 'auth-tab-signup'}
+          onSubmit={handleSubmit}
+          className="auth-form"
+          noValidate
+        >
+          {/* Email Field */}
           <div className="auth-field-group">
-            <label htmlFor="auth-email-input" className="auth-label">
+            <label htmlFor="auth-email-input" className="auth-field-label">
               البريد الإلكتروني
             </label>
             <div className="auth-input-wrapper">
@@ -229,6 +245,10 @@ function SupabaseAuthDialog({
                 id="auth-email-input"
                 ref={emailInputRef}
                 type="email"
+                inputMode="email"
+                autoComplete="email"
+                autoCapitalize="none"
+                spellCheck="false"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="name@example.com"
@@ -236,65 +256,86 @@ function SupabaseAuthDialog({
                 className="auth-input text-ltr"
                 disabled={isSubmitting || !!successInfo}
                 required
-                autoComplete="email"
               />
             </div>
           </div>
 
+          {/* Password Field */}
           <div className="auth-field-group">
-            <label htmlFor="auth-password-input" className="auth-label">
+            <label htmlFor="auth-password-input" className="auth-field-label">
               كلمة المرور
             </label>
-            <div className="auth-input-wrapper">
+            <div className="auth-input-wrapper auth-password-wrapper">
               <input
                 id="auth-password-input"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
+                autoComplete={activeTab === 'signin' ? 'current-password' : 'new-password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 dir="ltr"
-                className="auth-input text-ltr font-mono"
+                className="auth-input auth-password-input text-ltr font-mono"
                 disabled={isSubmitting || !!successInfo}
                 required
-                autoComplete={activeTab === 'signin' ? 'current-password' : 'new-password'}
               />
+              <button
+                type="button"
+                className="auth-password-toggle-btn"
+                onClick={() => setShowPassword((prev) => !prev)}
+                disabled={isSubmitting || !!successInfo}
+                aria-label={showPassword ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'}
+                tabIndex={0}
+              >
+                {showPassword ? <EyeOffIcon size={18} /> : <EyeIcon size={18} />}
+              </button>
             </div>
+            {activeTab === 'signup' && (
+              <span className="auth-field-helper">يجب أن تحتوي على 6 أحرف على الأقل</span>
+            )}
           </div>
 
-          {/* Action Buttons */}
-          <div className="auth-modal-actions">
-            <button
-              type="button"
-              className="button-secondary"
-              onClick={onClose}
-              disabled={isSubmitting}
-            >
-              إلغاء
-            </button>
+          {/* 4. Action Buttons (Primary on top, Secondary below) */}
+          <div className="auth-actions-group">
             <button
               type="submit"
-              className="button-primary"
+              className="auth-btn-primary"
               disabled={isSubmitting || !!successInfo}
             >
               {isSubmitting ? (
                 <>
                   <CloudSyncIcon size={18} className="sync-icon-spinning" />
-                  جارٍ الدمج والمزامنة...
+                  <span>جارٍ المعالجة والمزامنة...</span>
                 </>
               ) : activeTab === 'signin' ? (
                 <>
                   <UserIcon size={18} />
-                  تسجيل الدخول
+                  <span>تسجيل الدخول</span>
                 </>
               ) : (
                 <>
                   <CloudCheckIcon size={18} />
-                  إنشاء الحساب والمزامنة
+                  <span>إنشاء الحساب والمزامنة</span>
                 </>
               )}
             </button>
+            <button
+              type="button"
+              className="auth-btn-secondary"
+              onClick={onClose}
+              disabled={isSubmitting}
+            >
+              إلغاء ومتابعة كضيف
+            </button>
           </div>
         </form>
+
+        {/* 5. Informational Security & Local Data Safety Note (below actions) */}
+        <div className="auth-data-safety-note" role="note">
+          <ShieldCheckIcon size={18} className="safety-note-icon" />
+          <p className="safety-note-text">
+            <strong>ضمان سلامة البيانات:</strong> لن تفقد أي معاملات أو حسابات مسجلة محلياً؛ سيتم دمجها بأمان وتشفيرها في حسابك السحابي دون أي تكرار أو فقدان.
+          </p>
+        </div>
       </div>
     </div>
   );

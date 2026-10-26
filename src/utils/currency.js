@@ -150,6 +150,16 @@ export const CURRENCIES = Object.freeze({
     exponent: 2,
     flag: '🇹🇷',
   },
+  ILS: {
+    code: 'ILS',
+    nameAr: 'شيكل إسرائيلي جديد',
+    nameArShort: 'شيكل جديد',
+    nameEn: 'Israeli New Shekel',
+    symbolAr: '₪',
+    symbolEn: '₪',
+    exponent: 2,
+    flag: '🇮🇱',
+  },
 });
 
 /** Default system base currency code */

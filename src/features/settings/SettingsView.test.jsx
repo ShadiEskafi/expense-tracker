@@ -192,7 +192,7 @@ describe('Settings View & Currency Immutability Lock Component Tests (F014)', ()
       expect(html).toContain('دينار كويتي');
     });
 
-    it('renders lock warning alert and disabled inputs when isLocked is true', () => {
+    it('renders clean read-only locked state without interactive selector or confirm button when isLocked is true', () => {
       const explanation = 'العملة مقفلة لوجود 5 معاملات مسجلة في السجل.';
       const html = renderToString(
         <CurrencySelectorModal
@@ -205,9 +205,31 @@ describe('Settings View & Currency Immutability Lock Component Tests (F014)', ()
         />
       );
 
+      expect(html).toContain('العملة الأساسية مقفلة');
       expect(html).toContain('تعديل العملة مقفل حالياً');
       expect(html).toContain(explanation);
-      expect(html).toContain('disabled=""');
+      expect(html).toContain('العملة الأساسية النشطة حالياً:');
+      expect(html).toContain('ريال سعودي');
+      expect(html).toContain('حسناً، فهمت ذلك');
+      // Must not display active selector list or confirm button in locked state
+      expect(html).not.toContain('تأكيد العملة الأساسية');
+      expect(html).not.toContain('currency-search-input');
+    });
+
+    it('displays Israeli New Shekel (ILS) in currency options list', () => {
+      const html = renderToString(
+        <CurrencySelectorModal
+          isOpen={true}
+          onClose={vi.fn()}
+          currentCurrency="SAR"
+          onSelectCurrency={vi.fn()}
+          isLocked={false}
+        />
+      );
+
+      expect(html).toContain('ILS');
+      expect(html).toContain('شيكل إسرائيلي جديد');
+      expect(html).toContain('₪');
     });
 
     it('marks current currency option as checked/selected', () => {

@@ -70,6 +70,7 @@ export function inferInitialCurrency() {
       if (locale.includes('-bh') || locale.startsWith('ar-bh')) return 'BHD';
       if (locale.includes('-om') || locale.startsWith('ar-om')) return 'OMR';
       if (locale.includes('-jo') || locale.startsWith('ar-jo')) return 'JOD';
+      if (locale.includes('-il') || locale.includes('-ps') || locale.startsWith('he')) return 'ILS';
       if (locale.includes('-us') || locale.startsWith('en-us')) return 'USD';
       if (locale.includes('-gb') || locale.startsWith('en-gb')) return 'GBP';
       if (locale.startsWith('de') || locale.startsWith('fr') || locale.startsWith('es') || locale.startsWith('it')) return 'EUR';
