@@ -9,11 +9,9 @@
     "Done"
   ],
   "distribution": {
-    "Backlog": [
-      "F019"
-    ],
+    "Backlog": [],
     "Ready": [
-      "F018",
+      "F019",
       "F020"
     ],
     "In Progress": [],
@@ -36,7 +34,8 @@
       "F014",
       "F015",
       "F016",
-      "F017"
+      "F017",
+      "F018"
     ]
   },
   "wip_count": 0,
@@ -1282,7 +1281,7 @@
         "F001",
         "F005"
       ],
-      "description": "### Feature ID\nF017\n\n### Behavior\nQueues offline CRUD operations sequentially with client_base_version; handles version-based conflict archiving into conflict_audit_log upon conflict.\n\n### Verification\nnpm test src/services/syncQueue.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F001\n- F005\n\n### Evidence\nAll 38 unit and integration tests passed in src/services/syncQueue.test.js (184ms), and full suite passed with 501 tests across 25 test suites. Fully implements Offline Mutation Queue & Concurrency Engine (OCC) satisfying ADR-005 and Frozen Specification Section 18: strict FIFO mutation queuing (UPSERT, DELETE), client_base_version tracking, mutation status transitions (pending, syncing, failed, requeued), retry counter with permanent failure thresholds, queue metrics and SyncStatusPill resolution, Optimistic Concurrency Control (OCC) revision verification, non-destructive conflict archiving into conflict_audit_log, automatic ledger-backed account balance reconciliation upon transaction conflict, sync response dispatching, and Arabic sync alert event subscriptions.",
+      "description": "### Feature ID\nF017\n\n### Behavior\nQueues offline CRUD operations sequentially with client_base_version; handles version-based conflict archiving into conflict_audit_log upon conflict.\n\n### Verification\nnpm test src/services/syncQueue.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F001\n- F005\n\n### Evidence\nAll 38 unit and integration tests passed in src/services/syncQueue.test.js (184ms), and full suite passed with 501 tests across 25 test suites. Fully implements Offline Mutation Queue & Concurrency Engine (OCC) satisfying ADR-005 and Frozen Specification Section 18: strict FIFO mutation queuing (UPSERT, DELETE), client_base_version tracking, mutation status transitions (pending, syncing, failed, requeued), retry counter with permanent failure thresholds, queue metrics and SyncStatusPill resolution, Optimistic Concurrency Control (OCC) revision verification, non-destructive conflict archiving into conflict_audit_log, automatic ledger-backed account balance reconciliation upon transaction conflict, sync response dispatching, and Arabic sync alert event subscriptions.\n\n### Commit\n19a3c79\n\n### Completion Date\n2026-10-26",
       "checklists": [
         {
           "name": "Implementation",
@@ -1344,8 +1343,8 @@
     {
       "id": "F018",
       "title": "[F018] Supabase Cloud Sync & Initial Account Merge",
-      "list": "Ready",
-      "harness_state": "not-started",
+      "list": "Done",
+      "harness_state": "passing",
       "labels": [
         "MVP",
         "Sync"
@@ -1354,14 +1353,14 @@
         "F003",
         "F017"
       ],
-      "description": "### Feature ID\nF018\n\n### Behavior\nIntegrates Supabase Auth; merges guest records idempotently without duplicating default categories by matching system slugs; pulls remote updates.\n\n### Verification\nnpm test src/services/cloudSync.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F003\n- F017",
+      "description": "### Feature ID\nF018\n\n### Behavior\nIntegrates Supabase Auth; merges guest records idempotently without duplicating default categories by matching system slugs; pulls remote updates.\n\n### Verification\nnpm test src/services/cloudSync.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F003\n- F017\n\n### Evidence\nAll 22 unit and integration tests passed in src/services/cloudSync.test.js (145ms), and full suite passed with 526 tests across 26 test suites. Fully implements Supabase Cloud Sync and Initial Account Merge satisfying ADR-006, ADR-010, and Frozen Specification Section 19: Supabase Auth integration (email/password signup, signin, session management, auth event subscriptions, guest mode detection), deterministic category deduplication by system slugs (re-mapping local transactions and removing duplicate guest defaults), account independence preservation without destructive mingling, foreign key relationship integrity, push mutations cycle with OCC version verification and conflict archiving, pull remote updates cycle with account balance reconciliation and timestamp tracking, two-way syncWithCloud engine, Arabic relative time formatting, accessible SupabaseAuthModal dialog, SettingsView cloud management card with manual sync and sign-out, and live AppShell sync & user mode connectivity.",
       "checklists": [
         {
           "name": "Implementation",
           "items": [
             {
               "name": "Feature implemented",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -1370,23 +1369,23 @@
           "items": [
             {
               "name": "Feature verification passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant tests passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Typecheck passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Lint passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Build passed",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -1395,19 +1394,19 @@
           "items": [
             {
               "name": "feature_list.json updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "progress.md updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant docs updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Atomic commit created",
-              "checked": false
+              "checked": true
             }
           ]
         }
@@ -1416,7 +1415,7 @@
     {
       "id": "F019",
       "title": "[F019] Fail-Safe Sign-Out with Un-Synced Mutation Blocking",
-      "list": "Backlog",
+      "list": "Ready",
       "harness_state": "not-started",
       "labels": [
         "MVP",

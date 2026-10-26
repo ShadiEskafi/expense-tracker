@@ -152,8 +152,8 @@
       "name": "Supabase Cloud Sync & Initial Account Merge",
       "behavior": "Integrates Supabase Auth; merges guest records idempotently without duplicating default categories by matching system slugs; pulls remote updates.",
       "verification": "npm test src/services/cloudSync.test.js",
-      "state": "not-started",
-      "evidence": null
+      "state": "passing",
+      "evidence": "All 22 unit and integration tests passed in src/services/cloudSync.test.js (145ms), and full suite passed with 526 tests across 26 test suites. Fully implements Supabase Cloud Sync and Initial Account Merge satisfying ADR-006, ADR-010, and Frozen Specification Section 19: Supabase Auth integration (email/password signup, signin, session management, auth event subscriptions, guest mode detection), deterministic category deduplication by system slugs (re-mapping local transactions and removing duplicate guest defaults), account independence preservation without destructive mingling, foreign key relationship integrity, push mutations cycle with OCC version verification and conflict archiving, pull remote updates cycle with account balance reconciliation and timestamp tracking, two-way syncWithCloud engine, Arabic relative time formatting, accessible SupabaseAuthModal dialog, SettingsView cloud management card with manual sync and sign-out, and live AppShell sync & user mode connectivity."
     },
     {
       "id": "F019",

@@ -45,27 +45,29 @@ The project harness engineering foundation has been established with all 5 core 
 - [x] **F016**: Atomic JSON Backup & Restore Pipeline (`src/services/backupRestore.js`, `src/services/backupRestore.test.js` with 26 passing tests, `src/features/settings/BackupRestoreModal.jsx`, `SettingsView.jsx`, `SettingsView.css`, and `SettingsView.test.jsx` with 14 passing tests, total 463 passing tests across 24 suites, clean build and lint, built with `/impeccable`, `/ui-ux-pro-max`, `/make-interfaces-feel-better`, `/transitions-dev`).
 - [x] **Trello Visual Tracking Integration**: Operational specification in `docs/project-tracking.md`, synchronization engine in `scripts/trello-sync.js`, routing in `AGENTS.md`, and 12 unit tests in `scripts/trello-sync.test.js`.
 - [x] **F017**: Offline Mutation Queue & Concurrency Engine (OCC) (`src/services/syncQueue.js`, `src/services/syncQueue.test.js` with 38 passing tests, category mutation queuing in `src/services/category.js` and `src/services/categoryGuard.js`, total 501 passing tests across 25 suites, clean build and lint).
+- [x] **F018**: Supabase Cloud Sync & Initial Account Merge (`src/services/cloudSync.js`, `src/services/cloudSync.test.js` with 22 passing tests, `src/features/settings/SupabaseAuthModal.jsx`, `SupabaseAuthModal.css`, `SettingsView.jsx`, `SettingsView.css`, `AppShell.jsx`, `Icons.jsx`, total 526 passing tests across 26 suites, clean build and lint).
 
 ---
 
 ## 3. Current Focus & WIP Limit (WIP=1)
-- **Active Feature**: None (F017 successfully concluded and verified).
-- **Next Feature in Queue**: **F018** (`Supabase Cloud Sync & Initial Account Merge`). Ready for cold-start and activation.
+- **Active Feature**: None (F018 successfully concluded and verified).
+- **Next Feature in Queue**: **F019** (`Fail-Safe Sign-Out with Un-Synced Mutation Blocking`). Ready for cold-start and activation.
 
 ---
 
 ## 4. Blockers & Risks
-- **Blockers**: None. Full health pipeline (lint, 501 vitest tests across 25 suites, vite build) passing with 0 errors.
+- **Blockers**: None. Full health pipeline (lint, 526 vitest tests across 26 suites, vite build) passing with 0 errors.
 - **Risks & Mitigations**:
   - *Browser Storage Eviction*: Mitigated by calling `navigator.storage.persist()` and providing complete atomic JSON backup/restore.
-  - *Multi-Device Concurrency*: Mitigated by Optimistic Concurrency Control (OCC) and conflict archiving in `conflict_audit_log` (F017).
+  - *Multi-Device Concurrency*: Mitigated by Optimistic Concurrency Control (OCC) and conflict archiving in `conflict_audit_log` (F017 + F018).
+  - *Un-synced Data Destruction on Sign-Out*: Mitigated by pre-check in `signOutUser` throwing `SignOutBlockedError`, to be fully UI-safeguarded in F019.
 
 ---
 
 ## 5. Handoff Protocol for Next Session / Agent
-1. Execute `./init.ps1` (or `./init.sh`) to confirm zero regressions (501 tests passing across 25 suites).
+1. Execute `./init.ps1` (or `./init.sh`) to confirm zero regressions (526 tests passing across 26 suites).
 2. Read `progress.md` and `DECISIONS.md`.
-3. Pick **F018** (`Supabase Cloud Sync & Initial Account Merge`) from `feature_list.json`, transition `state: active`.
-4. Run `npm run trello:sync` to move F018 card to `In Progress`.
-5. Implement Supabase Cloud Sync (`src/services/cloudSync.js`), supporting Supabase Auth integration, initial deterministic category merge by slug, account independence, and pull/push sync cycles using F017 queue.
-6. Verify automated tests (`npm test src/services/cloudSync.test.js && npm run lint && npm run build`), update `feature_list.json` to `passing` with evidence, run `npm run trello:sync`, and record atomic git commit.
+3. Pick **F019** (`Fail-Safe Sign-Out with Un-Synced Mutation Blocking`) from `feature_list.json`, transition `state: active`.
+4. Run `npm run trello:sync` to move F019 card to `In Progress`.
+5. Implement Fail-Safe Sign-Out modal and pipeline (`src/services/signOutSafety.js` or UI safety dialog), blocking sign-out when un-synced offline mutations exist, offering Sync Now / Download Backup / Cancel, and purging local cloud cache only upon confirmed 0 pending mutations.
+6. Verify automated tests (`npm test src/services/signOutSafety.test.js && npm run lint && npm run build`), update `feature_list.json` to `passing` with evidence, run `npm run trello:sync`, and record atomic git commit.

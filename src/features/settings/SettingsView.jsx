@@ -1,22 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CurrencyLockCard } from './CurrencyLockCard.jsx';
 import { BackupRestoreModal } from './BackupRestoreModal.jsx';
+import { SupabaseAuthModal } from './SupabaseAuthModal.jsx';
 import {
   CategoriesIcon,
   SunIcon,
   MoonIcon,
   CloudCheckIcon,
+  CloudSyncIcon,
   SettingsIcon,
   DownloadIcon,
-  UploadIcon
+  UploadIcon,
+  UserIcon,
+  LogOutIcon
 } from '../../components/common/Icons.jsx';
 import { exportTransactions } from '../../utils/csvExport.js';
 import { downloadBackup } from '../../services/backupRestore.js';
+import {
+  getCurrentUser,
+  signOutUser,
+  syncWithCloud,
+  subscribeToAuthChanges,
+  getLastSyncTimestamp,
+  formatLastSyncTimeArabic,
+  SignOutBlockedError
+} from '../../services/cloudSync.js';
 import { db } from '../../db/db.js';
 import './SettingsView.css';
 
 /**
- * Settings & Data Safety View (F014 + F015 + F016 + Shell Hub)
+ * Settings & Data Safety View (F014 + F015 + F016 + F018 + Shell Hub)
  * Ref: design-system/screens.md (Section 9: Settings & Data Safety)
  */
 export function SettingsView({
@@ -31,7 +44,95 @@ export function SettingsView({
   const [isExporting, setIsExporting] = useState(false);
   const [isDownloadingBackup, setIsDownloadingBackup] = useState(false);
   const [isRestoreModalOpen, setIsRestoreModalOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [exportToast, setExportToast] = useState(null);
+
+  // Cloud Sync & Auth State (F018)
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isSyncingCloud, setIsSyncingCloud] = useState(false);
+  const [cloudSyncToast, setCloudSyncToast] = useState(null);
+  const [lastSyncText, setLastSyncText] = useState('غير متزامن بعد');
+
+  // Load active user and last sync timestamp
+  useEffect(() => {
+    let isCancelled = false;
+    const updateCloudState = () => {
+      Promise.all([
+        getCurrentUser(),
+        getLastSyncTimestamp(database)
+      ]).then(([user, timestamp]) => {
+        if (isCancelled) return;
+        setCurrentUser(user);
+        setLastSyncText(formatLastSyncTimeArabic(timestamp));
+      }).catch((e) => {
+        console.warn('[SettingsView] Error loading cloud state:', e);
+      });
+    };
+
+    updateCloudState();
+    const unsub = subscribeToAuthChanges(updateCloudState);
+    return () => {
+      isCancelled = true;
+      unsub();
+    };
+  }, [database, refreshTrigger]);
+
+  const handleManualCloudSync = async () => {
+    try {
+      setIsSyncingCloud(true);
+      setCloudSyncToast(null);
+      const outcome = await syncWithCloud({ database });
+      if (outcome.success) {
+        setLastSyncText(formatLastSyncTimeArabic(outcome.lastSyncTimestamp));
+        const pushed = outcome.push?.pushedCount || 0;
+        const pulled = (outcome.pull?.accountsCount || 0) + (outcome.pull?.transactionsCount || 0);
+        setCloudSyncToast(`تمت المزامنة بنجاح (تم رفع ${pushed} واستقبال ${pulled} تحديث).`);
+      } else {
+        setCloudSyncToast(outcome.message || 'الخدمة السحابية غير متصلة.');
+      }
+      setTimeout(() => setCloudSyncToast(null), 4000);
+    } catch (err) {
+      console.error('[SettingsView] Manual sync error:', err);
+      setCloudSyncToast('حدث خطأ أثناء المزامنة السحابية.');
+      setTimeout(() => setCloudSyncToast(null), 4000);
+    } finally {
+      setIsSyncingCloud(false);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      setCloudSyncToast(null);
+      await signOutUser({ database });
+      setCurrentUser(null);
+      setCloudSyncToast('تم تسجيل الخروج بنجاح والعودة إلى وضع الضيف.');
+      setTimeout(() => setCloudSyncToast(null), 3500);
+      if (typeof onDataRestored === 'function') {
+        onDataRestored();
+      }
+    } catch (err) {
+      if (err instanceof SignOutBlockedError) {
+        setCloudSyncToast(err.message);
+      } else {
+        setCloudSyncToast('فشل تسجيل الخروج: ' + (err.message || 'خطأ غير معروف'));
+      }
+      setTimeout(() => setCloudSyncToast(null), 5000);
+    }
+  };
+
+  const handleAuthSuccess = (result) => {
+    if (result?.user) {
+      setCurrentUser(result.user);
+    }
+    getLastSyncTimestamp(database).then((ts) => {
+      setLastSyncText(formatLastSyncTimeArabic(ts));
+    });
+    setCloudSyncToast('تم تسجيل الدخول ودمج بياناتك بنجاح.');
+    setTimeout(() => setCloudSyncToast(null), 4000);
+    if (typeof onDataRestored === 'function') {
+      onDataRestored(result);
+    }
+  };
 
   const handleExportAllCsv = async () => {
     try {
@@ -234,7 +335,108 @@ export function SettingsView({
         onRestoreSuccess={handleRestoreSuccess}
       />
 
-      {/* 5. Local-First Engine & Storage Safety Card */}
+      {/* 5. Cloud Sync & Supabase Auth Card (F018) */}
+      <div className="surface-card settings-cloud-sync-card">
+        <div className="surface-card-header">
+          <div>
+            <h3 className="text-h2">المزامنة السحابية والمصادقة (Supabase)</h3>
+            <span className="text-caption">مزامنة فورية وتأمين حسابك عبر الأجهزة</span>
+          </div>
+          <span
+            className={`cloud-status-badge ${currentUser ? 'connected' : 'guest'}`}
+            role="status"
+          >
+            {currentUser ? (
+              <>
+                <CloudCheckIcon size={14} />
+                متصل بالسحابة
+              </>
+            ) : (
+              <>
+                <CloudSyncIcon size={14} />
+                وضع الضيف (محلي)
+              </>
+            )}
+          </span>
+        </div>
+
+        {currentUser ? (
+          <div className="cloud-user-details-box">
+            <div className="cloud-user-email-wrap">
+              <div className="cloud-user-avatar">
+                <UserIcon size={18} />
+              </div>
+              <div>
+                <strong className="text-body font-semibold">{currentUser.email}</strong>
+                <p className="text-caption text-secondary">
+                  آخر مزامنة ناجحة: {lastSyncText}
+                </p>
+              </div>
+            </div>
+
+            <div className="cloud-sync-actions-row">
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={handleManualCloudSync}
+                disabled={isSyncingCloud}
+                aria-label="مزامنة التغييرات الآن مع الخادم السحابي"
+              >
+                <CloudSyncIcon
+                  size={16}
+                  className={isSyncingCloud ? 'sync-icon-spinning' : ''}
+                />
+                <span>{isSyncingCloud ? 'جارٍ المزامنة...' : 'مزامنة الآن'}</span>
+              </button>
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={handleSignOut}
+                disabled={isSyncingCloud}
+                aria-label="تسجيل الخروج من الحساب السحابي"
+              >
+                <LogOutIcon size={16} />
+                <span>تسجيل الخروج</span>
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="cloud-user-details-box">
+            <div>
+              <strong className="text-body font-semibold">حساب محلي غير متزامن</strong>
+              <p className="text-caption text-secondary">
+                يمكنك ربط حسابك السحابي لحفظ ومزامنة كافة بياناتك الحالية تلقائياً وبأمان عبر كافة أجهزتك.
+              </p>
+            </div>
+            <button
+              type="button"
+              className="btn-primary"
+              onClick={() => setIsAuthModalOpen(true)}
+              aria-label="تسجيل الدخول أو إنشاء حساب سحابي"
+            >
+              <CloudSyncIcon size={16} />
+              <span>تسجيل الدخول / ربط الحساب</span>
+            </button>
+          </div>
+        )}
+
+        {/* Cloud feedback toast */}
+        {cloudSyncToast && (
+          <div className="currency-success-toast text-caption" role="status">
+            {cloudSyncToast}
+          </div>
+        )}
+      </div>
+
+      {/* Supabase Auth Modal (F018) */}
+      <SupabaseAuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        database={database}
+        onAuthSuccess={handleAuthSuccess}
+      />
+
+      {/* 6. Local-First Engine & Storage Safety Card */}
       <div className="surface-card settings-storage-card">
         <div className="surface-card-header">
           <div>

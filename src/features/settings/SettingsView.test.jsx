@@ -6,6 +6,7 @@ import { SettingsView } from './SettingsView.jsx';
 import { CurrencyLockCard } from './CurrencyLockCard.jsx';
 import { CurrencySelectorModal } from './CurrencySelectorModal.jsx';
 import { BackupRestoreModal } from './BackupRestoreModal.jsx';
+import { SupabaseAuthModal } from './SupabaseAuthModal.jsx';
 import {
   setBaseCurrency,
   checkCurrencyLockStatus,
@@ -292,6 +293,55 @@ describe('Settings View & Currency Immutability Lock Component Tests (F014)', ()
       expect(html).toContain('انقر لاختيار ملف النسخة الاحتياطية (.json)');
       expect(html).toContain('يدعم ملفات النسخ الاحتياطي الرسمية المُصدَّرة من التطبيق');
       expect(html).toContain('إلغاء');
+    });
+  });
+
+  describe('5. Supabase Cloud Sync & Auth Modal Component Tests (F018)', () => {
+    it('renders the Cloud Sync & Supabase card in Guest Mode with login action button', () => {
+      const html = renderToString(
+        <SettingsView
+          theme="light"
+          onToggleTheme={vi.fn()}
+          onSelectTab={vi.fn()}
+          database={testDb}
+        />
+      );
+
+      expect(html).toContain('المزامنة السحابية والمصادقة (Supabase)');
+      expect(html).toContain('وضع الضيف (محلي)');
+      expect(html).toContain('تسجيل الدخول / ربط الحساب');
+    });
+
+    it('renders SupabaseAuthModal dialog when isOpen is true with tabs, inputs and merge safety notice', () => {
+      const html = renderToString(
+        <SupabaseAuthModal
+          isOpen={true}
+          onClose={vi.fn()}
+          database={testDb}
+        />
+      );
+
+      expect(html).toContain('role="dialog"');
+      expect(html).toContain('aria-modal="true"');
+      expect(html).toContain('تسجيل الدخول إلى حسابك السحابي');
+      expect(html).toContain('تسجيل الدخول');
+      expect(html).toContain('حساب جديد');
+      expect(html).toContain('ضمان سلامة البيانات');
+      expect(html).toContain('البريد الإلكتروني');
+      expect(html).toContain('كلمة المرور');
+      expect(html).toContain('إلغاء');
+    });
+
+    it('renders null when SupabaseAuthModal isOpen is false', () => {
+      const html = renderToString(
+        <SupabaseAuthModal
+          isOpen={false}
+          onClose={vi.fn()}
+          database={testDb}
+        />
+      );
+
+      expect(html).toBe('');
     });
   });
 });

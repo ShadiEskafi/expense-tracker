@@ -14,6 +14,18 @@ import {
 } from './HubViews';
 import { NAV_HUBS } from './navigationConfig';
 import { getBaseCurrency } from '../../services/currencyLock.js';
+import {
+  getCurrentUser,
+  subscribeToAuthChanges,
+  getLastSyncTimestamp,
+  formatLastSyncTimeArabic,
+  syncWithCloud
+} from '../../services/cloudSync.js';
+import {
+  getQueueMetrics,
+  computeSyncPillStatus,
+  subscribeToSyncEvents
+} from '../../services/syncQueue.js';
 import { db } from '../../db/db.js';
 
 const THEME_STORAGE_KEY = 'expense_tracker_theme';
@@ -29,6 +41,7 @@ export function AppShell() {
   const [syncStatus, setSyncStatus] = useState('synced');
   const [pendingCount, setPendingCount] = useState(0);
   const [lastSyncedText, setLastSyncedText] = useState('الآن');
+  const [currentUser, setCurrentUser] = useState(null);
   const [dashboardRefreshTrigger, setDashboardRefreshTrigger] = useState(0);
   const [baseCurrency, setBaseCurrencyState] = useState('SAR');
 
@@ -42,6 +55,39 @@ export function AppShell() {
     });
     return () => {
       isCancelled = true;
+    };
+  }, [dashboardRefreshTrigger]);
+
+  // Load sync state and auth state dynamically
+  useEffect(() => {
+    let isCancelled = false;
+    const fetchState = () => {
+      Promise.all([
+        getCurrentUser(),
+        getQueueMetrics({ database: db }),
+        getLastSyncTimestamp(db),
+        computeSyncPillStatus({
+          database: db,
+          isOnline: typeof navigator !== 'undefined' ? navigator.onLine : true
+        })
+      ]).then(([user, metrics, timestamp, pill]) => {
+        if (isCancelled) return;
+        setCurrentUser(user);
+        setPendingCount(metrics.pending + metrics.failed);
+        setSyncStatus(pill);
+        setLastSyncedText(formatLastSyncTimeArabic(timestamp));
+      }).catch((err) => {
+        console.warn('[AppShell] Error refreshing sync state:', err);
+      });
+    };
+
+    fetchState();
+    const unsubAuth = subscribeToAuthChanges(fetchState);
+    const unsubSync = subscribeToSyncEvents(fetchState);
+    return () => {
+      isCancelled = true;
+      unsubAuth();
+      unsubSync();
     };
   }, [dashboardRefreshTrigger]);
 
@@ -103,13 +149,22 @@ export function AppShell() {
     setActiveTab('transactions');
   }, []);
 
-  const handleTriggerManualSync = useCallback(() => {
+  const handleTriggerManualSync = useCallback(async () => {
     setSyncStatus('syncing');
-    setTimeout(() => {
-      setSyncStatus('synced');
-      setPendingCount(0);
-      setLastSyncedText('الآن');
-    }, 1200);
+    try {
+      const outcome = await syncWithCloud({ database: db });
+      if (outcome.success) {
+        setSyncStatus(outcome.pillStatus || 'synced');
+        setLastSyncedText(outcome.lastSyncTextArabic || 'الآن');
+        const metrics = await getQueueMetrics({ database: db });
+        setPendingCount(metrics.pending + metrics.failed);
+      } else {
+        setSyncStatus('offline');
+      }
+    } catch (err) {
+      console.warn('[AppShell] Manual sync failed:', err);
+      setSyncStatus('failed');
+    }
   }, []);
 
   // Global Keyboard Shortcuts (N for Quick Add, Ctrl+K or / for Search)
@@ -216,7 +271,7 @@ export function AppShell() {
         onSelectTab={setActiveTab}
         onOpenQuickAdd={handleOpenQuickAdd}
         syncStatus={syncStatus}
-        userModeText="وضع الضيف المحلي"
+        userModeText={currentUser ? currentUser.email : 'وضع الضيف المحلي'}
         lastSyncText={lastSyncedText}
       />
 
