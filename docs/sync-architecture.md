@@ -137,6 +137,6 @@ When a user operating in local Guest Mode signs in or registers via Supabase Aut
     > *"You have [N] un-synced changes on this device. Signing out now will permanently clear them from this browser. Please reconnect to sync, or export a local JSON backup before signing out."*
   - Actions: [Sync Now] / [Download JSON Backup] / [Cancel].
 - **Clean State (`pending == 0`)**:
-  - Sign-out is permitted.
-  - Local user tables in IndexedDB are cleared to prevent subsequent users on shared devices from accessing confidential financial records.
-  - The app re-initializes fresh Guest Mode.
+  - A separate confirmation explains that this account's local cache will be removed.
+  - Cloud authentication signs out, then a Dexie transaction rechecks the queue and removes records owned by the signed-out `user_id`, related queue and conflict entries, and the last cloud sync timestamp.
+  - Guest records and unrelated local settings remain intact in Guest Mode.

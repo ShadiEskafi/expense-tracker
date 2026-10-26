@@ -13,6 +13,13 @@ import {
   ENTITY_TYPES
 } from './syncQueue.js';
 import { reconcileAccountBalance } from './account.js';
+import {
+  inspectSignOutSafety,
+  purgeLocalCloudCache,
+  SignOutBlockedError
+} from './signOutSafety.js';
+
+export { SignOutBlockedError } from './signOutSafety.js';
 
 /**
  * Storage key for last cloud synchronization timestamp
@@ -28,18 +35,6 @@ let supabaseClientInstance = null;
  * Auth state subscribers
  */
 const authSubscribers = new Set();
-
-/**
- * Custom error thrown when sign-out is blocked by pending offline mutations
- */
-export class SignOutBlockedError extends Error {
-  constructor(message, pendingCount = 0) {
-    super(message);
-    this.name = 'SignOutBlockedError';
-    this.code = 'SIGN_OUT_BLOCKED_UNSYNCED_MUTATIONS';
-    this.pendingCount = pendingCount;
-  }
-}
 
 /**
  * Custom error thrown when Supabase operation or authentication fails
@@ -210,6 +205,10 @@ export async function signUpWithEmail({
     throw new CloudSyncError('خدمة المصادقة السحابية غير مهيأة. يرجى التحقق من إعدادات Supabase.');
   }
 
+  if (await getCurrentUser(sb)) {
+    throw new CloudSyncError('سجّل الخروج بأمان من الحساب الحالي قبل إنشاء حساب آخر.');
+  }
+
   if (!email || !email.includes('@')) {
     throw new CloudSyncError('يرجى إدخال بريد إلكتروني صالح.');
   }
@@ -271,6 +270,10 @@ export async function signInWithEmail({
     throw new CloudSyncError('خدمة المصادقة السحابية غير مهيأة.');
   }
 
+  if (await getCurrentUser(sb)) {
+    throw new CloudSyncError('سجّل الخروج بأمان من الحساب الحالي قبل الدخول إلى حساب آخر.');
+  }
+
   if (!email || !email.includes('@')) {
     throw new CloudSyncError('يرجى إدخال بريد إلكتروني صالح.');
   }
@@ -312,39 +315,33 @@ export async function signInWithEmail({
 
 /**
  * Signs out the currently authenticated user.
- * Validates that there are no un-synced offline mutations unless force=true.
+ * Validates that there are no un-synced offline mutations and purges this account's local cache.
  *
  * @param {object} [params]
  * @param {object} [params.client]
  * @param {import('../db/db.js').ExpenseDatabase} [params.database=db]
- * @param {boolean} [params.force=false] - Force sign-out bypassing un-synced mutation check
  * @returns {Promise<{ success: boolean }>}
  */
 export async function signOutUser({
   client = null,
-  database = db,
-  force = false
+  database = db
 } = {}) {
   const sb = getSupabaseClient(client);
+  if (!sb?.auth) {
+    throw new CloudSyncError('خدمة المصادقة السحابية غير مهيأة. لا يمكن تأكيد تسجيل الخروج.');
+  }
+  const user = await getCurrentUser(sb);
+  if (!user?.id) throw new CloudSyncError('تعذر التحقق من الحساب الحالي.');
 
-  if (!force) {
-    // Check if un-synced mutations exist in offline_mutation_queue
-    const pendingMutations = await getPendingMutations({
-      database,
-      statuses: [MUTATION_STATUS.PENDING, MUTATION_STATUS.FAILED, MUTATION_STATUS.SYNCING]
-    });
+  const { pendingCount } = await inspectSignOutSafety(database);
+  if (pendingCount > 0) throw new SignOutBlockedError(pendingCount);
 
-    if (pendingMutations.length > 0) {
-      throw new SignOutBlockedError(
-        `لديك ${pendingMutations.length} تعديلات غير متزامنة على هذا الجهاز. تسجيل الخروج الآن سيؤدي إلى فقدانها.`,
-        pendingMutations.length
-      );
-    }
+  const { error } = await sb.auth.signOut();
+  if (error) {
+    throw new CloudSyncError(error.message || 'تعذر تسجيل الخروج من الحساب السحابي.', error);
   }
 
-  if (sb && sb.auth) {
-    await sb.auth.signOut();
-  }
+  await purgeLocalCloudCache(database, user.id);
 
   emitAuthChange({
     type: 'SIGNED_OUT',

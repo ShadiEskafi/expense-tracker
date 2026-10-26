@@ -2,7 +2,7 @@
 
 > **Project**: Expense Management App  
 > **Harness Status**: Active & Enforced  
-> **Last Updated**: 2026-10-25  
+> **Last Updated**: 2026-10-26
 > **Single Source of Truth**: [project-summary.md](file:///f:/SHADI/2-Programming/Expense%20Tracker%20App/expense-tracker/project-summary.md) & [design-system/](file:///f:/SHADI/2-Programming/Expense%20Tracker%20App/expense-tracker/design-system/)
 
 ---
@@ -47,28 +47,29 @@ The project harness engineering foundation has been established with all 5 core 
 - [x] **F017**: Offline Mutation Queue & Concurrency Engine (OCC) (`src/services/syncQueue.js`, `src/services/syncQueue.test.js` with 38 passing tests, category mutation queuing in `src/services/category.js` and `src/services/categoryGuard.js`, total 501 passing tests across 25 suites, clean build and lint).
 - [x] **F018**: Supabase Cloud Sync & Initial Account Merge (`src/services/cloudSync.js`, `src/services/cloudSync.test.js` with 22 passing tests, `src/features/settings/SupabaseAuthModal.jsx`, `SupabaseAuthModal.css`, `SettingsView.jsx`, `SettingsView.css`, `AppShell.jsx`, `Icons.jsx`, total 526 tests across 26 suites, clean build and lint).
 - [x] **F-CORR-MODAL-ILS**: Mobile Modal UX Correction & ILS Currency Support (`src/utils/currency.js`, `src/utils/currency.test.js`, `src/features/settings/SupabaseAuthModal.jsx`, `src/features/settings/SupabaseAuthModal.css`, `src/features/settings/CurrencySelectorModal.jsx`, `src/features/settings/SettingsView.css`, `src/styles/AppShell.css`, `src/components/common/Icons.jsx`, `src/test/mobileUxAudit.test.jsx`, `design-system/`, 539 Vitest tests passing across 26 test suites, clean build and lint, zero horizontal overflow across 320px to 430px+ mobile viewports).
+- [x] **F019**: Fail-Safe Sign-Out with Un-Synced Mutation Blocking (`src/services/signOutSafety.js` and tests, `src/services/cloudSync.js` and tests, `src/features/settings/SignOutSafetyModal.jsx/.css` and tests, `SettingsView.jsx`, architecture docs; 5 feature verification tests passed, 549 full-suite tests across 28 suites, clean lint and build; mobile and desktop modal renders verified with no horizontal overflow). Pending, failed, and syncing mutations block sign-out. Successful sign-out removes only the signed-out account's local cache and related sync metadata, preserving guest records.
 
 ---
 
 ## 3. Current Focus & WIP Limit (WIP=1)
-- **Active Feature**: None (Corrective milestone F-CORR-MODAL-ILS successfully concluded and verified).
-- **Next Feature in Queue**: **F019** (`Fail-Safe Sign-Out with Un-Synced Mutation Blocking`). Ready for cold-start and activation.
+- **Active Feature**: None (F019 completed and verified).
+- **Next Feature in Queue**: **F020** (`PWA Offline Caching & Storage Persistence`). Ready for cold-start and activation.
 
 ---
 
 ## 4. Blockers & Risks
-- **Blockers**: None. Full health pipeline (lint, 539 vitest tests across 26 suites, vite build) passing with 0 errors.
+- **Blockers**: None. Full health pipeline (lint, 549 Vitest tests across 28 suites, Vite build) passing with 0 errors.
 - **Risks & Mitigations**:
-  - *Browser Storage Eviction*: Mitigated by calling `navigator.storage.persist()` and providing complete atomic JSON backup/restore.
+  - *Browser Storage Eviction*: JSON backup/restore is available; the persistent-storage request is scheduled for F020.
   - *Multi-Device Concurrency*: Mitigated by Optimistic Concurrency Control (OCC) and conflict archiving in `conflict_audit_log` (F017 + F018).
-  - *Un-synced Data Destruction on Sign-Out*: Mitigated by pre-check in `signOutUser` throwing `SignOutBlockedError`, to be fully UI-safeguarded in F019.
+  - *Un-synced Data Destruction on Sign-Out*: Mitigated by the F019 blocking dialog, no force bypass, and a transactional queue recheck before account-scoped cache cleanup.
 
 ---
 
 ## 5. Handoff Protocol for Next Session / Agent
-1. Execute `./init.ps1` (or `./init.sh`) to confirm zero regressions (526 tests passing across 26 suites).
+1. Execute `./init.ps1` (or `./init.sh`) to confirm zero regressions (549 tests passing across 28 suites).
 2. Read `progress.md` and `DECISIONS.md`.
-3. Pick **F019** (`Fail-Safe Sign-Out with Un-Synced Mutation Blocking`) from `feature_list.json`, transition `state: active`.
-4. Run `npm run trello:sync` to move F019 card to `In Progress`.
-5. Implement Fail-Safe Sign-Out modal and pipeline (`src/services/signOutSafety.js` or UI safety dialog), blocking sign-out when un-synced offline mutations exist, offering Sync Now / Download Backup / Cancel, and purging local cloud cache only upon confirmed 0 pending mutations.
-6. Verify automated tests (`npm test src/services/signOutSafety.test.js && npm run lint && npm run build`), update `feature_list.json` to `passing` with evidence, run `npm run trello:sync`, and record atomic git commit.
+3. Pick **F020** (`PWA Offline Caching & Storage Persistence`) from `feature_list.json`, transition `state: active`.
+4. Run `npm run trello:sync` to move F020 card to `In Progress`.
+5. Implement offline app-shell caching and persistent-storage request according to `project-summary.md` and the design system.
+6. Verify the feature and full health pipeline, update state and evidence, sync Trello, and record an atomic git commit.

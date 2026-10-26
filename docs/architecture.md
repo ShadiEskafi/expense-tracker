@@ -68,3 +68,9 @@ The application is structured as a **Local-First Progressive Web Application**:
 
 6. **Arabic RTL Layout Compliance**:
    - All user-facing UI must conform to the Arabic RTL design system documented in `design-system/`.
+
+7. **Account-Scoped Sign-Out Safety**:
+   - `signOutSafety.js` treats pending, failed, and syncing queue entries as unsynced work and prevents account sign-out while any exist.
+   - After cloud auth sign-out succeeds, a Dexie transaction rechecks the queue before removing only records with the signed-out `user_id`, their queue and conflict entries, and the last cloud sync timestamp.
+   - Guest records and unrelated local settings remain available in Guest Mode; the sign-out path has no force bypass.
+   - Authentication rejects an account switch while another user is signed in; the user must complete safe sign-out first.

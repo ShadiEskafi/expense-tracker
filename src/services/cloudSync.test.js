@@ -249,9 +249,18 @@ describe('Supabase Cloud Sync & Initial Account Merge (F018)', () => {
   });
 
   describe('2. Fail-Safe Sign-Out Pre-Check (Offline Mutations)', () => {
+    it('requires safe sign-out before switching to another account', async () => {
+      const mock = createMockSupabaseClient({ initialUser: { id: 'usr-1', email: 'first@test.com' } });
+
+      await expect(signInWithEmail({
+        email: 'second@test.com', password: 'password', client: mock, database: testDb
+      })).rejects.toThrow('سجّل الخروج بأمان');
+      expect((await getCurrentUser(mock)).id).toBe('usr-1');
+    });
+
     it('permits sign-out when offline_mutation_queue is clean (0 pending mutations)', async () => {
       const mock = createMockSupabaseClient({ initialUser: { id: 'usr-1', email: 'usr@test.com' } });
-      const res = await signOutUser({ client: mock, database: testDb, force: false });
+      const res = await signOutUser({ client: mock, database: testDb });
       expect(res.success).toBe(true);
       expect(await getCurrentUser(mock)).toBeNull();
     });
@@ -267,18 +276,18 @@ describe('Supabase Cloud Sync & Initial Account Merge (F018)', () => {
         database: testDb
       });
 
-      await expect(signOutUser({ client: mock, database: testDb, force: false }))
+      await expect(signOutUser({ client: mock, database: testDb }))
         .rejects.toThrow(SignOutBlockedError);
 
       try {
-        await signOutUser({ client: mock, database: testDb, force: false });
+        await signOutUser({ client: mock, database: testDb });
       } catch (err) {
         expect(err.name).toBe('SignOutBlockedError');
         expect(err.pendingCount).toBe(1);
       }
     });
 
-    it('allows forced sign-out even when pending mutations exist if force=true', async () => {
+    it('never bypasses the unsynced mutation guard', async () => {
       const mock = createMockSupabaseClient({ initialUser: { id: 'usr-1', email: 'usr@test.com' } });
       await enqueueMutation({
         entity_type: 'transaction',
@@ -287,9 +296,31 @@ describe('Supabase Cloud Sync & Initial Account Merge (F018)', () => {
         database: testDb
       });
 
-      const res = await signOutUser({ client: mock, database: testDb, force: true });
-      expect(res.success).toBe(true);
-      expect(await getCurrentUser(mock)).toBeNull();
+      await expect(signOutUser({ client: mock, database: testDb, force: true }))
+        .rejects.toThrow(SignOutBlockedError);
+      expect(await getCurrentUser(mock)).not.toBeNull();
+    });
+
+    it('preserves cached records when cloud sign-out fails', async () => {
+      const mock = createMockSupabaseClient({ initialUser: { id: 'usr-1', email: 'usr@test.com' } });
+      mock.auth.signOut = async () => ({ error: new Error('Network error') });
+      await testDb.accounts.add({ id: 'acc-1', user_id: 'usr-1' });
+
+      await expect(signOutUser({ client: mock, database: testDb })).rejects.toThrow('Network error');
+      expect(await testDb.accounts.get('acc-1')).toBeDefined();
+    });
+
+    it('removes signed-out cloud records while keeping guest records', async () => {
+      const mock = createMockSupabaseClient({ initialUser: { id: 'usr-1', email: 'usr@test.com' } });
+      await testDb.accounts.bulkAdd([
+        { id: 'acc-cloud', user_id: 'usr-1' },
+        { id: 'acc-guest', user_id: null }
+      ]);
+
+      await signOutUser({ client: mock, database: testDb });
+
+      expect(await testDb.accounts.get('acc-cloud')).toBeUndefined();
+      expect(await testDb.accounts.get('acc-guest')).toBeDefined();
     });
   });
 

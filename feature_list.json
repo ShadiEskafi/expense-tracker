@@ -1,6 +1,6 @@
 {
   "project": "expense-tracker",
-  "last_updated": "2026-10-24T10:55:00Z",
+  "last_updated": "2026-10-26T11:35:05Z",
   "harness_version": "1.0.0",
   "features": [
     {
@@ -168,8 +168,8 @@
       "name": "Fail-Safe Sign-Out with Un-Synced Mutation Blocking",
       "behavior": "Blocks sign-out and prompts user when pending offline mutations exist; purges local cloud cache only upon confirmed zero pending mutations.",
       "verification": "npm test src/services/signOutSafety.test.js",
-      "state": "not-started",
-      "evidence": null
+      "state": "passing",
+      "evidence": "All 5 signOutSafety tests passed; full init.ps1 pipeline passed ESLint, 549 Vitest tests across 28 suites, and Vite production build. Blocks pending/failed/syncing mutations with no force bypass, rechecks inside an atomic Dexie transaction, purges only signed-out account records and related sync metadata while preserving guest records/settings, requires safe sign-out before account switching, and provides accessible Arabic RTL recovery/confirmation dialogs. Visual checks passed at 320px, 390px, and 1280px with no horizontal overflow; core mobile viewport audit passed at 8 sizes."
     },
     {
       "id": "F020",

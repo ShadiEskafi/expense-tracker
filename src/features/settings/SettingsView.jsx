@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { CurrencyLockCard } from './CurrencyLockCard.jsx';
 import { BackupRestoreModal } from './BackupRestoreModal.jsx';
 import { SupabaseAuthModal } from './SupabaseAuthModal.jsx';
+import { SignOutSafetyModal } from './SignOutSafetyModal.jsx';
 import {
   CategoriesIcon,
   SunIcon,
@@ -26,6 +27,7 @@ import {
   SignOutBlockedError
 } from '../../services/cloudSync.js';
 import { db } from '../../db/db.js';
+import { inspectSignOutSafety } from '../../services/signOutSafety.js';
 import './SettingsView.css';
 
 /**
@@ -52,6 +54,12 @@ export function SettingsView({
   const [isSyncingCloud, setIsSyncingCloud] = useState(false);
   const [cloudSyncToast, setCloudSyncToast] = useState(null);
   const [lastSyncText, setLastSyncText] = useState('غير متزامن بعد');
+  const [isSignOutModalOpen, setIsSignOutModalOpen] = useState(false);
+  const [isCheckingSignOut, setIsCheckingSignOut] = useState(false);
+  const [isProcessingSignOut, setIsProcessingSignOut] = useState(false);
+  const [signOutPendingCount, setSignOutPendingCount] = useState(0);
+  const [signOutError, setSignOutError] = useState(null);
+  const [signOutInfo, setSignOutInfo] = useState(null);
 
   // Load active user and last sync timestamp
   useEffect(() => {
@@ -102,21 +110,71 @@ export function SettingsView({
 
   const handleSignOut = async () => {
     try {
-      setCloudSyncToast(null);
-      await signOutUser({ database });
-      setCurrentUser(null);
-      setCloudSyncToast('تم تسجيل الخروج بنجاح والعودة إلى وضع الضيف.');
-      setTimeout(() => setCloudSyncToast(null), 3500);
-      if (typeof onDataRestored === 'function') {
-        onDataRestored();
+      setIsCheckingSignOut(true);
+      const { pendingCount } = await inspectSignOutSafety(database);
+      setSignOutPendingCount(pendingCount);
+      setSignOutError(null);
+      setSignOutInfo(null);
+      setIsSignOutModalOpen(true);
+    } catch (err) {
+      setCloudSyncToast('تعذر فحص التغييرات المحلية: ' + (err.message || 'خطأ غير معروف'));
+    } finally {
+      setIsCheckingSignOut(false);
+    }
+  };
+
+  const handleSignOutSync = async () => {
+    try {
+      setIsProcessingSignOut(true);
+      setSignOutError(null);
+      setSignOutInfo(null);
+      const outcome = await syncWithCloud({ database });
+      const { pendingCount } = await inspectSignOutSafety(database);
+      setSignOutPendingCount(pendingCount);
+      if (!outcome.success || pendingCount > 0) {
+        setSignOutError(outcome.message || 'لا تزال هناك تعديلات غير متزامنة. تحقق من اتصالك ثم حاول مجدداً.');
+        return;
       }
+      setLastSyncText(formatLastSyncTimeArabic(outcome.lastSyncTimestamp));
+      setSignOutInfo('اكتملت المزامنة. يمكنك الآن تأكيد تسجيل الخروج.');
+    } catch (err) {
+      setSignOutError('تعذرت المزامنة: ' + (err.message || 'حاول مجدداً عند عودة الاتصال.'));
+    } finally {
+      setIsProcessingSignOut(false);
+    }
+  };
+
+  const handleSignOutBackup = async () => {
+    try {
+      setIsProcessingSignOut(true);
+      setSignOutError(null);
+      const result = await downloadBackup(database);
+      setSignOutInfo(`تم تنزيل النسخة الاحتياطية (${result.filename}). تبقى التعديلات المحلية محفوظة.`);
+    } catch (err) {
+      setSignOutError('تعذر تنزيل النسخة الاحتياطية: ' + (err.message || 'حاول مجدداً.'));
+    } finally {
+      setIsProcessingSignOut(false);
+    }
+  };
+
+  const handleConfirmSignOut = async () => {
+    try {
+      setIsProcessingSignOut(true);
+      setSignOutError(null);
+      await signOutUser({ database });
+      setIsSignOutModalOpen(false);
+      setCurrentUser(null);
+      setCloudSyncToast('تم تسجيل الخروج وحذف بيانات الحساب السحابي من هذا الجهاز.');
+      if (typeof onDataRestored === 'function') onDataRestored();
     } catch (err) {
       if (err instanceof SignOutBlockedError) {
-        setCloudSyncToast(err.message);
+        setSignOutPendingCount(err.pendingCount);
+        setSignOutError('ظهرت تعديلات جديدة لم تُزامن. أكمل مزامنتها قبل الخروج.');
       } else {
-        setCloudSyncToast('فشل تسجيل الخروج: ' + (err.message || 'خطأ غير معروف'));
+        setSignOutError('تعذر تسجيل الخروج: ' + (err.message || 'حاول مجدداً.'));
       }
-      setTimeout(() => setCloudSyncToast(null), 5000);
+    } finally {
+      setIsProcessingSignOut(false);
     }
   };
 
@@ -392,11 +450,11 @@ export function SettingsView({
                 type="button"
                 className="btn-secondary"
                 onClick={handleSignOut}
-                disabled={isSyncingCloud}
+                disabled={isSyncingCloud || isCheckingSignOut}
                 aria-label="تسجيل الخروج من الحساب السحابي"
               >
                 <LogOutIcon size={16} />
-                <span>تسجيل الخروج</span>
+                <span>{isCheckingSignOut ? 'جارٍ فحص البيانات...' : 'تسجيل الخروج'}</span>
               </button>
             </div>
           </div>
@@ -434,6 +492,18 @@ export function SettingsView({
         onClose={() => setIsAuthModalOpen(false)}
         database={database}
         onAuthSuccess={handleAuthSuccess}
+      />
+
+      <SignOutSafetyModal
+        isOpen={isSignOutModalOpen}
+        pendingCount={signOutPendingCount}
+        isProcessing={isProcessingSignOut}
+        errorMessage={signOutError}
+        infoMessage={signOutInfo}
+        onSync={handleSignOutSync}
+        onBackup={handleSignOutBackup}
+        onConfirm={handleConfirmSignOut}
+        onClose={() => setIsSignOutModalOpen(false)}
       />
 
       {/* 6. Local-First Engine & Storage Safety Card */}

@@ -1,0 +1,96 @@
+:root {
+  --modal-open-dur: 250ms;
+  --modal-close-dur: 150ms;
+  --modal-scale: 0.96;
+  --modal-scale-close: 0.96;
+  --modal-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.t-modal {
+  transform-origin: center;
+  transform: scale(var(--modal-scale));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--modal-open-dur) var(--modal-ease),
+    opacity   var(--modal-open-dur) var(--modal-ease);
+  will-change: transform, opacity;
+}
+.t-modal.is-open {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+.t-modal.is-closing {
+  transform: scale(var(--modal-scale-close));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--modal-close-dur) var(--modal-ease),
+    opacity   var(--modal-close-dur) var(--modal-ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-modal { transition: none !important; }
+}
+
+.signout-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal-backdrop);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  background: color-mix(in srgb, var(--color-brand-primary) 48%, transparent);
+}
+
+.signout-dialog {
+  width: min(100%, 440px);
+  max-height: 90dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-6);
+  background: var(--color-bg-surface-elevated);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-modal);
+}
+
+.signout-sheet-handle { display: none; }
+.signout-header { display: flex; align-items: flex-start; justify-content: space-between; }
+.signout-icon, .signout-close { display: grid; place-items: center; min-width: var(--size-touch-min); min-height: var(--size-touch-min); }
+.signout-icon { color: var(--color-brand-primary); background: var(--color-bg-surface-subtle); border-radius: var(--radius-lg); }
+.signout-icon-warning { color: var(--color-liability); background: var(--color-liability-subtle); }
+.signout-close { border: 0; border-radius: var(--radius-md); background: transparent; color: var(--color-text-secondary); cursor: pointer; }
+.signout-close:hover { background: var(--color-bg-surface-subtle); }
+.signout-close:focus-visible, .signout-actions button:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
+.signout-copy { display: grid; gap: var(--space-2); min-width: 0; }
+.signout-copy h2, .signout-copy p { margin: 0; }
+.signout-copy p { color: var(--color-text-secondary); line-height: 1.7; }
+.signout-feedback { margin: 0; padding: var(--space-3); border-radius: var(--radius-md); background: var(--color-bg-surface-subtle); }
+.signout-error { color: var(--color-expense); background: var(--color-expense-subtle); }
+.signout-actions { display: grid; gap: var(--space-3); }
+.signout-action { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); width: 100%; min-height: var(--size-btn-height-md); }
+.signout-cancel { min-height: var(--size-touch-min); border: 0; background: transparent; color: var(--color-text-secondary); cursor: pointer; }
+.signout-actions button:disabled, .signout-close:disabled { opacity: 0.5; cursor: not-allowed; }
+
+@media (max-width: 767px) {
+  .signout-backdrop { align-items: flex-end; padding: 0; }
+  .signout-dialog {
+    width: 100%;
+    max-height: 90dvh;
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
+    padding: var(--space-4) var(--space-4) calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+  }
+  .signout-sheet-handle { display: block; align-self: center; width: 36px; height: 4px; border-radius: var(--radius-full); background: var(--color-border-strong); }
+  .signout-dialog.t-modal { transform: translateY(100%); }
+  .signout-dialog.t-modal.is-open { transform: translateY(0); }
+  .signout-dialog.t-modal.is-closing { transform: translateY(100%); }
+  .signout-actions { position: sticky; bottom: 0; background: var(--color-bg-surface-elevated); }
+}

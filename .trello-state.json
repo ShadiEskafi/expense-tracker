@@ -11,7 +11,6 @@
   "distribution": {
     "Backlog": [],
     "Ready": [
-      "F019",
       "F020"
     ],
     "In Progress": [],
@@ -36,7 +35,8 @@
       "F016",
       "F017",
       "F018",
-      "F-CORR-MODAL-ILS"
+      "F-CORR-MODAL-ILS",
+      "F019"
     ]
   },
   "wip_count": 0,
@@ -1422,7 +1422,7 @@
         "MVP"
       ],
       "dependencies": [],
-      "description": "### Feature ID\nF-CORR-MODAL-ILS\n\n### Behavior\nTransforms Auth and Currency Selection modals to mobile-native bottom sheets with 90dvh, drag handles, safe-area insets, sticky footers, password visibility toggle, pure read-only locked state, and comprehensive ISO 4217 Israeli New Shekel (ILS / ₪) support across monetary engine, formatting, and search.\n\n### Verification\nnpm test && npm run lint && npm run build\n\n### Harness State\npassing\n\n### Dependencies\nNone\n\n### Evidence\nAll 26 test suites and 539 Vitest tests passed, ESLint 10 passed with 0 errors, Vite 8 build passed, and automated Headless Chrome verified 100% zero overflow across 320px-430px+ mobile viewports. ILS verified with 41 currency engine tests.",
+      "description": "### Feature ID\nF-CORR-MODAL-ILS\n\n### Behavior\nTransforms Auth and Currency Selection modals to mobile-native bottom sheets with 90dvh, drag handles, safe-area insets, sticky footers, password visibility toggle, pure read-only locked state, and comprehensive ISO 4217 Israeli New Shekel (ILS / ₪) support across monetary engine, formatting, and search.\n\n### Verification\nnpm test && npm run lint && npm run build\n\n### Harness State\npassing\n\n### Dependencies\nNone\n\n### Evidence\nAll 26 test suites and 539 Vitest tests passed, ESLint 10 passed with 0 errors, Vite 8 build passed, and automated Headless Chrome verified 100% zero overflow across 320px-430px+ mobile viewports. ILS verified with 41 currency engine tests.\n\n### Commit\nffd0572\n\n### Completion Date\n2026-10-26",
       "checklists": [
         {
           "name": "Implementation",
@@ -1484,8 +1484,8 @@
     {
       "id": "F019",
       "title": "[F019] Fail-Safe Sign-Out with Un-Synced Mutation Blocking",
-      "list": "Ready",
-      "harness_state": "not-started",
+      "list": "Done",
+      "harness_state": "passing",
       "labels": [
         "MVP",
         "Security",
@@ -1496,14 +1496,14 @@
         "F017",
         "F018"
       ],
-      "description": "### Feature ID\nF019\n\n### Behavior\nBlocks sign-out and prompts user when pending offline mutations exist; purges local cloud cache only upon confirmed zero pending mutations.\n\n### Verification\nnpm test src/services/signOutSafety.test.js\n\n### Harness State\nnot-started\n\n### Dependencies\n- F016\n- F017\n- F018",
+      "description": "### Feature ID\nF019\n\n### Behavior\nBlocks sign-out and prompts user when pending offline mutations exist; purges local cloud cache only upon confirmed zero pending mutations.\n\n### Verification\nnpm test src/services/signOutSafety.test.js\n\n### Harness State\npassing\n\n### Dependencies\n- F016\n- F017\n- F018\n\n### Evidence\nAll 5 signOutSafety tests passed; full init.ps1 pipeline passed ESLint, 549 Vitest tests across 28 suites, and Vite production build. Blocks pending/failed/syncing mutations with no force bypass, rechecks inside an atomic Dexie transaction, purges only signed-out account records and related sync metadata while preserving guest records/settings, requires safe sign-out before account switching, and provides accessible Arabic RTL recovery/confirmation dialogs. Visual checks passed at 320px, 390px, and 1280px with no horizontal overflow; core mobile viewport audit passed at 8 sizes.",
       "checklists": [
         {
           "name": "Implementation",
           "items": [
             {
               "name": "Feature implemented",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -1512,23 +1512,23 @@
           "items": [
             {
               "name": "Feature verification passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant tests passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Typecheck passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Lint passed",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Build passed",
-              "checked": false
+              "checked": true
             }
           ]
         },
@@ -1537,19 +1537,19 @@
           "items": [
             {
               "name": "feature_list.json updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "progress.md updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Relevant docs updated",
-              "checked": false
+              "checked": true
             },
             {
               "name": "Atomic commit created",
-              "checked": false
+              "checked": true
             }
           ]
         }
