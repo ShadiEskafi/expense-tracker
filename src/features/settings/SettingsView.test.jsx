@@ -366,4 +366,36 @@ describe('Settings View & Currency Immutability Lock Component Tests (F014)', ()
       expect(html).toBe('');
     });
   });
+
+  describe('6. Storage Persistence & Durability Status Component Tests (F020 / FR-23)', () => {
+    it('renders the Storage Durability controls and status pill in SettingsView', () => {
+      const html = renderToString(
+        <SettingsView
+          theme="light"
+          onToggleTheme={vi.fn()}
+          onSelectTab={vi.fn()}
+          database={testDb}
+        />
+      );
+
+      expect(html).toContain('استدامة التخزين (Storage Durability)');
+      expect(html).toContain('تخزين افتراضي');
+      expect(html).toContain('طلب حماية التخزين');
+    });
+
+    it('renders the Guest Mode Data Safety & Storage Disclosure callout', () => {
+      const html = renderToString(
+        <SettingsView
+          theme="light"
+          onToggleTheme={vi.fn()}
+          onSelectTab={vi.fn()}
+          database={testDb}
+        />
+      );
+
+      expect(html).toContain('تنبيه سلامة البيانات والتخزين المحلي');
+      expect(html).toContain('بياناتك المالية مخزنة حالياً في هذا المتصفح');
+      expect(html).toContain('لحمايتها من الحذف العرضي في حال مسح بيانات المتصفح');
+    });
+  });
 });

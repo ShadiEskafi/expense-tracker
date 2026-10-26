@@ -304,6 +304,163 @@
   border: 1px solid var(--color-border-subtle);
 }
 
+/* Storage Persistence & Durability (F020) */
+.status-badge-persisted {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1-5);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  user-select: none;
+}
+
+.status-badge-persisted.active {
+  background-color: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-badge-persisted.best-effort {
+  background-color: rgba(245, 158, 11, 0.12);
+  color: #d97706;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.storage-durability-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-subtle);
+  margin-top: var(--space-4);
+}
+
+.storage-durability-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
+}
+
+.storage-durability-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.storage-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+}
+
+.storage-pill.persisted {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.storage-pill.best-effort {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #d97706;
+}
+
+.request-persistence-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-weight: 600;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.request-persistence-btn:active {
+  transform: scale(0.96);
+}
+
+.persistence-active-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1-5);
+  padding: var(--space-1-5) var(--space-3);
+  border-radius: var(--radius-lg);
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.storage-quota-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-subtle);
+  margin-top: var(--space-3);
+}
+
+.storage-quota-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.storage-quota-progress-track {
+  width: 100%;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-border-subtle);
+  overflow: hidden;
+}
+
+.storage-quota-progress-bar {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: linear-gradient(to left, var(--color-brand-primary), #38bdf8);
+  transition: width var(--duration-normal) var(--ease-out);
+}
+
+.guest-disclosure-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1-5);
+  padding: var(--space-4);
+  border-radius: var(--radius-xl);
+  background-color: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  margin-top: var(--space-3);
+}
+
+.guest-disclosure-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: #0284c7;
+}
+
+[data-theme='dark'] .guest-disclosure-header {
+  color: #38bdf8;
+}
+
+.guest-disclosure-icon {
+  flex-shrink: 0;
+}
+
 /* ==========================================================================
    4. Currency Selector Modal
    ========================================================================== */
@@ -1308,6 +1465,17 @@
   .storage-features-grid {
     grid-template-columns: 1fr;
     gap: var(--space-3);
+  }
+
+  .storage-durability-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .request-persistence-btn {
+    width: 100%;
+    justify-content: center;
   }
 
   .backup-modal-backdrop {

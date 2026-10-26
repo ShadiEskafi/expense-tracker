@@ -129,3 +129,17 @@
   - *Ad-hoc Tailwind styling without centralized design tokens*: Leads to arbitrary padding, conflicting color palettes, and broken RTL alignments.
   - *External Figma dependency*: Requires ongoing external API access and sync overhead.
 - **Consequences**: Consistent, accessible, and high-fidelity Arabic-first interface with zero visual drift across engineering sessions.
+
+---
+
+## ADR-013: PWA Offline App Shell Caching and Storage Persistence API
+- **Status**: Accepted
+- **Context**: Users operate in diverse network environments (subways, flights, unstable mobile connections) and require reliable offline launch without blank screen crashes. Furthermore, browser IndexedDB storage can be evicted by browsers under extreme disk pressure unless explicitly granted persistent status.
+- **Decision**: Implement a Progressive Web Application (PWA) architecture with a dual-layer resilience model:
+  1. **Service Worker App Shell Caching**: Network-First strategy for HTML navigation requests (falling back to `/index.html` for offline SPA routing), Stale-While-Revalidate strategy for static application assets (scripts, styles, icons, Google Fonts), and strict live-network bypass for Supabase remote API and auth endpoints.
+  2. **Storage Persistence API**: Non-blocking call to `navigator.storage.persist()` on launch to protect client-side IndexedDB against browser eviction, with clear visibility of storage durability status (Persistent vs. Best-Effort), quota estimation, and actionable guidance in Settings.
+- **Rejected Alternatives**:
+  - *Online-Only Web App*: Fails completely when connection drops, violating the local-first product mandate.
+  - *Full HTTP API Caching in Service Worker*: Caching Supabase REST responses in HTTP cache introduces race conditions and conflicts with client-side Dexie.js and OCC queue models.
+  - *Silent Storage Assumptions*: Relying on default browser storage without requesting persistent storage quota risks unexpected data eviction on storage-constrained mobile devices.
+- **Consequences**: Fast, instant offline app launches, zero offline disruption, and maximum durability against automatic browser storage eviction.

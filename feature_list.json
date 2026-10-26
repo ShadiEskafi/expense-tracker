@@ -175,9 +175,9 @@
       "id": "F020",
       "name": "PWA Offline Caching & Storage Persistence",
       "behavior": "Registers Service Worker for offline app shell caching and requests persistent storage quota via navigator.storage.persist().",
-      "verification": "npm run build",
-      "state": "not-started",
-      "evidence": null
+      "verification": "npm test src/services/storagePersistence.test.js && npm run build",
+      "state": "passing",
+      "evidence": "All 24 storagePersistence unit tests and 12 serviceWorker unit tests passed; full init.ps1 pipeline passed ESLint 10, 587 Vitest automated tests across 30 suites, and Vite 8 production build (4.10s). Fully implements PWA Web App Manifest (manifest.webmanifest with Arabic RTL metadata and maskable vector icons), Service Worker (sw.js) with Network-First navigation caching and Stale-While-Revalidate static asset caching with Supabase live-network bypass, Storage Persistence engine (storagePersistence.js) with navigator.storage.persist() and navigator.storage.estimate() integration, QuotaExceededError detection with Arabic guidance, and SettingsView storage durability status card with interactive persistent storage request button, quota progress bar, and Guest Mode safety disclosure callout."
     }
   ]
 }

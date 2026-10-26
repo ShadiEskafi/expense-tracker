@@ -48,28 +48,27 @@ The project harness engineering foundation has been established with all 5 core 
 - [x] **F018**: Supabase Cloud Sync & Initial Account Merge (`src/services/cloudSync.js`, `src/services/cloudSync.test.js` with 22 passing tests, `src/features/settings/SupabaseAuthModal.jsx`, `SupabaseAuthModal.css`, `SettingsView.jsx`, `SettingsView.css`, `AppShell.jsx`, `Icons.jsx`, total 526 tests across 26 suites, clean build and lint).
 - [x] **F-CORR-MODAL-ILS**: Mobile Modal UX Correction & ILS Currency Support (`src/utils/currency.js`, `src/utils/currency.test.js`, `src/features/settings/SupabaseAuthModal.jsx`, `src/features/settings/SupabaseAuthModal.css`, `src/features/settings/CurrencySelectorModal.jsx`, `src/features/settings/SettingsView.css`, `src/styles/AppShell.css`, `src/components/common/Icons.jsx`, `src/test/mobileUxAudit.test.jsx`, `design-system/`, 539 Vitest tests passing across 26 test suites, clean build and lint, zero horizontal overflow across 320px to 430px+ mobile viewports).
 - [x] **F019**: Fail-Safe Sign-Out with Un-Synced Mutation Blocking (`src/services/signOutSafety.js` and tests, `src/services/cloudSync.js` and tests, `src/features/settings/SignOutSafetyModal.jsx/.css` and tests, `SettingsView.jsx`, architecture docs; 5 feature verification tests passed, 549 full-suite tests across 28 suites, clean lint and build; mobile and desktop modal renders verified with no horizontal overflow). Pending, failed, and syncing mutations block sign-out. Successful sign-out removes only the signed-out account's local cache and related sync metadata, preserving guest records.
+- [x] **F020**: PWA Offline Caching & Storage Persistence (`public/manifest.webmanifest`, `public/pwa-icon.svg`, `public/sw.js`, `src/services/storagePersistence.js`, `src/services/storagePersistence.test.js` with 24 passing tests, `src/services/serviceWorker.js`, `src/services/serviceWorker.test.js` with 12 passing tests, `src/main.jsx`, `index.html`, `src/features/settings/SettingsView.jsx`, `src/features/settings/SettingsView.css`, `src/features/settings/SettingsView.test.jsx` with 20 passing tests, `DECISIONS.md` ADR-013; total 587 passing tests across 30 suites, clean lint and Vite build). Fully implements PWA Web App Manifest with Arabic RTL metadata and maskable icons, Service Worker offline app-shell caching (Network-First for navigation, Stale-While-Revalidate for static assets, live-network bypass for Supabase endpoints), non-blocking Persistent Storage request via `navigator.storage.persist()`, storage quota and usage estimator via `navigator.storage.estimate()`, QuotaExceededError detection with Arabic warning guidance, and interactive storage durability controls with Guest Mode data safety disclosure callout in Settings.
 
 ---
 
 ## 3. Current Focus & WIP Limit (WIP=1)
-- **Active Feature**: None (F019 completed and verified).
-- **Next Feature in Queue**: **F020** (`PWA Offline Caching & Storage Persistence`). Ready for cold-start and activation.
+- **Active Feature**: None (All 22 features in `feature_list.json` — F001 through F020 + F-MOB + F-CORR-MODAL-ILS — are now completely implemented, verified, and passing).
+- **Milestone Status**: 100% MVP Scope Complete. All functional requirements (FR-01 through FR-23) verified with automated test evidence and zero regressions.
 
 ---
 
 ## 4. Blockers & Risks
-- **Blockers**: None. Full health pipeline (lint, 549 Vitest tests across 28 suites, Vite build) passing with 0 errors.
+- **Blockers**: None. Full health pipeline (ESLint 10 with 0 errors, 587 Vitest tests across 30 suites, Vite 8 production build) passing cleanly with 0 errors.
 - **Risks & Mitigations**:
-  - *Browser Storage Eviction*: JSON backup/restore is available; the persistent-storage request is scheduled for F020.
+  - *Browser Storage Eviction*: Fully mitigated by Persistent Storage API (`navigator.storage.persist()`), visible durability indicator in Settings, and atomic JSON backup/restore pipeline.
+  - *Offline App Launch*: Fully mitigated by Service Worker offline App Shell caching and Web App Manifest (PWA).
   - *Multi-Device Concurrency*: Mitigated by Optimistic Concurrency Control (OCC) and conflict archiving in `conflict_audit_log` (F017 + F018).
-  - *Un-synced Data Destruction on Sign-Out*: Mitigated by the F019 blocking dialog, no force bypass, and a transactional queue recheck before account-scoped cache cleanup.
+  - *Un-synced Data Destruction on Sign-Out*: Mitigated by the F019 blocking dialog, no force bypass, and transactional queue recheck before account-scoped cache cleanup.
 
 ---
 
 ## 5. Handoff Protocol for Next Session / Agent
-1. Execute `./init.ps1` (or `./init.sh`) to confirm zero regressions (549 tests passing across 28 suites).
-2. Read `progress.md` and `DECISIONS.md`.
-3. Pick **F020** (`PWA Offline Caching & Storage Persistence`) from `feature_list.json`, transition `state: active`.
-4. Run `npm run trello:sync` to move F020 card to `In Progress`.
-5. Implement offline app-shell caching and persistent-storage request according to `project-summary.md` and the design system.
-6. Verify the feature and full health pipeline, update state and evidence, sync Trello, and record an atomic git commit.
+1. Execute `./init.ps1` (or `./init.sh`) to confirm zero regressions (587 tests passing across 30 suites, clean build and lint).
+2. The core MVP release scope (F001 - F020) is fully complete.
+3. Review `project-summary.md` and user requests for any post-MVP candidate enhancements or deployment hardening.

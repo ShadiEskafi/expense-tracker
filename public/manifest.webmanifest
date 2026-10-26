@@ -1,0 +1,28 @@
+{
+  "name": "مَصاريفي — إدارة المصاريف الشخصية",
+  "short_name": "مَصاريفي",
+  "description": "تطبيق إدارة المصاريف الشخصية الذكي — واجهة عربية أولاً، محلي أولاً، وبدون اتصال بالإنترنت",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "dir": "rtl",
+  "lang": "ar",
+  "theme_color": "#0F172A",
+  "background_color": "#0F172A",
+  "categories": ["finance", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "48x48 72x72 96x96 128x128 192x192 256x256 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -177,6 +177,8 @@ describe('Supabase Cloud Sync & Initial Account Merge (F018)', () => {
   let testDb;
 
   beforeEach(async () => {
+    vi.stubEnv('VITE_SUPABASE_URL', '');
+    vi.stubEnv('VITE_SUPABASE_ANON_KEY', '');
     testDb = new ExpenseDatabase(`TestDB_CloudSync_${Date.now()}_${Math.random()}`);
     await testDb.open();
     resetSupabaseClient();
@@ -184,6 +186,7 @@ describe('Supabase Cloud Sync & Initial Account Merge (F018)', () => {
 
   afterEach(async () => {
     resetSupabaseClient();
+    vi.unstubAllEnvs();
     if (testDb) {
       await testDb.delete();
     }

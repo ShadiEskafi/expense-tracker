@@ -13,7 +13,10 @@ import {
   DownloadIcon,
   UploadIcon,
   UserIcon,
-  LogOutIcon
+  LogOutIcon,
+  ShieldCheckIcon,
+  LockIcon,
+  CheckIcon
 } from '../../components/common/Icons.jsx';
 import { exportTransactions } from '../../utils/csvExport.js';
 import { downloadBackup } from '../../services/backupRestore.js';
@@ -26,6 +29,11 @@ import {
   formatLastSyncTimeArabic,
   SignOutBlockedError
 } from '../../services/cloudSync.js';
+import {
+  isStoragePersisted,
+  requestStoragePersistence,
+  getStorageEstimate
+} from '../../services/storagePersistence.js';
 import { db } from '../../db/db.js';
 import { inspectSignOutSafety } from '../../services/signOutSafety.js';
 import './SettingsView.css';
@@ -48,6 +56,12 @@ export function SettingsView({
   const [isRestoreModalOpen, setIsRestoreModalOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [exportToast, setExportToast] = useState(null);
+
+  // Storage Durability State (F020)
+  const [isPersisted, setIsPersisted] = useState(false);
+  const [isRequestingPersistence, setIsRequestingPersistence] = useState(false);
+  const [persistenceToast, setPersistenceToast] = useState(null);
+  const [storageEstimate, setStorageEstimate] = useState(null);
 
   // Cloud Sync & Auth State (F018)
   const [currentUser, setCurrentUser] = useState(null);
@@ -84,6 +98,52 @@ export function SettingsView({
       unsub();
     };
   }, [database, refreshTrigger]);
+
+  // Load storage durability & quota status (F020)
+  useEffect(() => {
+    let isCancelled = false;
+    const checkStorage = async () => {
+      try {
+        const [persisted, estimate] = await Promise.all([
+          isStoragePersisted(),
+          getStorageEstimate()
+        ]);
+        if (!isCancelled) {
+          setIsPersisted(persisted);
+          setStorageEstimate(estimate);
+        }
+      } catch (e) {
+        console.warn('[SettingsView] Error checking storage persistence:', e);
+      }
+    };
+    checkStorage();
+    return () => {
+      isCancelled = true;
+    };
+  }, [refreshTrigger]);
+
+  const handleRequestPersistence = async () => {
+    try {
+      setIsRequestingPersistence(true);
+      setPersistenceToast(null);
+      const granted = await requestStoragePersistence();
+      setIsPersisted(granted);
+      const estimate = await getStorageEstimate();
+      setStorageEstimate(estimate);
+      if (granted) {
+        setPersistenceToast('تم تفعيل التخزين الدائم بنجاح؛ بياناتك محمية الآن من الحذف التلقائي.');
+      } else {
+        setPersistenceToast('المتصفح لم يمنح إذن التخزين الدائم حالياً؛ يمكنك الاعتماد على النسخ الاحتياطية كإجراء بديل.');
+      }
+      setTimeout(() => setPersistenceToast(null), 4000);
+    } catch (err) {
+      console.warn('[SettingsView] Persistence request error:', err);
+      setPersistenceToast('حدث خطأ أثناء طلب التخزين الدائم.');
+      setTimeout(() => setPersistenceToast(null), 4000);
+    } finally {
+      setIsRequestingPersistence(false);
+    }
+  };
 
   const handleManualCloudSync = async () => {
     try {
@@ -506,18 +566,107 @@ export function SettingsView({
         onClose={() => setIsSignOutModalOpen(false)}
       />
 
-      {/* 6. Local-First Engine & Storage Safety Card */}
+      {/* 6. Local-First Engine & Storage Safety Card (F020) */}
       <div className="surface-card settings-storage-card">
         <div className="surface-card-header">
           <div>
             <h3 className="text-h2">التخزين المحلي وسلامة البيانات</h3>
-            <span className="text-caption">هندسة التخزين المحلي أولاً (Local-First Architecture)</span>
+            <span className="text-caption">هندسة التخزين المحلي أولاً — تخزين محلي آمن واستدامة السجلات</span>
           </div>
-          <span className="status-badge-active text-caption" role="status">
-            <CloudCheckIcon size={14} className="badge-sync-icon" />
-            تخزين محلي آمن
+          <span
+            className={`status-badge-persisted ${isPersisted ? 'active' : 'best-effort'}`}
+            role="status"
+          >
+            {isPersisted ? (
+              <>
+                <ShieldCheckIcon size={14} className="badge-sync-icon" />
+                تخزين دائم ومحمي
+              </>
+            ) : (
+              <>
+                <LockIcon size={14} className="badge-sync-icon" />
+                تخزين افتراضي (قابل للإخلاء)
+              </>
+            )}
           </span>
         </div>
+
+        {/* Durability Row */}
+        <div className="storage-durability-row">
+          <div className="storage-durability-info">
+            <div className="storage-durability-title-wrap">
+              <span className="text-body font-semibold">استدامة التخزين (Storage Durability)</span>
+              <span className={`storage-pill ${isPersisted ? 'persisted' : 'best-effort'}`}>
+                {isPersisted ? 'مستدام ومحمي' : 'تخزين افتراضي'}
+              </span>
+            </div>
+            <span className="text-caption text-secondary">
+              {isPersisted
+                ? 'تم منح إذن التخزين الدائم (Persistent Storage). لن يقوم المتصفح بحذف بياناتك أو سجلاتك المالية تلقائياً عند انخفاض مساحة القرص.'
+                : 'المتصفح في وضع التخزين الافتراضي (Best-Effort). قد يتم تفريغ البيانات تلقائياً في ظروف امتلاء القرص الشديد. اضغط لتفعيل الحماية.'}
+            </span>
+          </div>
+          {!isPersisted ? (
+            <button
+              type="button"
+              className="btn-secondary request-persistence-btn"
+              onClick={handleRequestPersistence}
+              disabled={isRequestingPersistence}
+              aria-label="طلب حماية التخزين الدائم"
+            >
+              <ShieldCheckIcon size={16} />
+              <span>{isRequestingPersistence ? 'جارٍ الطلب...' : 'طلب حماية التخزين'}</span>
+            </button>
+          ) : (
+            <div className="persistence-active-tag text-caption" aria-label="التخزين الدائم مفعل">
+              <CheckIcon size={14} />
+              <span>الحماية نشطة</span>
+            </div>
+          )}
+        </div>
+
+        {/* Quota estimate display */}
+        {storageEstimate && (
+          <div className="storage-quota-box">
+            <div className="storage-quota-header">
+              <span className="text-caption font-semibold">المساحة التخزينية المستخدمة</span>
+              <span className="text-caption text-secondary">
+                {storageEstimate.formattedUsage} من أصل {storageEstimate.formattedQuota} ({storageEstimate.percentage}%)
+              </span>
+            </div>
+            <div
+              className="storage-quota-progress-track"
+              role="progressbar"
+              aria-valuenow={storageEstimate.percentage}
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-label="نسبة استهلاك مساحة التخزين"
+            >
+              <div
+                className="storage-quota-progress-bar"
+                style={{ width: `${Math.max(2, storageEstimate.percentage)}%` }}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Guest Mode Safety Disclosure (project-summary.md Section 21) */}
+        <div className="guest-disclosure-box">
+          <div className="guest-disclosure-header">
+            <ShieldCheckIcon size={18} className="guest-disclosure-icon" />
+            <strong className="text-body font-semibold">تنبيه سلامة البيانات والتخزين المحلي</strong>
+          </div>
+          <p className="text-caption">
+            بياناتك المالية مخزنة حالياً في هذا المتصفح. لحمايتها من الحذف العرضي في حال مسح بيانات المتصفح، احرص على تنزيل نسخة احتياطية بصيغة JSON بانتظام أو فعّل المزامنة السحابية المجانية.
+          </p>
+        </div>
+
+        {/* Storage Persistence Feedback Toast */}
+        {persistenceToast && (
+          <div className="currency-success-toast text-caption" role="status">
+            ✓ {persistenceToast}
+          </div>
+        )}
 
         <div className="storage-features-grid">
           <div className="storage-feature-item">
